@@ -5,12 +5,13 @@ import MemoryIcon from '@mui/icons-material/Memory';
 
 import { createChatConnection } from "../../services/streamChat.service";
 import { useAuth } from "../../contexts/AuthContext";
+import resolveStreamMessages from "./resolveStreamMessages";
 
 const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
-    console.log("akash", "I am re rendered")
+    console.log("akash", "I am re rendered", sessionId, message)
     const [msg, setMsg] = useState(null);
     const { userInfo } = useAuth();
-    const currentMessageRef = useRef('');
+    const currentMessageRef = useRef([]);
 
     useEffect(() => {
         // Assuming you have a function called 'createMessageStream' that sets up the event stream
@@ -25,16 +26,18 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
             const newMessage = event.data;
             const obj = JSON.parse(newMessage);
             console.log("akash", "I received new message", obj);
-            if (obj.content !== undefined) {
-                currentMessageRef.current = currentMessageRef.current + obj.content;
-            }
-            setMsg({"role": "assistant", "content": currentMessageRef.current});
+            currentMessageRef.current = [...currentMessageRef.current, obj];
+            const temp_msg = resolveStreamMessages(currentMessageRef.current);
+            console.log("akash", "I am temp_msg", temp_msg)
+            setMsg(temp_msg.msg);
         };
 
         eventSource.onclose = () => {
             console.log("akash", "Stream closed");
             if (onDone) {
-                onDone({"role": "assistant", "content": currentMessageRef.current});
+                const temp_msg = resolveStreamMessages(currentMessageRef.current);
+                console.log("akash", "I am temp_msg", temp_msg)
+                onDone(temp_msg.msg, temp_msg.sessionId? temp_msg.sessionId: sessionId);
             }
             eventSource.close();
         };
@@ -42,7 +45,9 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
         eventSource.onerror = (error) => {
             console.error("EventSource failed:", error);
             if (onDone) {
-                onDone({"role": "assistant", "content": currentMessageRef.current});
+                const temp_msg = resolveStreamMessages(currentMessageRef.current);
+                console.log("akash", "I am temp_msg", temp_msg)
+                onDone(temp_msg.msg, temp_msg.sessionId? temp_msg.sessionId: sessionId);
             }
             eventSource.close();
         };

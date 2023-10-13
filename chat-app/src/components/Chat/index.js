@@ -33,7 +33,6 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
                 chatHistoryCopy.result.history.push({role: "user", content: inputMessage});
                 setChatHistory(chatHistoryCopy);
             } else {
-
                 setChatHistory({success: true, result: {history: [{role: "user", content: inputMessage}]}})
             }
             onMessageSend(inputMessage, sessionId);

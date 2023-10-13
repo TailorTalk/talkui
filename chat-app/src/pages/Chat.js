@@ -68,6 +68,20 @@ const Chat = () => {
             })
     }
 
+    const onStreamStart = () => {
+        console.log("akash", "onStreamStart");
+        setOnGoingAPI(true);
+    }
+
+    const onStreamDone = (thisSessionid) => {
+        console.log("akash", "onStreamDone", message, thisSessionid);
+        setOnGoingAPI(false);
+        if (sessionId !== thisSessionid) {
+            listSessions();
+        }
+        onSessionSelect({ session_id: thisSessionid })
+    }
+
     const onSessionSelect = (session) => {
         ChatService.getSession(userInfo, session.session_id)
             .then((response) => {
@@ -98,9 +112,16 @@ const Chat = () => {
             <div className="column right-column">
                 {/* Right column content goes here */}
                 {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
-                <ChatComponent
+                {/*<ChatComponent
                     pastChatHistory={currentChat}
                     onMessageSend={onMessageSend}
+                    sessionId={sessionId}
+                    ongoing={onGoingAPI} />
+                */}
+                <StreamChatComponent
+                    pastChatHistory={currentChat}
+                    onStart={onStreamStart}
+                    onDone={onStreamDone}
                     sessionId={sessionId}
                     ongoing={onGoingAPI} />
                 <Typography variant="subtitle2" className={`upload-message ${isError ? "error" : ""}`}>
