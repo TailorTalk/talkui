@@ -1,0 +1,18 @@
+/* App.css */
+.App {
+    font-family: 'Arial', sans-serif;
+    text-align: center;
+    padding: 50px;
+  }
+  
+  button {
+    margin-top: 20px;
+    padding: 10px 15px;
+    font-size: 16px;
+    cursor: pointer;
+  }
+  
+  ul {
+    list-style-type: none;
+  }
+  
