@@ -24,10 +24,10 @@ const Chat = () => {
         ChatService.listSessions(userInfo).then(response => {
             setSessionList(response.data);
         })
-        .catch(() => {
-            setMessage("Could not list sessions");
-            setIsError(true);
-        });
+            .catch(() => {
+                setMessage("Could not list sessions");
+                setIsError(true);
+            });
     }, [userInfo]);
 
     useEffect(() => {
@@ -36,49 +36,49 @@ const Chat = () => {
 
     const deleteSession = (session) => {
         ChatService.deleteSession(userInfo, session.session_id)
-        .then((response) => {
-            console.log("Response of delete: ", response.data);
-            return ChatService.listSessions(userInfo);
-        })
-        .then((sessions) => {
-            setSessionList(sessions.data)
-        })
-        .catch(() => {
-            setMessage("Could not delete the session!");
-            setIsError(true);
-        })
+            .then((response) => {
+                console.log("Response of delete: ", response.data);
+                return ChatService.listSessions(userInfo);
+            })
+            .then((sessions) => {
+                setSessionList(sessions.data)
+            })
+            .catch(() => {
+                setMessage("Could not delete the session!");
+                setIsError(true);
+            })
     }
 
     const onMessageSend = (message, thisSessionid) => {
         console.log("akash", "onMessageSend", message, thisSessionid);
         setOnGoingAPI(true);
         ChatService.chat(userInfo, thisSessionid, message)
-        .then((response) => {
-            setSessionId(response.data.result.session_id);
-            onSessionSelect({session_id: response.data.result.session_id})
-            if (thisSessionid === "") {
-                listSessions();
-            }
-            setOnGoingAPI(false);
-        })
-        .catch(() => {
-            setMessage("Could not execute chat!");
-            setIsError(true);
-            setOnGoingAPI(false);
-        })
+            .then((response) => {
+                setSessionId(response.data.result.session_id);
+                onSessionSelect({ session_id: response.data.result.session_id })
+                if (thisSessionid === "") {
+                    listSessions();
+                }
+                setOnGoingAPI(false);
+            })
+            .catch(() => {
+                setMessage("Could not execute chat!");
+                setIsError(true);
+                setOnGoingAPI(false);
+            })
     }
 
     const onSessionSelect = (session) => {
         ChatService.getSession(userInfo, session.session_id)
-        .then((response) => {
-            console.log("Response of get session: ", response.data);
-            setCurrentChat(response.data)
-            setSessionId(response.data.result.session_id);
-        })
-        .catch(() => {
-            setMessage("Could not select session!");
-            setIsError(true);
-        })
+            .then((response) => {
+                console.log("Response of get session: ", response.data);
+                setCurrentChat(response.data)
+                setSessionId(response.data.result.session_id);
+            })
+            .catch(() => {
+                setMessage("Could not select session!");
+                setIsError(true);
+            })
     }
 
     return (
@@ -89,20 +89,23 @@ const Chat = () => {
                     SessionList
                 </Typography>
                 <ul className="list-group">
-                    <SessionList 
-                    sessionList={sessionList} 
-                    onDelete={deleteSession}
-                    onSessionClick={onSessionSelect}/>
+                    <SessionList
+                        sessionList={sessionList}
+                        onDelete={deleteSession}
+                        onSessionClick={onSessionSelect} />
                 </ul>
             </div>
             <div className="column right-column">
                 {/* Right column content goes here */}
                 {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
-                <ChatComponent 
-                    pastChatHistory={currentChat} 
-                    onMessageSend={onMessageSend} 
-                    sessionId={sessionId} 
-                    ongoing={onGoingAPI}/>
+                <ChatComponent
+                    pastChatHistory={currentChat}
+                    onMessageSend={onMessageSend}
+                    sessionId={sessionId}
+                    ongoing={onGoingAPI} />
+                <Typography variant="subtitle2" className={`upload-message ${isError ? "error" : ""}`}>
+                    {message}
+                </Typography>
             </div>
         </div>
     );

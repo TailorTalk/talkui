@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { TextField, List, ListItem, Paper, CircularProgress, LinearProgress } from '@mui/material';
+import { TextField, List, ListItem, Paper, LinearProgress } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MemoryIcon from '@mui/icons-material/Memory';
 import ListItemAvatar from '@mui/material/ListItemAvatar';

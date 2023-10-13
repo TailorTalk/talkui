@@ -1,13 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { TextField, List, ListItem, Paper, CircularProgress, LinearProgress } from '@mui/material';
+import { TextField, List, ListItem, Paper, LinearProgress } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MemoryIcon from '@mui/icons-material/Memory';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
-import Typography from '@mui/material/Typography';
-import { useAuth } from "../../contexts/AuthContext";
-import { createChatConnection } from "../../services/streamChat.service";
 import StreamMessageItem from './StreamedMessage';
 
 const MessageItem = React.memo(({ msg }) => {

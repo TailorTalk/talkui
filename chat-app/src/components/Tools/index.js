@@ -1,12 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
 import UploadService from "../../services/upload.service";
 import { useAuth } from "../../contexts/AuthContext";
 import ExpandableList from './ToolsList';
@@ -28,7 +24,7 @@ function ToolsModal() {
                     console.error("Error fetching system message:", error);
                 });
         }
-    }, [isModalOpen]);
+    }, [isModalOpen, userInfo]);
 
     const handleToolChange = (tool) => {
         UploadService.setTool(userInfo, tool)

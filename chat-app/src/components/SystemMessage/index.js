@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
@@ -26,7 +25,7 @@ function SystemMessageModal() {
                     console.error("Error fetching system message:", error);
                 });
         }
-    }, [isModalOpen]);
+    }, [isModalOpen, userInfo]);
 
     const handleSubmit = () => {
         UploadService.setSystemMessage(userInfo, message)
