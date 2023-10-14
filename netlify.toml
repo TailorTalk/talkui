@@ -1,4 +1,1 @@
-[build]
-  base = "chat_app/"
-  publish = "chat_app/public/"
-  command = "npm run build"
+CI='' npm run build
