@@ -19,11 +19,11 @@ const defaultTheme = createTheme();
 export default function SignIn() {
     const { login } = useAuth();
 
-    const handleCallbackResponse = (response) => {
+    const handleCallbackResponse = React.useCallback((response) => {
        console.log("Encoded JWT ID token: ", response.credential);
        var userObject = jwt_decode(response.credential);
        login(userObject);
-    }
+    }, [login])
  
     useEffect(() => {
        /* global google */
@@ -38,7 +38,7 @@ export default function SignIn() {
        )
  
        google.accounts.id.prompt()
-    }, [])
+    }, [handleCallbackResponse])
 
   return (
     <ThemeProvider theme={defaultTheme}>

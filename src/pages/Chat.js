@@ -6,7 +6,7 @@ import ChatService from "../services/chat.service";
 import { useAuth } from "../contexts/AuthContext";
 import "./Files.css";
 import SessionList from "../components/SessionList";
-import ChatComponent from "../components/Chat";
+// import ChatComponent from "../components/Chat";
 import StreamChatComponent from "../components/StreamChat";
 
 
@@ -49,24 +49,24 @@ const Chat = () => {
             })
     }
 
-    const onMessageSend = (message, thisSessionid) => {
-        console.log("akash", "onMessageSend", message, thisSessionid);
-        setOnGoingAPI(true);
-        ChatService.chat(userInfo, thisSessionid, message)
-            .then((response) => {
-                setSessionId(response.data.result.session_id);
-                onSessionSelect({ session_id: response.data.result.session_id })
-                if (thisSessionid === "") {
-                    listSessions();
-                }
-                setOnGoingAPI(false);
-            })
-            .catch(() => {
-                setMessage("Could not execute chat!");
-                setIsError(true);
-                setOnGoingAPI(false);
-            })
-    }
+    // const onMessageSend = (message, thisSessionid) => {
+    //     console.log("akash", "onMessageSend", message, thisSessionid);
+    //     setOnGoingAPI(true);
+    //     ChatService.chat(userInfo, thisSessionid, message)
+    //         .then((response) => {
+    //             setSessionId(response.data.result.session_id);
+    //             onSessionSelect({ session_id: response.data.result.session_id })
+    //             if (thisSessionid === "") {
+    //                 listSessions();
+    //             }
+    //             setOnGoingAPI(false);
+    //         })
+    //         .catch(() => {
+    //             setMessage("Could not execute chat!");
+    //             setIsError(true);
+    //             setOnGoingAPI(false);
+    //         })
+    // }
 
     const onStreamStart = () => {
         console.log("akash", "onStreamStart");
