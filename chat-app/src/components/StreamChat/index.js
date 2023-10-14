@@ -24,7 +24,7 @@ const MessageItem = React.memo(({ msg }) => {
     );
 });
 
-function StreamChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
+function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId }) {
     const [inputMessage, setInputMessage] = useState('');
     const [finalInputMessage, setFinalInputMessage] = useState('');
     const [chatHistory, setChatHistory] = useState(pastChatHistory);
@@ -46,16 +46,15 @@ function StreamChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoin
         setFinalInputMessage(event.target.value);
     };
 
-    const onStreamDone = (streamedMessage) => {
-        console.log("akash", "onStreamDone", streamedMessage);
+    const onStreamDone = (streamedMessage, sessionId) => {
+        console.log("akash", "onStreamDone", streamedMessage, sessionId);
         setStartStream(false);
-        const chatHistoryCopy = {...chatHistory};
-        chatHistoryCopy.result.history.push(streamedMessage);
-        setChatHistory(chatHistoryCopy);
+        onDone(sessionId);
     }
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputMessage.trim()) {
+            onStart();
             if (chatHistory) {
                 const chatHistoryCopy = {...chatHistory};
                 chatHistoryCopy.result.history.push({role: "user", content: inputMessage});
@@ -81,7 +80,7 @@ function StreamChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoin
                 onDone = {onStreamDone} />}
                 <div ref={chatEndRef}></div>
             </List> : <div ref={chatEndRef} style={{ overflowY: 'auto', flexGrow: 1, padding: '1rem' }}></div>}
-            {ongoing && <LinearProgress sx={{ height: '20px' }} />}
+            {startStream && <LinearProgress sx={{ height: '4px' }} />}
             <TextField
                 variant="outlined"
                 value={inputMessage}
