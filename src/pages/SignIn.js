@@ -27,6 +27,7 @@ export default function SignIn() {
  
     useEffect(() => {
        /* global google */
+       console.log("Initializing google outh2: ", process.env.REACT_APP_GOOGLE_CLIENT_ID)
        google.accounts.id.initialize({
           client_id: process.env.REACT_APP_GOOGLE_CLIENT_ID,
           callback: handleCallbackResponse
