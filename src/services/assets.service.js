@@ -73,6 +73,22 @@ class AssetsService {
             }
         });
     }
+
+    updateAsset(userInfo, orgId, botId, assetId, assetDict) {
+        console.log("Update asset userInfo: ", userInfo, 
+        " orgId: ", orgId, " botId: ", botId, " assetId: ", assetId, "assetDict: ", assetDict)
+        return http.post("/maestro_chat/asset/v1/update_asset", {
+            "asset_id": assetId,
+            "asset": assetDict
+        }, {
+            headers: {
+                "X-USER-EMAIL": userInfo.email,
+                "X-USER-NAME": userInfo.name,
+                "X-ORG-ID": orgId,
+                "x-org-chat-bot-id": botId
+            }
+        });
+    }
 }
 
 const assetsService = new AssetsService();

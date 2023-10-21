@@ -54,6 +54,21 @@ function AssetsDisplay({ orgId, bot }) {
         console.log("Updated asset: ", asset)
         setOpen(false)
         setSelectedAsset(null)
+        assetsService.updateAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id, asset)
+        .then(response => {
+            console.log("Result of update asset", response.data);
+            return response.data
+        })
+        .then(data => {
+            console.log("Fetching assets for bot: ", bot, orgId)
+            return assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
+        })
+        .then(response => {
+            console.log("Result of list assets", response.data);
+            return response.data
+        }
+        )
+        .then(data => setAssets(data.result.bot.assets));
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
         console.log('Updated details:', asset);
