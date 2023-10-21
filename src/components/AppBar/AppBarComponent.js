@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../contexts/AuthContext';
 
-const pages = ['Files', 'Chats'];
+const pages = ['Files', 'Chats', 'Assets'];
 const settings = ['Logout'];
 
 function AppBarComponent() {
@@ -40,6 +40,9 @@ function AppBarComponent() {
     }
     if (page === "Chats") {
         navigate('/chats')
+    }
+    if (page === "Assets") {
+        navigate('/assets')
     }
     setAnchorElNav(null);
   };
