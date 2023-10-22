@@ -1,7 +1,8 @@
 import http from "./http-common";
 
 class AssetsService {
-    upload(userInfo, file, onUploadProgress) {
+    upload(userInfo, orgId, botId, file, onUploadProgress) {
+        console.log("Uploading file in asset service: ", userInfo, orgId, botId, file)
         let formData = new FormData();
 
         formData.append("file", file);
@@ -10,7 +11,9 @@ class AssetsService {
             headers: {
                 "Content-Type": "multipart/form-data",
                 "X-USER-EMAIL": userInfo.email,
-                "X-USER-NAME": userInfo.name
+                "X-USER-NAME": userInfo.name,
+                "X-ORG-ID": orgId,
+                "x-org-chat-bot-id": botId
             },
             onUploadProgress,
         });

@@ -6,7 +6,6 @@ import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
 import { styled } from '@mui/system';
 import SideDrawer from '../Drawer';
-import DefaultAsset from '../AssetClass/DefaultAsset/DefaultAsset';
 import AssetCard from './AssetCard';
 import AssetForm from '../AssetClass/AssetForm';
 
@@ -108,7 +107,12 @@ function AssetsDisplay({ orgId, bot }) {
                 <AssetForm 
                     inputAsset={selectedAsset} 
                     setOpen={setOpen}
-                    onAssetUpdate={onAssetUpdate}/>: <AssetForm setOpen={setOpen}/>}
+                    onAssetUpdate={onAssetUpdate}
+                    orgId={orgId}
+                    bot={bot}/>: <AssetForm 
+                        setOpen={setOpen} 
+                        orgId={orgId}
+                        bot={bot}/>}
             </SideDrawer>
         </div>
     );
