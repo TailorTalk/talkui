@@ -53,9 +53,9 @@ function FileUpload({assetFileDetails, orgId, bot, handleInputChange}) {
         id="upload-button"
       />
       <label htmlFor="upload-button">
-        <IconButton component="span">
-          <CloudUpload fontSize="large" />
-        </IconButton>
+      <Button variant="outlined" component="span" style={{width: '100px'}} >
+    <CloudUpload />
+  </Button>
       </label>
       {selectedFile && <Typography>{selectedFile.name}</Typography>}
       {selectedFile && (

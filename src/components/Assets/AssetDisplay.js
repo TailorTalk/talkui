@@ -64,12 +64,21 @@ function AssetsDisplay({ orgId, bot }) {
         .then(response => {
             console.log("Result of list assets", response.data);
             return response.data
-        }
-        )
-        .then(data => setAssets(data.result.bot.assets));
+        })
+        .then(data => setAssets(data.result.bot.assets))
+        .then(setOpen(false));
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
         console.log('Updated details:', asset);
+    }
+
+    const onAssetCreate = () => {
+        assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
+        .then(response => {
+            console.log("Result of list assets", response.data);
+            return response.data
+        })
+        .then(data => setAssets(data.result.bot.assets));
     }
     console.log("Selected asset: ", selectedAsset)
 
@@ -106,11 +115,11 @@ function AssetsDisplay({ orgId, bot }) {
                 {selectedAsset ? 
                 <AssetForm 
                     inputAsset={selectedAsset} 
-                    setOpen={setOpen}
                     onAssetUpdate={onAssetUpdate}
                     orgId={orgId}
                     bot={bot}/>: <AssetForm 
-                        setOpen={setOpen} 
+                        inputAsset={{"asset_id": ""}}
+                        onAssetUpdate={onAssetUpdate}
                         orgId={orgId}
                         bot={bot}/>}
             </SideDrawer>

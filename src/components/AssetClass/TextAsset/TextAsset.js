@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import AssetDefaults from '../Common/AssetDefaults';
 import FileUpload from './UploadWidget';
+import DatagenWidget from './DatagenWidget';
+import OutputWidget from './OutputWidget';
 
 
 function TextAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
@@ -13,6 +15,7 @@ function TextAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot
     const handleChange = (event, newValue) => {
         setValue(newValue);
     };
+
     return (<>
         <Box sx={{ width: '100%' }}>
             <Tabs
@@ -39,8 +42,16 @@ function TextAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot
                     handleInputChange={handleInputChange}
                     assetFileDetails={asset.file_details}/>
                 </Box>}
-            {value === 'datagen' && <Box>Datagen</Box>}
-            {value === 'output' && <Box>Output</Box>}
+            {value === 'datagen' && 
+            <DatagenWidget 
+                asset={asset} 
+                handleInputChange={handleInputChange}
+                isEditing={isCreating || isEditing}/>}
+            {value === 'output' && 
+            <OutputWidget 
+                asset={asset} 
+                handleInputChange={handleInputChange}
+                isEditing={isCreating || isEditing}/>}
         </Box>
     </>)
 }

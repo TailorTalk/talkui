@@ -4,6 +4,9 @@ import SupportedTypeSelector from './SupportedTypes';
 import DefaultAsset from './DefaultAsset/DefaultAsset';
 import TextAsset from './TextAsset/TextAsset';
 import Grid from '@mui/material/Grid';
+import { useAuth } from '../../contexts/AuthContext';
+import assetsService from '../../services/assets.service';
+import validateTextAsset from './TextAsset/assetValidator'
 
 const assetTypes = ["TEXT FILE", "WEBSITE", "DEFAULT"]
 const assetClassToType = {
@@ -12,11 +15,14 @@ const assetClassToType = {
   "website": "WEBSITE"
 }
 
-function AssetForm({ inputAsset, setOpen, onAssetUpdate, orgId, bot }) {
+function AssetForm({ inputAsset, onAssetUpdate, orgId, bot }) {
   const [editMode, setEditMode] = useState(false); // This is used if the component was rendered using an existing asset
   const [isEditing, setIsEditing] = useState(false); // This is used to enable/disable the input fields
   const [assetType, setAssetType] = useState(null);
   const [assetDetails, setAssetDetails] = useState(inputAsset); // This will be used to store the asset details for the asset type selected
+  const [isAssetValid, setIsAssetValid] = useState(false); // This will be used to store the asset details for the asset type selected
+  const { userInfo } = useAuth();
+  
   console.log("Asset in asset form: ", assetDetails)
   console.log("Is editing in asset form: ", isEditing)
 
@@ -35,10 +41,15 @@ function AssetForm({ inputAsset, setOpen, onAssetUpdate, orgId, bot }) {
       ...prevDetails,
       [key]: value,
     }));
+    //let assetIsValid = assetValidator(assetDetails)
+    if (assetType === "TEXT FILE") {
+      const temp = validateTextAsset(assetDetails)
+      setIsAssetValid(!temp)
+    }
   };
 
   useEffect(() => {
-    if (inputAsset) {
+    if (inputAsset.asset_id) {
       setEditMode(true);
       setAssetDetails(inputAsset);
       setAssetType(assetClassToType[inputAsset.asset_class]);
@@ -67,7 +78,7 @@ function AssetForm({ inputAsset, setOpen, onAssetUpdate, orgId, bot }) {
               isEditing={isEditing}
               isCreating={!editMode}
               orgId={orgId}
-              bot={bot} />}
+              bot={bot}/>}
           {assetType === "WEBSITE" &&
             <TextField
               label="Website" />}
@@ -88,10 +99,13 @@ function AssetForm({ inputAsset, setOpen, onAssetUpdate, orgId, bot }) {
               onAssetUpdate(assetDetails)
             }}>
               Update
-            </Button>}</> : assetType && <Button onClick={() => {
-              // Logic to create a new org
-              setOpen(false);
-            }}>
+            </Button>}</> : assetType && <Button 
+              disabled={!isAssetValid}
+              onClick={() => {
+                // Logic to add new asset
+                onAssetUpdate(assetDetails);
+                //setOpen(false);
+              }}>
               Create asset
             </Button>}
         </Box>
