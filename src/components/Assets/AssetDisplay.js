@@ -6,10 +6,9 @@ import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
 import { styled } from '@mui/system';
 import SideDrawer from '../Drawer';
-import DefaultAsset from '../AssetClass/DefaultAsset';
+import DefaultAsset from '../AssetClass/DefaultAsset/DefaultAsset';
 import AssetCard from './AssetCard';
-import NewAssetForm from '../AssetClass/NewAssetForm';
-import PrepopulatedAsset from '../AssetClass/PrepopulatedAsset';
+import AssetForm from '../AssetClass/AssetForm';
 
 const ModalContent = styled(Box)({
     position: 'absolute',
@@ -106,10 +105,10 @@ function AssetsDisplay({ orgId, bot }) {
                 heading={selectedAsset?`Asset: ${selectedAsset.asset_name}`:`New Asset for bot: ${bot.bot_name}`}
             >
                 {selectedAsset ? 
-                <PrepopulatedAsset 
-                    asset={selectedAsset} 
+                <AssetForm 
+                    inputAsset={selectedAsset} 
                     setOpen={setOpen}
-                    onAssetUpdate={onAssetUpdate}/>: <NewAssetForm setOpen={setOpen}/>}
+                    onAssetUpdate={onAssetUpdate}/>: <AssetForm setOpen={setOpen}/>}
             </SideDrawer>
         </div>
     );
