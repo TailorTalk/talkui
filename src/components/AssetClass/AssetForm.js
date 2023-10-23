@@ -15,7 +15,7 @@ const assetClassToType = {
   "website": "WEBSITE"
 }
 
-function AssetForm({ inputAsset, onAssetUpdate, orgId, bot }) {
+function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const [editMode, setEditMode] = useState(false); // This is used if the component was rendered using an existing asset
   const [isEditing, setIsEditing] = useState(false); // This is used to enable/disable the input fields
   const [assetType, setAssetType] = useState(null);
@@ -89,7 +89,6 @@ function AssetForm({ inputAsset, onAssetUpdate, orgId, bot }) {
         <Box display="flex" flexDirection="column" gap={2}>
           {/* Your buttons for the bottom 20% go here */}
           {editMode ? <><Button onClick={() => {
-            // Logic to create a new org
             setIsEditing(!isEditing);
           }}>
             {isEditing ? "Exit Edit Mode" : "Edit"}
@@ -99,7 +98,11 @@ function AssetForm({ inputAsset, onAssetUpdate, orgId, bot }) {
               onAssetUpdate(assetDetails)
             }}>
               Update
-            </Button>}</> : assetType && <Button 
+            </Button>}
+            {assetDetails.asset_class !== "default" && <Button 
+              onClick={()=>onAssetDelete(assetDetails)}>
+                Delete Asset
+              </Button>}</> : assetType && <Button 
               disabled={!isAssetValid}
               onClick={() => {
                 // Logic to add new asset

@@ -50,8 +50,6 @@ function AssetsDisplay({ orgId, bot }) {
 
     const onAssetUpdate = (asset) => {
         console.log("Updated asset: ", asset)
-        setOpen(false)
-        setSelectedAsset(null)
         assetsService.updateAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id, asset)
         .then(response => {
             console.log("Result of update asset", response.data);
@@ -66,20 +64,40 @@ function AssetsDisplay({ orgId, bot }) {
             return response.data
         })
         .then(data => setAssets(data.result.bot.assets))
-        .then(setOpen(false));
+        .then(()=>{
+            setOpen(false);
+            setSelectedAsset(null);}
+        );
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
         console.log('Updated details:', asset);
     }
 
-    const onAssetCreate = () => {
-        assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
+    const onAssetDelete = (asset) => {
+        console.log("Delete asset: ", asset)
+        assetsService.deleteAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id)
+        .then(response => {
+            console.log("Result of delete asset", response.data);
+            return response.data
+        })
+        .then(data => {
+            console.log("Fetching assets for bot: ", bot, orgId)
+            return assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
+        })
         .then(response => {
             console.log("Result of list assets", response.data);
             return response.data
         })
-        .then(data => setAssets(data.result.bot.assets));
+        .then(data => setAssets(data.result.bot.assets))
+        .then(()=>{
+            setOpen(false);
+            setSelectedAsset(null);}
+        );
+        // Logic to fire an API call to update the fields in the backend
+        // For demonstration purposes, just logging the data:
+        console.log('Deleted');
     }
+
     console.log("Selected asset: ", selectedAsset)
 
     return (
@@ -117,7 +135,8 @@ function AssetsDisplay({ orgId, bot }) {
                     inputAsset={selectedAsset} 
                     onAssetUpdate={onAssetUpdate}
                     orgId={orgId}
-                    bot={bot}/>: <AssetForm 
+                    bot={bot}
+                    onAssetDelete={onAssetDelete}/>: <AssetForm 
                         inputAsset={{"asset_id": ""}}
                         onAssetUpdate={onAssetUpdate}
                         orgId={orgId}
