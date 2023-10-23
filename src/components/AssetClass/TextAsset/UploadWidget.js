@@ -44,7 +44,7 @@ function FileUpload({assetFileDetails, orgId, bot, handleInputChange}) {
   return (
     <Box display="flex" flexDirection="column" gap={2} position="relative" alignItems="center"
         style={{ width: '100%', maxWidth: '100%', overflow: 'hidden' }}>
-    {assetFileDetails? <Typography>{assetFileDetails.file_name}</Typography>: <Typography>No file uploaded</Typography>}
+    {assetFileDetails? <Typography>Previous file: {assetFileDetails.original_file_name}</Typography>: <Typography>No file uploaded</Typography>}
       <input
         type="file"
         style={{ display: 'none' }}

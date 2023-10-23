@@ -12,19 +12,32 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
                 disabled={!isEditing}
             />
             <TextField
-                label="Short Description"
-                value={asset.asset_short_description}
-                multiline
-                rows={1}
-                onChange={e => handleInputChange(e.target.value, 'asset_short_description')}
+                label="Display Description"
+                value={asset.asset_description}
+                rows={2}
+                onChange={e => handleInputChange(e.target.value, 'asset_description')}
                 disabled={!isEditing}
             />
             <TextField
-                label="Full Description"
-                value={asset.asset_description}
+                label="Asset Tool Name"
+                value={asset.asset_tool_name}
+                onChange={e => handleInputChange(e.target.value, 'asset_tool_name')}
+                disabled={!isEditing}
+            />
+            <TextField
+                label="Asset tool Short Description"
+                value={asset.asset_tool_short_description}
+                multiline
+                rows={1}
+                onChange={e => handleInputChange(e.target.value, 'asset_tool_short_description')}
+                disabled={!isEditing}
+            />
+            <TextField
+                label="Asset tool full Description"
+                value={asset.asset_tool_description}
                 multiline
                 rows={3}
-                onChange={e => handleInputChange(e.target.value, 'asset_description')}
+                onChange={e => handleInputChange(e.target.value, 'asset_tool_description')}
                 disabled={!isEditing}
             />
         </Box>

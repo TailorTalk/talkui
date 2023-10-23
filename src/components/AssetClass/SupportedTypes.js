@@ -29,7 +29,7 @@ function SupportedTypeSelector({ items, currentItem, onItemSelected, label = "Wh
         {...(editable ? {} : { disabled: true })}
       >
         {items.map((item, index) => (
-          <MenuItem key={index} value={item}>
+          <MenuItem key={index} value={item} style={{display: 'block'}}>
             {item}
           </MenuItem>
         ))}

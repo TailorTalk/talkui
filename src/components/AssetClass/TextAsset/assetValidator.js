@@ -1,9 +1,12 @@
 const fields = [
     "asset_class",
     "asset_name",
-    "asset_short_description",
     "asset_description",
+    "asset_tool_name",
+    "asset_tool_short_description",
+    "asset_tool_description",
     "data_chunk_size",
+    "overlap_chunk_size",
     "output_short_description",
     "output_description",
     "file_details"
