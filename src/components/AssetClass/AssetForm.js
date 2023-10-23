@@ -37,6 +37,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   }
 
   const handleInputChange = (value, key) => {
+    console.log("Input changed: ", value, key)
     setAssetDetails(prevDetails => ({
       ...prevDetails,
       [key]: value,
@@ -44,7 +45,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   };
 
   useEffect(() => {
-    if (inputAsset.asset_id) {
+    if (inputAsset.asset_id && editMode === false) {
       setEditMode(true);
       setAssetDetails(inputAsset);
       setAssetType(assetClassToType[inputAsset.asset_class]);
@@ -56,7 +57,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
     }
     validate()
-  }, [inputAsset, assetDetails]);
+  }, [inputAsset, editMode, assetDetails]);
 
   return (
     <Grid container direction="column" style={{ height: '100vh' }}>
