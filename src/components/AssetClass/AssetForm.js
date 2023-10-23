@@ -41,11 +41,6 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       ...prevDetails,
       [key]: value,
     }));
-    //let assetIsValid = assetValidator(assetDetails)
-    if (assetType === "TEXT FILE") {
-      const temp = validateTextAsset(assetDetails)
-      setIsAssetValid(!temp)
-    }
   };
 
   useEffect(() => {
@@ -54,7 +49,14 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       setAssetDetails(inputAsset);
       setAssetType(assetClassToType[inputAsset.asset_class]);
     }
-  }, [inputAsset]);
+    const validate = () => {
+      if (assetType === "TEXT FILE") {
+        const temp = validateTextAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+    }
+    validate()
+  }, [inputAsset, assetDetails]);
 
   return (
     <Grid container direction="column" style={{ height: '100vh' }}>
