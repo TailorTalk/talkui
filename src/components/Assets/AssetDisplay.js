@@ -8,6 +8,9 @@ import { styled } from '@mui/system';
 import SideDrawer from '../Drawer';
 import AssetCard from './AssetCard';
 import AssetForm from '../AssetClass/AssetForm';
+import Fab from '@material-ui/core/Fab';
+import ChatIcon from '@material-ui/icons/Chat';
+import { useNavigate } from 'react-router-dom';
 
 const ModalContent = styled(Box)({
     position: 'absolute',
@@ -26,6 +29,7 @@ function AssetsDisplay({ orgId, bot }) {
     const [open, setOpen] = useState(false);
     const [selectedAsset, setSelectedAsset] = useState(null);
     const { userInfo } = useAuth();
+    const navigate = useNavigate();
     console.log("Selected bot: ", orgId, bot)
     console.log("Assets: ", assets)
     useEffect(() => {
@@ -98,6 +102,11 @@ function AssetsDisplay({ orgId, bot }) {
         console.log('Deleted');
     }
 
+    const handleChatClick = () => {
+        console.log("Chat clicked for: ", orgId, bot)
+        navigate(`/chats?orgId=${orgId}&botId=${bot.org_chat_bot_id}`)
+    }
+
     console.log("Selected asset: ", selectedAsset)
 
     return (
@@ -142,6 +151,19 @@ function AssetsDisplay({ orgId, bot }) {
                         orgId={orgId}
                         bot={bot}/>}
             </SideDrawer>
+            <Fab 
+        color="primary" 
+        aria-label="chat" 
+        style={{
+            position: 'fixed',
+            bottom: '20px',
+            right: '20px',
+            zIndex: 1000  // ensure it's on top of other elements
+        }}
+        onClick={handleChatClick}  // Optionally add a click handler
+    >
+        <ChatIcon />
+    </Fab>
         </div>
     );
 }

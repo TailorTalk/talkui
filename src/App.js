@@ -4,6 +4,7 @@ import Chat from './pages/Chat';
 import Assets from './pages/Assets'; 
 import SignIn from './pages/SignIn';
 import { useAuth } from './contexts/AuthContext'
+import { QueryStringProvider } from './contexts/QueryStringContext';
 import AppBarComponent from './components/AppBar/AppBarComponent';
 import UploadFiles from './pages/Files'
 
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <Router>
+    <QueryStringProvider>
       <div className="App">
         <AppBarComponent/>
         <Routes>
@@ -23,6 +25,7 @@ function App() {
           <Route path="/assets" element={!isLoggedIn ? <Navigate to="/login" /> : <Assets />} />
         </Routes>
       </div>
+    </QueryStringProvider>
     </Router>
   );
 }

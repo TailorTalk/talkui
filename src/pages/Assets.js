@@ -10,9 +10,9 @@ function AssetsPage() {
     console.log("Selected bot in the main page: ", selectedBot)
   
     return (
-      <Container style={{margin: "0px"}}>
+      <Container style={{margin: "0px"}} maxWidth="false">
         <Grid container spacing={3}>
-          <Grid item xs={2}> {/* Orgs list column */}
+          <Grid item xs={2} style={{paddingLeft: '20px'}}> {/* Orgs list column */}
             <OrgsList onSelect={setSelectedOrgId} />
           </Grid>
           <Grid item xs={2} style={{paddingLeft: '0px'}}> {/* Bots list column */}
