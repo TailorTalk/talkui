@@ -104,7 +104,7 @@ function AssetsDisplay({ orgId, bot }) {
 
     const handleChatClick = () => {
         console.log("Chat clicked for: ", orgId, bot)
-        navigate(`/chats?orgId=${orgId}&botId=${bot.org_chat_bot_id}`)
+        navigate(`/chats?orgId=${orgId}&botId=${bot.org_chat_bot_id}&botName=${bot.bot_name}`)
     }
 
     console.log("Selected asset: ", selectedAsset)

@@ -19,8 +19,7 @@ function App() {
         <AppBarComponent/>
         <Routes>
           <Route path="/login" element={isLoggedIn ? <Navigate to="/chats" /> : <SignIn />} />
-          <Route path="/" element={!isLoggedIn ? <Navigate to="/login" /> : <Navigate to="/files" />} />
-          <Route path="/files" element={!isLoggedIn ? <Navigate to="/login" /> : <UploadFiles />} />
+          <Route path="/" element={!isLoggedIn ? <Navigate to="/login" /> : <Navigate to="/assets" />} />
           <Route path="/chats" element={!isLoggedIn ? <Navigate to="/login" /> : <Chat />} />
           <Route path="/assets" element={!isLoggedIn ? <Navigate to="/login" /> : <Assets />} />
         </Routes>

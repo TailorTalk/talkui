@@ -25,8 +25,9 @@ export const QueryStringProvider = ({ children }) => {
   const [queryDict, setQueryDict] = useState(parseQueryString(location.search));
   
   useEffect(() => {
-      console.log("Updated queryDict:", queryDict);
-  }, [queryDict]);
+      console.log("Location search changed:", location.search);
+      setQueryDict(parseQueryString(location.search));
+  }, [location.search]);
   
   const updateQueryKey = (key, value) => {
     const newQueryDict = { ...queryDict, [key]: value };

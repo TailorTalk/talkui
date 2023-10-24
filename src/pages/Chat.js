@@ -8,6 +8,7 @@ import "./Files.css";
 import SessionList from "../components/SessionList";
 // import ChatComponent from "../components/Chat";
 import StreamChatComponent from "../components/StreamChat";
+import { useQueryString } from '../contexts/QueryStringContext';
 
 
 const Chat = () => {
@@ -19,26 +20,26 @@ const Chat = () => {
     const [isError, setIsError] = useState(false);
 
     const { userInfo } = useAuth();
+    const { queryDict } = useQueryString();
+    console.log("Query dict values in Chat", queryDict)
 
-    const listSessions = useCallback(() => {
-        ChatService.listSessions(userInfo).then(response => {
-            setSessionList(response.data);
-        })
+    useEffect(() => {
+        if (queryDict.botId) {
+            ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
+                setSessionList(response.data);
+            })
             .catch(() => {
                 setMessage("Could not list sessions");
                 setIsError(true);
             });
-    }, [userInfo]);
-
-    useEffect(() => {
-        listSessions();
-    }, [listSessions]);
+        }
+    }, [userInfo, queryDict]);
 
     const deleteSession = (session) => {
-        ChatService.deleteSession(userInfo, session.session_id)
+        ChatService.deleteSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
                 console.log("Response of delete: ", response.data);
-                return ChatService.listSessions(userInfo);
+                return ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId);
             })
             .then((sessions) => {
                 setSessionList(sessions.data)
@@ -77,13 +78,19 @@ const Chat = () => {
         console.log("akash", "onStreamDone", message, thisSessionid);
         setOnGoingAPI(false);
         if (sessionId !== thisSessionid) {
-            listSessions();
+            ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
+                setSessionList(response.data);
+            })
+            .catch(() => {
+                setMessage("Could not list sessions");
+                setIsError(true);
+            });
         }
         onSessionSelect({ session_id: thisSessionid })
     }
 
     const onSessionSelect = (session) => {
-        ChatService.getSession(userInfo, session.session_id)
+        ChatService.getSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
                 console.log("Response of get session: ", response.data);
                 setCurrentChat(response.data)
@@ -118,6 +125,7 @@ const Chat = () => {
                     sessionId={sessionId}
                     ongoing={onGoingAPI} />
                 */}
+                <Typography variant="h6" className="list-header">{`Org: ${queryDict.orgId} Bot: ${queryDict.botName}`}</Typography>
                 <StreamChatComponent
                     pastChatHistory={currentChat}
                     onStart={onStreamStart}

@@ -1,58 +1,46 @@
 import http from "./http-common";
+import { createHeader } from "./http-common";
 
 class ChatService {
-    chat(userInfo, sessionId, message) {
+    chat(userInfo, sessionId, message, orgId, botId) {
         console.log("akash", "API call for chat", sessionId, message);
         sessionId = sessionId ? sessionId : "";
         return http.post("/maestro_chat/v1/chat", 
             {"query": message, "session_id": sessionId}, 
             {
-                headers: {
-                    "Content-Type": "multipart/form-data",
-                    "X-USER-EMAIL": userInfo.email,
-                    "X-USER-NAME": userInfo.name
-                }
+                headers: createHeader(userInfo, orgId, botId)
             });
     }
 
-    getSession(userInfo, sessionId) {
+    getSession(userInfo, sessionId, orgId, botId) {
         console.log("akash", "API call for get session", sessionId);
         return http.post("/maestro_chat/v1/session/get", 
         {
             "session_id": sessionId
         },
         {
-            headers: {
-                "X-USER-EMAIL": userInfo.email,
-                "X-USER-NAME": userInfo.name
-            },
+            headers: createHeader(userInfo, orgId, botId)
 
         })
     }
 
-    listSessions(userInfo) {
-        console.log("akash", "API call for list", userInfo);
+    listSessions(userInfo, orgId, botId) {
+        console.log("akash", "API call for list", userInfo, orgId, botId);
         return http.post("/maestro_chat/v1/session/list", 
         {},
         {
-            headers: {
-                "X-USER-EMAIL": userInfo.email,
-                "X-USER-NAME": userInfo.name
-            }
+            headers: createHeader(userInfo, orgId, botId)
         });
     }
 
-    deleteSession(userInfo, sessionId) {
+    deleteSession(userInfo, sessionId, orgId, botId) {
         console.log("akash", "API call for delete", sessionId);
         return http.post("/maestro_chat/v1/session/delete", 
         {
             "session_id": sessionId
         },
         {
-            headers: {
-                "X-USER-EMAIL": userInfo.email,
-                "X-USER-NAME": userInfo.name
-            },
+            headers: createHeader(userInfo, orgId, botId)
 
         })
     }

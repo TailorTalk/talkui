@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../contexts/AuthContext';
 
-const pages = ['Files', 'Chats', 'Assets'];
+const pages = ['Assets', 'Chats'];
 const settings = ['Logout'];
 
 function AppBarComponent() {
@@ -35,9 +35,6 @@ function AppBarComponent() {
 
   const handleCloseNavMenu = (page) => {
     console.log("akash anand", page)
-    if (page === "Files") {
-        navigate('/files')
-    }
     if (page === "Chats") {
         navigate('/chats')
     }
