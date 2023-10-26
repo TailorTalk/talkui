@@ -3,10 +3,12 @@ import { Box, TextField, Button } from '@mui/material';
 import SupportedTypeSelector from './SupportedTypes';
 import DefaultAsset from './DefaultAsset/DefaultAsset';
 import TextAsset from './TextAsset/TextAsset';
+import WebsiteAsset from './WebsiteAsset/WebsiteAsset';
 import Grid from '@mui/material/Grid';
 import { useAuth } from '../../contexts/AuthContext';
 import assetsService from '../../services/assets.service';
 import validateTextAsset from './TextAsset/assetValidator'
+import validateWebsiteAsset from './WebsiteAsset/assetValidator'
 
 const assetTypes = ["TEXT FILE", "WEBSITE", "DEFAULT"]
 const assetClassToType = {
@@ -55,6 +57,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         const temp = validateTextAsset(assetDetails)
         setIsAssetValid(!temp)
       }
+      if (assetType === "WEBSITE") {
+        const temp = validateWebsiteAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
     }
     validate()
   }, [inputAsset, editMode, assetDetails]);
@@ -83,8 +89,13 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               orgId={orgId}
               bot={bot}/>}
           {assetType === "WEBSITE" &&
-            <TextField
-              label="Website" />}
+            <WebsiteAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>}
         </Box>
       </Grid>
       <Grid item xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
