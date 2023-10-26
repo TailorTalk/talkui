@@ -9,12 +9,14 @@ import { useAuth } from '../../contexts/AuthContext';
 import assetsService from '../../services/assets.service';
 import validateTextAsset from './TextAsset/assetValidator'
 import validateWebsiteAsset from './WebsiteAsset/assetValidator'
+import NoContextAsset from './NoContextAsset/NoContextAsset';
 
-const assetTypes = ["TEXT FILE", "WEBSITE", "DEFAULT"]
+const assetTypes = ["TEXT FILE", "WEBSITE", "DEFAULT", "NO CONTEXT"]
 const assetClassToType = {
   "default": "DEFAULT",
   "text": "TEXT FILE",
-  "website": "WEBSITE"
+  "website": "WEBSITE",
+  "no_context": "NO CONTEXT"
 }
 
 function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
@@ -71,12 +73,17 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         {/* Your content for the top 80% goes here */}
         <Box display="flex" flexDirection="column" gap={2} style={{paddingTop: '20px'}}>
           <SupportedTypeSelector
-            items={editMode ? assetTypes : assetTypes.filter((item) => item !== "DEFAULT")}
+            items={editMode ? assetTypes : assetTypes.filter((item) => (item !== "DEFAULT" && item !== "NO CONTEXT"))}
             currentItem={assetType}
             onItemSelected={onAssetTypeSelected}
             editable={!editMode} />
           {assetType === "DEFAULT" &&
             <DefaultAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing} />}
+          {assetType === "NO CONTEXT" &&
+            <NoContextAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing} />}
