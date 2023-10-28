@@ -5,13 +5,16 @@ import MemoryIcon from '@mui/icons-material/Memory';
 
 import { createChatConnection } from "../../services/streamChat.service";
 import { useAuth } from "../../contexts/AuthContext";
+import { useQueryString } from '../../contexts/QueryStringContext';
 import resolveStreamMessages from "./resolveStreamMessages";
 
 const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
     console.log("akash", "I am re rendered", sessionId, message)
     const [msg, setMsg] = useState(null);
     const { userInfo } = useAuth();
+    const { queryDict, updateQueryKey, deleteQueryKey } = useQueryString();
     const currentMessageRef = useRef([]);
+    console.log("Query dict values in streaming", queryDict)
 
     useEffect(() => {
         // Assuming you have a function called 'createMessageStream' that sets up the event stream
@@ -20,7 +23,7 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
             return;
         }
         console.log("akash", "I am creating SSE connection for the user", userInfo);
-        const eventSource = createChatConnection(userInfo, sessionId, message);
+        const eventSource = createChatConnection(userInfo, sessionId, message, queryDict.orgId, queryDict.botId);
 
         eventSource.onmessage = (event) => {
             const newMessage = event.data;

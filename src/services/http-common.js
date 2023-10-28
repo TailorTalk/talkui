@@ -7,3 +7,12 @@ export default axios.create({
     "Content-type": "application/json"
   }
 });
+
+export function createHeader(userInfo, orgId, botId) {
+    return {
+        "X-USER-EMAIL": userInfo.email,
+        "X-USER-NAME": userInfo.name,
+        "X-ORG-ID": orgId,
+        "x-org-chat-bot-id": botId
+    }
+}
