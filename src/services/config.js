@@ -4,7 +4,7 @@
 let BASE_URL;
 console.log("REACT_APP_ENV_NAME is: ", process.env.REACT_APP_ENV_NAME)
 
-switch (process.env.REACT_APP_ENV_NAME.toLowerCase()) {
+switch (process.env.REACT_APP_ENV_NAME?process.env.REACT_APP_ENV_NAME.toLowerCase(): "default") {
     case 'production':
         BASE_URL = "https://tailortalk-production.up.railway.app";
         break;
