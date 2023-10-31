@@ -19,8 +19,13 @@ const Chat = () => {
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
 
-    const { userInfo } = useAuth();
+    let { userInfo } = useAuth();
     const { queryDict } = useQueryString();
+    if (userInfo && queryDict) {
+        if (queryDict.email) {
+            userInfo.email = queryDict.email;
+        }
+    }
     console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
@@ -49,25 +54,6 @@ const Chat = () => {
                 setIsError(true);
             })
     }
-
-    // const onMessageSend = (message, thisSessionid) => {
-    //     console.log("akash", "onMessageSend", message, thisSessionid);
-    //     setOnGoingAPI(true);
-    //     ChatService.chat(userInfo, thisSessionid, message)
-    //         .then((response) => {
-    //             setSessionId(response.data.result.session_id);
-    //             onSessionSelect({ session_id: response.data.result.session_id })
-    //             if (thisSessionid === "") {
-    //                 listSessions();
-    //             }
-    //             setOnGoingAPI(false);
-    //         })
-    //         .catch(() => {
-    //             setMessage("Could not execute chat!");
-    //             setIsError(true);
-    //             setOnGoingAPI(false);
-    //         })
-    // }
 
     const onStreamStart = () => {
         console.log("akash", "onStreamStart");
