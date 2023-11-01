@@ -16,6 +16,8 @@ function ChatSuggestions({ userInfo, orgId, botId, onSuggestionClick }) {
             .then((data) => {
                 if (data.success) {
                     setSuggestions(data.result);
+                    setMessage("");
+                    setIsError(false);
                 } else {
                     setMessage("Could not get suggestions. Backend returned success as False!");
                     setIsError(true);
