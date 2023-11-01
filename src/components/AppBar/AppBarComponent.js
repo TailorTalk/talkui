@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom'
 
 import { useAuth } from '../../contexts/AuthContext';
 
-const pages = ['Assets', 'Chats'];
+const pages = ['Assets'];
 const settings = ['Logout'];
 
 function AppBarComponent() {
@@ -72,7 +72,7 @@ function AppBarComponent() {
               textDecoration: 'none',
             }}
           >
-            Tailor Talk
+            TailorTalk
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
@@ -127,7 +127,7 @@ function AppBarComponent() {
               textDecoration: 'none',
             }}
           >
-            Maestro
+            TailorTalk
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (

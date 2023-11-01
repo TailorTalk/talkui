@@ -6,7 +6,6 @@ import ChatService from "../services/chat.service";
 import { useAuth } from "../contexts/AuthContext";
 import "./Files.css";
 import SessionList from "../components/SessionList";
-// import ChatComponent from "../components/Chat";
 import StreamChatComponent from "../components/StreamChat";
 import { useQueryString } from '../contexts/QueryStringContext';
 
