@@ -1,10 +1,13 @@
 import React from 'react';
 import { Box, TextField } from '@mui/material';
+import SupportedTypeSelector from '../SupportedTypes';
 
+const SUPPORTED_MODELS = ['gpt-4-0613', 'gpt-3.5-turbo-0613']
+const DEFAULT_MODEL = 'gpt-3.5-turbo-0613'
 function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
     console.log("Asset in default asset: ", asset)
     console.log("Is editing in default asset: ", isEditing)
-    
+
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField
@@ -29,6 +32,12 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 onChange={e => handleInputChange(e.target.value, 'bot_system_message')}
                 disabled={!isEditing}
             />
+            <SupportedTypeSelector
+                items={SUPPORTED_MODELS} 
+                currentItem={asset.model?asset.model:DEFAULT_MODEL}
+                onItemSelected={(value)=>handleInputChange(value, 'model')}
+                label = {"Model for your chatbot"}
+                editable= {isEditing} />
         </Box>
     );
 }
