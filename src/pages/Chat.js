@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import { Typography } from '@material-ui/core';
 
 import ChatService from "../services/chat.service";
@@ -8,7 +8,6 @@ import "./Files.css";
 import SessionList from "../components/SessionList";
 // import ChatComponent from "../components/Chat";
 import StreamChatComponent from "../components/StreamChat";
-import ChatSuggestions from "../components/ChatSuggestions";
 import { useQueryString } from '../contexts/QueryStringContext';
 
 

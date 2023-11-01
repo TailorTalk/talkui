@@ -12,7 +12,7 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
     console.log("akash", "I am re rendered", sessionId, message)
     const [msg, setMsg] = useState(null);
     const { userInfo } = useAuth();
-    const { queryDict, updateQueryKey, deleteQueryKey } = useQueryString();
+    const { queryDict } = useQueryString();
     const currentMessageRef = useRef([]);
     console.log("Query dict values in streaming", queryDict)
 
@@ -62,7 +62,7 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
         return () => {
             eventSource.close();
         };
-    }, [onDone, userInfo, sessionId, message]);
+    }, [onDone, userInfo, sessionId, message, queryDict.botId, queryDict.orgId]);
 
     if (!msg) return null;  // Return null if msg hasn't been received yet
 
