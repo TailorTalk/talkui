@@ -63,7 +63,7 @@ function OrgsList({ onSelect }) {
             .catch(() => {
                 console.log("Could not list orgs");
             });
-    }, []);
+    }, [userInfo]);
 
     return (
         <div>

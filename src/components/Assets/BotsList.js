@@ -40,7 +40,7 @@ function BotsList({ orgId, onSelect }) {
                 })
                 .then(data => setBots(data.result.bots));
         }
-    }, [orgId]);
+    }, [orgId, userInfo]);
 
     const createBot = (botName, botDescription) => {
         console.log("Creating bot for org: ", orgId, botName, botDescription)

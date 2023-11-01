@@ -1,12 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, Button } from '@mui/material';
 import SupportedTypeSelector from './SupportedTypes';
 import DefaultAsset from './DefaultAsset/DefaultAsset';
 import TextAsset from './TextAsset/TextAsset';
 import WebsiteAsset from './WebsiteAsset/WebsiteAsset';
 import Grid from '@mui/material/Grid';
-import { useAuth } from '../../contexts/AuthContext';
-import assetsService from '../../services/assets.service';
 import validateTextAsset from './TextAsset/assetValidator'
 import validateWebsiteAsset from './WebsiteAsset/assetValidator'
 import NoContextAsset from './NoContextAsset/NoContextAsset';
@@ -25,7 +23,6 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const [assetType, setAssetType] = useState(null);
   const [assetDetails, setAssetDetails] = useState(inputAsset); // This will be used to store the asset details for the asset type selected
   const [isAssetValid, setIsAssetValid] = useState(false); // This will be used to store the asset details for the asset type selected
-  const { userInfo } = useAuth();
   
   console.log("Asset in asset form: ", assetDetails)
   console.log("Is editing in asset form: ", isEditing)
@@ -65,7 +62,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
     }
     validate()
-  }, [inputAsset, editMode, assetDetails]);
+  }, [inputAsset, editMode, assetDetails, assetType]);
 
   return (
     <Grid container direction="column" style={{ height: '100vh' }}>

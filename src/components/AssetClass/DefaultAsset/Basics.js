@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button, Tab, Tabs } from '@mui/material';
+import React from 'react';
+import { Box, TextField } from '@mui/material';
 
 function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
     console.log("Asset in default asset: ", asset)

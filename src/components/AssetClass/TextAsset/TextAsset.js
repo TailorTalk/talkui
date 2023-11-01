@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import { Box, Tab, Tabs } from '@mui/material';
 import AssetDefaults from '../Common/AssetDefaults';
 import FileUpload from './UploadWidget';

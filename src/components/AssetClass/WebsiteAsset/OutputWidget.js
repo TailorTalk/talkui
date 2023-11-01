@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import React from 'react';
+import { Box, TextField } from '@mui/material';
 
 function OutputWidget({ asset, handleInputChange, isEditing }) {
     console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)

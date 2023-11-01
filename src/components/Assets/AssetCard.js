@@ -1,6 +1,5 @@
-import React, { useState, useRef, useEffect } from 'react';
-import { Card, CardContent, Typography, ButtonBase, IconButton } from '@mui/material';
-import DeleteIcon from '@mui/icons-material/Delete';
+import React from 'react';
+import { Card, CardContent, Typography, ButtonBase } from '@mui/material';
 
 function AssetCard({ asset, assetClick }) {
   return (

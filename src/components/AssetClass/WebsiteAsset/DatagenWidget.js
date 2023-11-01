@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import React, { useEffect } from 'react';
+import { Box, TextField } from '@mui/material';
 
 function DatagenWidget({ asset, handleInputChange, isEditing }) {
 
@@ -10,7 +10,7 @@ function DatagenWidget({ asset, handleInputChange, isEditing }) {
         if (!asset.overlap_chunk_size) {
             handleInputChange(100, 'overlap_chunk_size')
         }
-    }, [asset])
+    }, [asset, handleInputChange])
     
     console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
     return (

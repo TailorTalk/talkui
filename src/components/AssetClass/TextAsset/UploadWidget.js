@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, LinearProgress, Typography, IconButton, Box } from '@mui/material';
+import { Button, LinearProgress, Typography, Box } from '@mui/material';
 import { CloudUpload } from '@mui/icons-material';
 import { useAuth } from "../../../contexts/AuthContext";
 import assetsService from '../../../services/assets.service';

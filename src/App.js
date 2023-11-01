@@ -6,7 +6,6 @@ import SignIn from './pages/SignIn';
 import { useAuth } from './contexts/AuthContext'
 import { QueryStringProvider } from './contexts/QueryStringContext';
 import AppBarComponent from './components/AppBar/AppBarComponent';
-import UploadFiles from './pages/Files'
 
 function App() {
   const { isLoggedIn } = useAuth();

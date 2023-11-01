@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button, Tab, Tabs, Chip } from '@mui/material';
-import DeleteIcon from '@material-ui/icons/Delete';
+import React, { useState } from 'react';
+import { Box, TextField, Chip } from '@mui/material';
 
 function Suggestions({ asset, handleInputChange, isEditing }) {
     console.log("Asset in default asset: ", asset)

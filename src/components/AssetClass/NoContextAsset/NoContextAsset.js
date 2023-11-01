@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button } from '@mui/material';
-import AssetDefaults from '../Common/AssetDefaults';
+import React from 'react';
+import { Box, TextField } from '@mui/material';
 
 function NoContextAsset({ asset, handleInputChange, isEditing }) {
     console.log("Asset in default asset: ", asset)
