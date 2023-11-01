@@ -32,7 +32,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
     setAssetType(assetType);
     setAssetDetails(prevDetails => ({
       ...prevDetails,
-      ["asset_class"]: Object.keys(assetClassToType).find(key => assetClassToType[key] === assetType)
+      asset_class: Object.keys(assetClassToType).find(key => assetClassToType[key] === assetType)
       ,
     }));
   }
