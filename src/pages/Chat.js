@@ -8,6 +8,7 @@ import "./Files.css";
 import SessionList from "../components/SessionList";
 // import ChatComponent from "../components/Chat";
 import StreamChatComponent from "../components/StreamChat";
+import ChatSuggestions from "../components/ChatSuggestions";
 import { useQueryString } from '../contexts/QueryStringContext';
 
 
@@ -117,7 +118,10 @@ const Chat = () => {
                     onStart={onStreamStart}
                     onDone={onStreamDone}
                     sessionId={sessionId}
-                    ongoing={onGoingAPI} />
+                    ongoing={onGoingAPI}
+                    userInfo={userInfo}
+                    orgId={queryDict.orgId}
+                    botId={queryDict.botId} />
                 <Typography variant="subtitle2" className={`upload-message ${isError ? "error" : ""}`}>
                     {message}
                 </Typography>

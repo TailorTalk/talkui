@@ -1,45 +1,48 @@
 import React, { useState, useEffect } from 'react';
-import { Box, TextField, Button } from '@mui/material';
+import { Box, TextField, Button, Tab, Tabs, Typography } from '@mui/material';
+import DefaultAssetBasics from './Basics'
+import Clients from "./Clients"
+import Suggestions from './Suggestions';
 
 function DefaultAsset({ asset, handleInputChange, isEditing }) {
     console.log("Asset in default asset: ", asset)
     console.log("Is editing in default asset: ", isEditing)
+    const [value, setValue] = React.useState('defaults');
+
+    const handleChange = (event, newValue) => {
+        setValue(newValue);
+    };
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
-            <TextField
-                label="Asset Name"
-                value={asset.asset_name}
-                onChange={e => handleInputChange(e.target.value, 'asset_name')}
-                disabled={true}
-            />
-            <TextField
-                label="Asset Description"
-                value={asset.asset_description}
-                multiline
-                rows={2}
-                onChange={e => handleInputChange(e.target.value, 'asset_description')}
-                disabled={true}
-            />
-            <TextField
-                label="System Message"
-                multiline
-                rows={4}
-                value={asset.bot_system_message}
-                onChange={e => handleInputChange(e.target.value, 'bot_system_message')}
-                disabled={!isEditing}
-            />
-            <TextField
-                label="WhatsApp Number"
-                value={asset.bot_whatsapp_number}
-                onChange={e => handleInputChange(e.target.value, 'bot_whatsapp_number')}
-                disabled={!isEditing}
-            />
-            <TextField
-                label="WhatsApp ID"
-                value={asset.bot_whatsapp_id}
-                onChange={e => handleInputChange(e.target.value, 'bot_whatsapp_id')}
-                disabled={!isEditing}
-            />
+            <Tabs
+                value={value}
+                onChange={handleChange}
+                textColor="secondary"
+                indicatorColor="secondary"
+                aria-label="secondary tabs example"
+                style={{ marginBottom: "20px" }}
+            >
+                <Tab value="defaults" label="Defaults" />
+                <Tab value="questions" label="Suggestions" />
+                <Tab value="clients" label="Clients" />
+            </Tabs>
+            {value === 'defaults' &&
+                <DefaultAssetBasics
+                    asset={asset}
+                    handleInputChange={handleInputChange}
+                    isEditing={isEditing} />}
+            {value === 'questions' && <Box>
+                <Suggestions
+                    asset={asset}
+                    handleInputChange={handleInputChange}
+                    isEditing={isEditing} />
+            </Box>}
+            {value === 'clients' && <Box>
+                <Clients
+                    asset={asset}
+                    handleInputChange={handleInputChange}
+                    isEditing={isEditing} />
+            </Box>}
         </Box>
     );
 }

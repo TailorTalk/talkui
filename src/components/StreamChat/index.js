@@ -6,6 +6,7 @@ import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
 import StreamMessageItem from './StreamedMessage';
+import ChatSuggestions from '../ChatSuggestions';
 
 const MessageItem = React.memo(({ msg }) => {
     console.log("akash", "MessageItem", msg);
@@ -24,7 +25,7 @@ const MessageItem = React.memo(({ msg }) => {
     );
 });
 
-function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId }) {
+function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId, userInfo, orgId, botId }) {
     const [inputMessage, setInputMessage] = useState('');
     const [finalInputMessage, setFinalInputMessage] = useState('');
     const [chatHistory, setChatHistory] = useState(pastChatHistory);
@@ -67,6 +68,21 @@ function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId }) {
             //onMessageSend(inputMessage, sessionId);// Clear the input box
         }
     };
+
+    const onSuggestionClick = (suggestion) => {
+        console.log("akash", "onSuggestionClick", suggestion);
+        setFinalInputMessage(suggestion);
+        onStart();
+        if (chatHistory) {
+            const chatHistoryCopy = {...chatHistory};
+            chatHistoryCopy.result.history.push({role: "user", content: suggestion});
+            setChatHistory(chatHistoryCopy);
+        } else {
+            setChatHistory({success: true, result: {history: [{role: "user", content: suggestion}]}})
+        }
+        setInputMessage(''); 
+        setStartStream(true);
+    }
     return (
         <Paper elevation={3} style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
             {chatHistory
@@ -80,6 +96,11 @@ function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId }) {
                 onDone = {onStreamDone} />}
                 <div ref={chatEndRef}></div>
             </List> : <div ref={chatEndRef} style={{ overflowY: 'auto', flexGrow: 1, padding: '1rem' }}></div>}
+            <ChatSuggestions
+                userInfo={userInfo}
+                orgId={orgId}
+                botId={botId}
+                onSuggestionClick={onSuggestionClick} />
             {startStream && <LinearProgress sx={{ height: '4px' }} />}
             <TextField
                 variant="outlined"

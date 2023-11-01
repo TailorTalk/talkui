@@ -22,6 +22,10 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
             console.log("akash", "No user info found. I will skip the SSE connection");
             return;
         }
+        if (message.trim() === "") {
+            console.log("akash", "No message found. I will skip the SSE connection");
+            return;
+        }
         console.log("akash", "I am creating SSE connection for the user", userInfo);
         const eventSource = createChatConnection(userInfo, sessionId, message, queryDict.orgId, queryDict.botId);
 
