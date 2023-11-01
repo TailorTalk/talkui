@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import assetsService from '../../services/assets.service';
-import { Chip } from '@mui/material';
+import { Chip, Typography } from '@mui/material';
 
 function ChatSuggestions({ userInfo, orgId, botId, onSuggestionClick }) {
     console.log("Details in chat suggestions: ", userInfo, orgId, botId)
@@ -35,6 +35,7 @@ function ChatSuggestions({ userInfo, orgId, botId, onSuggestionClick }) {
                     label={suggestion}
                     onClick={()=>onSuggestionClick(suggestion)} />
             ))}
+            {message && <Typography variant="subtitle1" color={isError ? "error" : "inherit"}>{message}</Typography>}
         </div>
     );
 }
