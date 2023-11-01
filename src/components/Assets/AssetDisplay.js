@@ -30,7 +30,10 @@ function AssetsDisplay({ orgId, bot }) {
                     return response.data
                 }
                 )
-                .then(data => setAssets(data.result.bot.assets));
+                .then(data => setAssets(data.result.bot.assets))
+                .catch(() => {
+                    console.log("Could not fetch assets");
+                });
         }
     }, [bot, orgId, userInfo]);
 

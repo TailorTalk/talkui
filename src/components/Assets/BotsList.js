@@ -30,7 +30,7 @@ function BotsList({ orgId, onSelect }) {
     console.log("Selected org: ", orgId)
 
     useEffect(() => {
-        console.log("Org id: ", orgId)
+        console.log("Org id in bots list: ", orgId)
         // fetch bots for the given org using /list_bots
         if (orgId) {
             assetsService.listBots(userInfo, orgId)

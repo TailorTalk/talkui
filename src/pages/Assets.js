@@ -8,12 +8,17 @@ function AssetsPage() {
     const [selectedOrgId, setSelectedOrgId] = useState(null);
     const [selectedBot, setSelectedBot] = useState(null);
     console.log("Selected bot in the main page: ", selectedBot)
+    
+    const onOrgSelect = (orgId) => {
+        setSelectedOrgId(orgId);
+        setSelectedBot(null);
+    } 
   
     return (
       <Container style={{margin: "0px"}} maxWidth="false">
         <Grid container spacing={3}>
           <Grid item xs={2} style={{paddingLeft: '20px'}}> {/* Orgs list column */}
-            <OrgsList onSelect={setSelectedOrgId} />
+            <OrgsList onSelect={onOrgSelect} />
           </Grid>
           <Grid item xs={2} style={{paddingLeft: '0px'}}> {/* Bots list column */}
             {selectedOrgId && <BotsList orgId={selectedOrgId} onSelect={setSelectedBot} />}
