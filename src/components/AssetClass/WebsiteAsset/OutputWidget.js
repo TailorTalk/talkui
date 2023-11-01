@@ -1,8 +1,18 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 
 function OutputWidget({ asset, handleInputChange, isEditing }) {
     console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
+
+    useEffect(() => {
+        if (!asset.output_short_description) {
+            handleInputChange("NA", 'output_short_description')
+        }
+        if (!asset.output_description) {
+            handleInputChange("NA", 'output_description')
+        }
+    }, [asset, handleInputChange])
+    
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField
