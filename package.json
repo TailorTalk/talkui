@@ -2,7 +2,7 @@
     "name": "chat-app",
     "version": "1.0.0",
     "private": true,
-    "engines" :{
+    "engines": {
         "node": "20",
         "npm": "10"
     },
@@ -12,6 +12,7 @@
         "@material-ui/core": "^4.12.4",
         "@mui/icons-material": "^5.14.11",
         "@mui/material": "^5.14.11",
+        "@react-oauth/google": "^0.11.1",
         "axios": "^0.21.1",
         "eventsource-polyfill": "^0.9.6",
         "jwt-decode": "^3.1.2",
