@@ -6,7 +6,6 @@ import FirebaseLogin from './pages/FirebaseLogin';
 import { useAuth } from './contexts/AuthContext'
 import { QueryStringProvider } from './contexts/QueryStringContext';
 import AppBarComponent from './components/AppBar/AppBarComponent';
-import { GoogleOAuthProvider } from '@react-oauth/google';
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -14,7 +13,6 @@ function App() {
 
   return (
     <Router>
-    <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
     <QueryStringProvider>
       <div className="App">
         <AppBarComponent/>
@@ -26,7 +24,6 @@ function App() {
         </Routes>
       </div>
     </QueryStringProvider>
-    </GoogleOAuthProvider>;
     </Router>
   );
 }
