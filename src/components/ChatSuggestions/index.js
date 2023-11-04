@@ -8,6 +8,9 @@ function ChatSuggestions({ userInfo, orgId, botId, onSuggestionClick }) {
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
     useEffect(() => {
+        if (!orgId || !botId) {
+            return;
+        }
         assetsService.getSuggestions(userInfo, orgId, botId)
             .then((response) => {
                 console.log("Response of suggestions: ", response.data);
