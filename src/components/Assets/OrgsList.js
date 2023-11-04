@@ -5,6 +5,8 @@ import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
+import TextOverlay from '../Overlay/TextOverlay';
+import LoadingOverlay from '../Overlay/LoadingOverlay';
 
 const ModalContent = styled(Box)({
     position: 'absolute',
@@ -25,10 +27,14 @@ function OrgsList({ onSelect }) {
     const [orgName, setOrgName] = useState("");
     const [botName, setBotName] = useState("");
     const [botDescription, setBotDescription] = useState("");
+    const [failed, setFailed] = useState(false);
+    const [failMessage, setFailMessage] = useState("");
+    const [loading, setLoading] = useState(true);
     const { userInfo } = useAuth();
 
     const createBot = (orgId, botName, botDescription) => {
         console.log("Creating bot for org: ", orgId, botName, botDescription)
+        setLoading(true);
         assetsService.createBot(userInfo, orgId, botName, botDescription)
             .then((response) => {
                 console.log("Response of create bot: ", response.data);
@@ -42,14 +48,19 @@ function OrgsList({ onSelect }) {
             )
             .then(data => {
                 setOrgs(data.result.orgs)
+                setLoading(false);
             })
             .catch(() => {
                 console.log("Could not create bot");
+                setLoading(false);
+                setFailMessage("Could not create bot");
+                setFailed(true);
             });
     }
 
     useEffect(() => {
         // fetch orgs using /list_orgs
+        setLoading(true);
         assetsService.listOrgs(userInfo)
             .then(
                 response => {
@@ -59,9 +70,13 @@ function OrgsList({ onSelect }) {
             )
             .then(data => {
                 setOrgs(data.result.orgs)
+                setLoading(false);
             })
             .catch(() => {
                 console.log("Could not list orgs");
+                setFailMessage("Could not list orgs. Backend error");
+                setLoading(false);
+                setFailed(true);
             });
     }, [userInfo]);
 
@@ -75,6 +90,8 @@ function OrgsList({ onSelect }) {
                     </ListItem>
                 ))}
             </List>
+            {failed && <TextOverlay message={failMessage} />}
+            {loading && <LoadingOverlay message="Loading..." />}
             <IconButton onClick={() => setOpen(true)}>
                 <AddIcon />
             </IconButton>

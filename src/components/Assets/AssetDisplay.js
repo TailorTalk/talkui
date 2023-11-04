@@ -10,11 +10,16 @@ import AssetForm from '../AssetClass/AssetForm';
 import Fab from '@material-ui/core/Fab';
 import ChatIcon from '@material-ui/icons/Chat';
 import { useNavigate } from 'react-router-dom';
+import TextOverlay from '../Overlay/TextOverlay';
+import LoadingOverlay from '../Overlay/LoadingOverlay';
 
 
 function AssetsDisplay({ orgId, bot }) {
     const [assets, setAssets] = useState([{ id: 1, name: "Asset 1" }, { id: 2, name: "Asset 2" }]);
     const [open, setOpen] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [failed, setFailed] = useState(false);
+    const [failMessage, setFailMessage] = useState("");
     const [selectedAsset, setSelectedAsset] = useState(null);
     const [assetUpdating, setAssetUpdating] = useState(false);  // to disable the submit button while the asset is being updated
     const { userInfo } = useAuth();
@@ -25,15 +30,21 @@ function AssetsDisplay({ orgId, bot }) {
         // fetch assets for the given bot using /get_assets
         if (bot) {
             console.log("Fetching assets for bot: ", bot, orgId)
+            setLoading(true);
             assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
                 .then(response => {
                     console.log("Result of list assets", response.data);
                     return response.data
                 }
                 )
-                .then(data => setAssets(data.result.bot.assets))
+                .then(data => {
+                    setAssets(data.result.bot.assets)
+                    setLoading(false)})
                 .catch(() => {
                     console.log("Could not fetch assets");
+                    setLoading(false);
+                    setFailed(true);
+                    setFailMessage("Could not fetch assets");
                 });
         }
     }, [bot, orgId, userInfo]);
@@ -77,6 +88,7 @@ function AssetsDisplay({ orgId, bot }) {
 
     const onAssetDelete = (asset) => {
         console.log("Delete asset: ", asset)
+        setAssetUpdating(true);
         assetsService.deleteAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id)
             .then(response => {
                 console.log("Result of delete asset", response.data);
@@ -94,8 +106,12 @@ function AssetsDisplay({ orgId, bot }) {
             .then(() => {
                 setOpen(false);
                 setSelectedAsset(null);
-            }
-            );
+                setAssetUpdating(false);
+            })
+            .catch(() => {
+                console.log("Could not delete asset");
+                setAssetUpdating(false);
+            });
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
         console.log('Deleted');
@@ -110,6 +126,8 @@ function AssetsDisplay({ orgId, bot }) {
 
     return (
         <div>
+            {failed && <TextOverlay message={failMessage} />}
+            {loading && <LoadingOverlay message="Loading..." />}
             <Typography variant="h6" component="h2" style={{ paddingBottom: '5px', paddingTop: '22px' }}>
                 {bot.bot_name}
             </Typography>

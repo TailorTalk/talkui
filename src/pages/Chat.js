@@ -8,6 +8,7 @@ import "./Files.css";
 import SessionList from "../components/SessionList";
 import StreamChatComponent from "../components/StreamChat";
 import { useQueryString } from '../contexts/QueryStringContext';
+import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 
 
 const Chat = () => {
@@ -17,6 +18,9 @@ const Chat = () => {
     const [onGoingAPI, setOnGoingAPI] = useState(false);
     const [message, setMessage] = useState("");
     const [isError, setIsError] = useState(false);
+    const [loading, setLoading] = useState(true);
+    const [failed, setFailed] = useState(false);
+    const [failMessage, setFailMessage] = useState("");
 
     let { userInfo } = useAuth();
     const { queryDict } = useQueryString();
@@ -28,13 +32,16 @@ const Chat = () => {
     console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
+        setLoading(true);
         if (queryDict.botId) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
                 setSessionList(response.data);
+                setLoading(false);
             })
             .catch(() => {
                 setMessage("Could not list sessions");
                 setIsError(true);
+                setLoading(false);
             });
         }
     }, [userInfo, queryDict]);
@@ -89,6 +96,7 @@ const Chat = () => {
 
     return (
         <div className="two-column-container">
+            {loading && <LoadingOverlay message="Loading..." />}
             <div className="column left-column">
                 {/* Left column content goes here */}
                 <Typography variant="h6" className="list-header">
