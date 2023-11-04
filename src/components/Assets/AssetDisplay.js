@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Grid } from '@mui/material';
-import { IconButton, Typography } from '@mui/material';
+import { IconButton, Typography, Backdrop, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
@@ -16,6 +16,7 @@ function AssetsDisplay({ orgId, bot }) {
     const [assets, setAssets] = useState([{ id: 1, name: "Asset 1" }, { id: 2, name: "Asset 2" }]);
     const [open, setOpen] = useState(false);
     const [selectedAsset, setSelectedAsset] = useState(null);
+    const [assetUpdating, setAssetUpdating] = useState(false);  // to disable the submit button while the asset is being updated
     const { userInfo } = useAuth();
     const navigate = useNavigate();
     console.log("Selected bot: ", orgId, bot)
@@ -45,6 +46,7 @@ function AssetsDisplay({ orgId, bot }) {
 
     const onAssetUpdate = (asset) => {
         console.log("Updated asset: ", asset)
+        setAssetUpdating(true);
         assetsService.updateAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id, asset)
             .then(response => {
                 console.log("Result of update asset", response.data);
@@ -60,10 +62,14 @@ function AssetsDisplay({ orgId, bot }) {
             })
             .then(data => setAssets(data.result.bot.assets))
             .then(() => {
+                setAssetUpdating(false);
                 setOpen(false);
                 setSelectedAsset(null);
-            }
-            );
+            })
+            .catch(() => {
+                console.log("Could not update asset");
+                setAssetUpdating(false);
+            });
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
         console.log('Updated details:', asset);
@@ -130,8 +136,10 @@ function AssetsDisplay({ orgId, bot }) {
             <SideDrawer
                 open={open}
                 onClose={() => {
-                    setSelectedAsset(null);
-                    setOpen(false);
+                    if (!assetUpdating) {
+                        setSelectedAsset(null);
+                        setOpen(false);
+                    }
                 }}
                 heading={selectedAsset ? `Asset: ${selectedAsset.asset_name}` : `New Asset for bot: ${bot.bot_name}`}
             >
@@ -146,6 +154,24 @@ function AssetsDisplay({ orgId, bot }) {
                         onAssetUpdate={onAssetUpdate}
                         orgId={orgId}
                         bot={bot} />}
+                {assetUpdating && (
+                    <Backdrop
+                        sx={{
+                            color: '#fff',
+                            zIndex: (theme) => theme.zIndex.drawer + 1,
+                            position: 'absolute',
+                            width: '100%',
+                            height: '100%',
+                            display: 'flex',
+                            flexDirection: 'column',
+                            justifyContent: 'center',
+                            alignItems: 'center',
+                        }}
+                        open={assetUpdating}
+                    >
+                        <CircularProgress color="inherit" />
+                    </Backdrop>
+                )}
             </SideDrawer>
             <Fab
                 color="primary"
