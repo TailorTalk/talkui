@@ -24,7 +24,7 @@ const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
     let sortedSessions = [];
     if (sessionList && sessionList.success) {
         sortedSessions = sessionList.result.sort(
-            (a, b) => b.session_metadata.time_created - a.session_metadata.time_created);
+            (a, b) => b.time_created - a.time_created);
     } 
     return (<>
         {sessionList && sessionList.success ?
@@ -59,7 +59,7 @@ const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
                     </ListItemAvatar>
                     <ListItemText
                         primary={session.name}
-                        secondary={getStringFromUnix(session.session_metadata.time_created)}
+                        secondary={getStringFromUnix(session.time_created)}
                     />
                 </ListItem>)
             }) : <div>Error in listing sessions</div>}
