@@ -3,6 +3,7 @@ import { firebaseConfig } from '../utils/constants';
 import { initializeApp } from 'firebase/app';
 import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider, signOut } from 'firebase/auth';
 import { CircularProgress, Box, Typography } from '@mui/material';
+import loginService from '../services/login.service';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -27,16 +28,34 @@ export const AuthProvider = ({ children }) => {
     //     "picture": "https://lh3.googleusercontent.com/a/ACg8ocJ1556xpPhCZvGrbGtcu7onwe7ICMeOWprJAY5US5mh_DU=s96-c"
     // })
     useEffect(() => {
+        setLoading(true);
         const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
-            console.log("User is: ", user)
-            setIsLoggedIn(!!user);
-            if (user) {
-                setUserInfo({
-                    "name": user.displayName,
-                    "email": user.email,
-                    "picture": user.photoURL});
-            }
-            setLoading(false);
+            user ? user.getIdToken(true).then((idToken) => {
+                loginService.login(idToken)
+                .then(response => {
+                    console.log("Login response: ", response)
+                    return response.data
+                })
+                .then((data) => {
+                    const user_data = data.result
+                    console.log("Logged in User is: ", user_data)
+                    setIsLoggedIn(!!user_data);
+                    if (user) {
+                        setUserInfo({
+                            "name": user_data.name,
+                            "email": user_data.email,
+                            "picture": user_data.picture});
+                    }
+                })
+                .then(() => {
+                    setLoading(false);
+                })
+                .catch(() => {
+                    console.log("Could not login");
+                    setIsLoggedIn(false);
+                    setLoading(false);
+                })
+            }):(setLoading(false));
         });
         return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
       }, []);
@@ -46,6 +65,8 @@ export const AuthProvider = ({ children }) => {
         setIsLoggedIn(false);
         setUserInfo({});
     }
+
+    console.log("Auth context: ", loading, isLoggedIn, userInfo)
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, userInfo, logout, auth }}>
