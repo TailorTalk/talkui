@@ -3,6 +3,7 @@ import { List, ListItem, ListItemText, Modal, IconButton, TextField, Button, Lis
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
+import orgsService from '../../services/orgs.service';
 import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import TextOverlay from '../Overlay/TextOverlay';
@@ -32,13 +33,13 @@ function OrgsList({ onSelect }) {
     const [loading, setLoading] = useState(true);
     const { userInfo } = useAuth();
 
-    const createBot = (orgId, botName, botDescription) => {
-        console.log("Creating bot for org: ", orgId, botName, botDescription)
+    const createOrg = (orgId) => {
+        console.log("Creating org: ", orgId)
         setLoading(true);
-        assetsService.createBot(userInfo, orgId, botName, botDescription)
+        orgsService.createOrg(orgId)
             .then((response) => {
-                console.log("Response of create bot: ", response.data);
-                return assetsService.listOrgs(userInfo);
+                console.log("Response of create org: ", response.data);
+                return orgsService.listOrgs();
             })
             .then(
                 response => {
@@ -61,7 +62,7 @@ function OrgsList({ onSelect }) {
     useEffect(() => {
         // fetch orgs using /list_orgs
         setLoading(true);
-        assetsService.listOrgs(userInfo)
+        orgsService.listOrgs()
             .then(
                 response => {
                     console.log("Result of list org", response.data);
@@ -69,6 +70,7 @@ function OrgsList({ onSelect }) {
                 }
             )
             .then(data => {
+                console.log("Orgs: ", data.result.orgs)
                 setOrgs(data.result.orgs)
                 setLoading(false);
             })
@@ -85,8 +87,8 @@ function OrgsList({ onSelect }) {
             <List>
             <ListSubheader>Organisations</ListSubheader>
                 {orgs.map(org => (
-                    <ListItem button key={org} onClick={() => onSelect(org)}>
-                        <ListItemText primary={org} />
+                    <ListItem button key={org.name} onClick={() => onSelect(org.name)}>
+                        <ListItemText primary={org.name} />
                     </ListItem>
                 ))}
             </List>
@@ -107,18 +109,9 @@ function OrgsList({ onSelect }) {
                         label="Org Name" 
                         style={{paddingBottom: '5px'}}
                         onChange={event=>setOrgName(event.target.value)}/>
-                    <TextField 
-                        label="Bot name" 
-                        style={{paddingBottom: '5px'}}
-                        onChange={event=>setBotName(event.target.value)}/>
-                    <TextField 
-                        label="Bot description" 
-                        style={{paddingBottom: '5px'}}
-                        onChange={event=>setBotDescription(event.target.value)}/>
-                    {/* Add any other input fields */}
                     <Button onClick={() => {
                         // Logic to create a new org
-                        createBot(orgName, botName, botDescription);
+                        createOrg(orgName, botName, botDescription);
                         setOpen(false);
                     }}>
                         Create

@@ -9,6 +9,22 @@ class LoginService {
             }
         });
     }
+
+    autoLogin() {
+        return http.post("/maestro_chat/auth/v1/auto_login", {
+        }, {
+            headers: {
+            }
+        });
+    }
+
+    logout() {
+        return http.post("/maestro_chat/auth/v1/logout", {
+        }, {
+            headers: {
+            }
+        });
+    }
 }
 
 const loginService = new LoginService();

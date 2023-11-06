@@ -29,39 +29,72 @@ export const AuthProvider = ({ children }) => {
     // })
     useEffect(() => {
         setLoading(true);
-        const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
-            user ? user.getIdToken(true).then((idToken) => {
-                loginService.login(idToken)
-                .then(response => {
-                    console.log("Login response: ", response)
-                    return response.data
-                })
-                .then((data) => {
-                    const user_data = data.result
-                    console.log("Logged in User is: ", user_data)
-                    setIsLoggedIn(!!user_data);
-                    if (user) {
-                        setUserInfo({
-                            "name": user_data.name,
-                            "email": user_data.email,
-                            "picture": user_data.picture});
-                    }
-                })
-                .then(() => {
-                    setLoading(false);
-                })
-                .catch(() => {
-                    console.log("Could not login");
-                    setIsLoggedIn(false);
-                    setLoading(false);
-                })
-            }):(setLoading(false));
-        });
-        return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
-      }, []);
+        loginService.autoLogin()
+            .then(response => {
+                console.log("Auto Login response: ", response)
+                return response.data
+            })
+            .then((data) => {
+                const user_data = data.result
+                console.log("Logged in User is: ", user_data)
+                setIsLoggedIn(!!user_data);
+                if (user_data) {
+                    setUserInfo({
+                        "name": user_data.name,
+                        "email": user_data.email,
+                        "picture": user_data.picture
+                    });
+                }
+            })
+            .then(() => {
+                setLoading(false);
+            })
+            .catch(() => {
+
+                const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
+                    user ? user.getIdToken(true).then((idToken) => {
+                        loginService.login(idToken)
+                            .then(response => {
+                                console.log("Login response: ", response)
+                                return response.data
+                            })
+                            .then((data) => {
+                                const user_data = data.result
+                                console.log("Logged in User is: ", user_data)
+                                setIsLoggedIn(!!user_data);
+                                if (user) {
+                                    setUserInfo({
+                                        "name": user_data.name,
+                                        "email": user_data.email,
+                                        "picture": user_data.picture
+                                    });
+                                }
+                            })
+                            .then(() => {
+                                setLoading(false);
+                            })
+                            .catch(() => {
+                                console.log("Could not login");
+                                setIsLoggedIn(false);
+                                setLoading(false);
+                            })
+                    }) : (setLoading(false));
+                });
+                return () => unregisterAuthObserver(); // Make sure we un-register Firebase observers when the component unmounts.
+            })
+
+    }, []);
 
     const logout = () => {
         auth.signOut();
+        loginService.logout()
+        .then(response => {
+            console.log("Logout response: ", response)
+            return response.data
+        })
+        .catch(() => {
+            console.log("Could not logout properly");
+        })
         setIsLoggedIn(false);
         setUserInfo({});
     }
@@ -86,7 +119,7 @@ export const AuthProvider = ({ children }) => {
                         Loading...
                     </Typography>
                 </Box>
-            ):(children)}
+            ) : (children)}
         </AuthContext.Provider>
     );
 };
