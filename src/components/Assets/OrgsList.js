@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { List, ListItem, ListItemText, Modal, IconButton, TextField, Button, ListSubheader } from '@mui/material';
+import { List, ListItem, ListItemText, Modal, IconButton, TextField, Button, ListSubheader, ListItemIcon } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from "../../contexts/AuthContext";
 import assetsService from "../../services/assets.service";
@@ -8,30 +8,61 @@ import { Box, Typography } from '@mui/material';
 import { styled } from '@mui/system';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
-
-const ModalContent = styled(Box)({
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width: 600,  // or whatever width you desire
-    background: 'white',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: 2
-});
-
+import GroupsIcon from '@mui/icons-material/Groups';
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
+import { Create, Info } from '@mui/icons-material';
+import CreateOrgModal from './OrgModals/CreateOrg';
+import CreateCollaboratorModal from './OrgModals/Collaborate';
+import OrgInfoModal from './OrgModals/Info';
 
 function OrgsList({ onSelect }) {
     const [orgs, setOrgs] = useState([]);
     const [open, setOpen] = useState(false);
-    const [orgName, setOrgName] = useState("");
+    const [collaboratorOrg, setCollaboratorOrg] = useState(""); // TODO: Change this to false when done testing
+    const [viewOrg, setViewOrg] = useState(null); // TODO: Change this to false when done testing
     const [botName, setBotName] = useState("");
     const [botDescription, setBotDescription] = useState("");
     const [failed, setFailed] = useState(false);
     const [failMessage, setFailMessage] = useState("");
     const [loading, setLoading] = useState(true);
     const { userInfo } = useAuth();
+
+    const handleCollaborateClick = (event, orgName) => {
+        event.stopPropagation();
+        console.log("Collaborate clicked for org: ", orgName);
+        setCollaboratorOrg(orgName);
+        setOpen(true);
+    }
+
+    const handleInfoClick = (event, org) => {
+        event.stopPropagation();
+        console.log("Info clicked for org: ", org);
+        setViewOrg(org);
+        setOpen(true);
+    }
+
+    const addCollaborator = (orgName, collaboratorId) => {
+        console.log("Adding collaborator: ", orgName, collaboratorId) //addCollaborator(orgName, collaboratorId)
+        setLoading(true);
+        orgsService.addCollaborator(orgName, collaboratorId)
+            .then((response) => {
+                console.log("Response of create org: ", response.data);
+                return response.data
+            })
+            .then(data => {
+                if (!data.success) {
+                    setFailMessage("Could not add collaborator. Backend returned success false");
+                    setFailed(true);
+                }
+                setLoading(false);
+            })
+            .catch(() => {
+                console.log("Could not add collaborator");
+                setLoading(false);
+                setFailMessage("Could not add collaborator");
+                setFailed(true);
+            });
+    }
 
     const createOrg = (orgId) => {
         console.log("Creating org: ", orgId)
@@ -85,10 +116,14 @@ function OrgsList({ onSelect }) {
     return (
         <div>
             <List>
-            <ListSubheader>Organisations</ListSubheader>
+                <ListSubheader>Organisations</ListSubheader>
                 {orgs.map(org => (
                     <ListItem button key={org.name} onClick={() => onSelect(org.name)}>
                         <ListItemText primary={org.name} />
+                        {org.is_admin && <ListItemIcon>
+                            <GroupsIcon onClick={(event) => handleCollaborateClick(event, org.name)} />
+                        </ListItemIcon>}
+                        <InfoOutlinedIcon onClick={(event) => handleInfoClick(event, org)}/>
                     </ListItem>
                 ))}
             </List>
@@ -97,27 +132,15 @@ function OrgsList({ onSelect }) {
             <IconButton onClick={() => setOpen(true)}>
                 <AddIcon />
             </IconButton>
-            <Modal
+            {!collaboratorOrg ? <CreateOrgModal
                 open={open}
-                onClose={() => setOpen(false)}
-            >
-                <ModalContent style={{padding: '10px'}}>
-                    <Typography variant="h6" component="h2" style={{paddingBottom: '5px'}}>
-                        New Org
-                    </Typography>
-                    <TextField 
-                        label="Org Name" 
-                        style={{paddingBottom: '5px'}}
-                        onChange={event=>setOrgName(event.target.value)}/>
-                    <Button onClick={() => {
-                        // Logic to create a new org
-                        createOrg(orgName, botName, botDescription);
-                        setOpen(false);
-                    }}>
-                        Create
-                    </Button>
-                </ModalContent>
-            </Modal>
+                setOpen={setOpen}
+                createOrg={createOrg} /> : <CreateCollaboratorModal
+                open={open}
+                setOpen={setOpen}
+                orgName={collaboratorOrg}
+                addCollaborator={addCollaborator} />}
+            {viewOrg && <OrgInfoModal org={viewOrg} open={open} setOpen={setOpen} />}
         </div>
     );
 }

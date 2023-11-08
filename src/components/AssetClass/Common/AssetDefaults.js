@@ -6,19 +6,6 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField
-                label="Asset Name"
-                value={asset.asset_name}
-                onChange={e => handleInputChange(e.target.value, 'asset_name')}
-                disabled={!isEditing}
-            />
-            <TextField
-                label="Display Description"
-                value={asset.asset_description}
-                rows={2}
-                onChange={e => handleInputChange(e.target.value, 'asset_description')}
-                disabled={!isEditing}
-            />
-            <TextField
                 label="Asset Tool Name"
                 value={asset.asset_tool_name}
                 onChange={e => handleInputChange(e.target.value, 'asset_tool_name')}
