@@ -1,7 +1,5 @@
 const fields = [
     "asset_class",
-    "asset_name",
-    "asset_description",
     "asset_tool_name",
     "asset_tool_short_description",
     "asset_tool_description",
