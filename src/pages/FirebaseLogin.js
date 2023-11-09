@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider, signOut } from 'firebase/auth';
+import { GoogleAuthProvider, EmailAuthProvider } from 'firebase/auth';
 import StyledFirebaseAuth from 'react-firebaseui/StyledFirebaseAuth';
 import { useAuth } from '../contexts/AuthContext'
 import { Container, Typography, Box, Paper } from '@mui/material';
