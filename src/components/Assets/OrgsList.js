@@ -2,47 +2,52 @@ import React, { useState, useEffect } from 'react';
 import { List, ListItem, ListItemText, Modal, IconButton, TextField, Button, ListSubheader, ListItemIcon } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import { useAuth } from "../../contexts/AuthContext";
-import assetsService from "../../services/assets.service";
 import orgsService from '../../services/orgs.service';
-import { Box, Typography } from '@mui/material';
-import { styled } from '@mui/system';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
 import GroupsIcon from '@mui/icons-material/Groups';
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined';
-import { Create, Info } from '@mui/icons-material';
 import CreateOrgModal from './OrgModals/CreateOrg';
 import CreateCollaboratorModal from './OrgModals/Collaborate';
 import OrgInfoModal from './OrgModals/Info';
+import { useNotify } from '../../contexts/NotifyContext';
 
 function OrgsList({ onSelect }) {
     const [orgs, setOrgs] = useState([]);
     const [open, setOpen] = useState(false);
     const [collaboratorOrg, setCollaboratorOrg] = useState(""); // TODO: Change this to false when done testing
     const [viewOrg, setViewOrg] = useState(null); // TODO: Change this to false when done testing
-    const [botName, setBotName] = useState("");
-    const [botDescription, setBotDescription] = useState("");
-    const [failed, setFailed] = useState(false);
-    const [failMessage, setFailMessage] = useState("");
     const [loading, setLoading] = useState(true);
     const { userInfo } = useAuth();
+    const { addMessage, addErrorMessage } = useNotify();
+
+    const handleOpen = (val) => {
+        if (!!val) {
+            setOpen(val);
+        } else {
+            setOpen(false);
+            setCollaboratorOrg("");
+            setViewOrg(null);
+        }
+    }
 
     const handleCollaborateClick = (event, orgName) => {
         event.stopPropagation();
         console.log("Collaborate clicked for org: ", orgName);
         setCollaboratorOrg(orgName);
-        setOpen(true);
+        handleOpen(true);
     }
 
     const handleInfoClick = (event, org) => {
         event.stopPropagation();
         console.log("Info clicked for org: ", org);
         setViewOrg(org);
-        setOpen(true);
+        handleOpen(true);
     }
 
     const addCollaborator = (orgName, collaboratorId) => {
         console.log("Adding collaborator: ", orgName, collaboratorId) //addCollaborator(orgName, collaboratorId)
+        addMessage("Adding collaborator...");
         setLoading(true);
         orgsService.addCollaborator(orgName, collaboratorId)
             .then((response) => {
@@ -51,29 +56,32 @@ function OrgsList({ onSelect }) {
             })
             .then(data => {
                 if (!data.success) {
-                    setFailMessage("Could not add collaborator. Backend returned success false");
-                    setFailed(true);
+                    addErrorMessage("Could not add collaborator. Backend returned success false");
+                } else {
+                    addMessage("Added collaborator successfully");
                 }
                 setLoading(false);
             })
             .catch(() => {
                 console.log("Could not add collaborator");
                 setLoading(false);
-                setFailMessage("Could not add collaborator");
-                setFailed(true);
+                addErrorMessage("Could not add collaborator");
             });
     }
 
     const createOrg = (orgId) => {
         console.log("Creating org: ", orgId)
+        addMessage("Creating organisation ...");
         setLoading(true);
         orgsService.createOrg(orgId)
             .then((response) => {
                 console.log("Response of create org: ", response.data);
+                addMessage("Created org successfully. Retrieving updated orgs list");
                 return orgsService.listOrgs();
             })
             .then(
                 response => {
+                    addMessage("Retrieved updated orgs list")
                     console.log("Result of list org", response.data);
                     return response.data
                 }
@@ -83,16 +91,16 @@ function OrgsList({ onSelect }) {
                 setLoading(false);
             })
             .catch(() => {
-                console.log("Could not create bot");
+                console.log("Could not create org");
                 setLoading(false);
-                setFailMessage("Could not create bot");
-                setFailed(true);
+                addErrorMessage("Could not create org");
             });
     }
 
     useEffect(() => {
         // fetch orgs using /list_orgs
         setLoading(true);
+        addMessage("Retrieving organisation list...");
         orgsService.listOrgs()
             .then(
                 response => {
@@ -102,14 +110,19 @@ function OrgsList({ onSelect }) {
             )
             .then(data => {
                 console.log("Orgs: ", data.result.orgs)
-                setOrgs(data.result.orgs)
+                if (data.success) {
+                    addMessage("Retrieved organisation list successfully");
+                    setOrgs(data.result.orgs)
+                } else {
+                    addErrorMessage("Could not list orgs. Backend returned success false");
+                    throw new Error("Could not list orgs. Backend returned success false");
+                }
                 setLoading(false);
             })
             .catch(() => {
                 console.log("Could not list orgs");
-                setFailMessage("Could not list orgs. Backend error");
+                addErrorMessage("Could not list orgs. Backend error");
                 setLoading(false);
-                setFailed(true);
             });
     }, [userInfo]);
 
@@ -120,27 +133,30 @@ function OrgsList({ onSelect }) {
                 {orgs.map(org => (
                     <ListItem button key={org.name} onClick={() => onSelect(org.name)}>
                         <ListItemText primary={org.name} />
-                        {org.is_admin && <ListItemIcon>
-                            <GroupsIcon onClick={(event) => handleCollaborateClick(event, org.name)} />
-                        </ListItemIcon>}
-                        <InfoOutlinedIcon onClick={(event) => handleInfoClick(event, org)}/>
+                        {org.is_admin && (
+                            <ListItemIcon>
+                                <GroupsIcon onClick={(event) => handleCollaborateClick(event, org.name)} />
+                            </ListItemIcon>
+                        )}
+                        <ListItemIcon>
+                            <InfoOutlinedIcon onClick={(event) => handleInfoClick(event, org)} />
+                        </ListItemIcon>
                     </ListItem>
                 ))}
             </List>
-            {failed && <TextOverlay message={failMessage} />}
             {loading && <LoadingOverlay message="Loading..." />}
-            <IconButton onClick={() => setOpen(true)}>
+            <IconButton onClick={() => handleOpen(true)}>
                 <AddIcon />
             </IconButton>
             {!collaboratorOrg ? <CreateOrgModal
                 open={open}
-                setOpen={setOpen}
+                setOpen={handleOpen}
                 createOrg={createOrg} /> : <CreateCollaboratorModal
                 open={open}
-                setOpen={setOpen}
+                setOpen={handleOpen}
                 orgName={collaboratorOrg}
                 addCollaborator={addCollaborator} />}
-            {viewOrg && <OrgInfoModal org={viewOrg} open={open} setOpen={setOpen} />}
+            {viewOrg && <OrgInfoModal org={viewOrg} open={open} setOpen={handleOpen} />}
         </div>
     );
 }

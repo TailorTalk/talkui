@@ -1,9 +1,10 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { firebaseConfig } from '../utils/constants';
 import { initializeApp } from 'firebase/app';
-import { getAuth, onAuthStateChanged, GoogleAuthProvider, EmailAuthProvider, signOut } from 'firebase/auth';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
 import { CircularProgress, Box, Typography } from '@mui/material';
 import loginService from '../services/login.service';
+import { useNotify } from './NotifyContext';
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -19,6 +20,7 @@ export const AuthProvider = ({ children }) => {
     const [isLoggedIn, setIsLoggedIn] = useState(false);
     const [userInfo, setUserInfo] = useState({})
     const [loading, setLoading] = React.useState(true);
+    const {addMessage, addErrorMessage} = useNotify();
     // const [isLoggedIn, setIsLoggedIn] = useState(true);
     // const [userInfo, setUserInfo] = useState({
     //     "name": "Akash Anand",
@@ -44,13 +46,16 @@ export const AuthProvider = ({ children }) => {
                         "email": user_data.email,
                         "picture": user_data.picture
                     });
+                    addMessage("Logged in successfully");
+                } else {
+                    addErrorMessage("Could not login. Try again");
                 }
             })
             .then(() => {
                 setLoading(false);
             })
             .catch(() => {
-
+                addErrorMessage("Login resulted in error. Try logging in again");
                 const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
                     user ? user.getIdToken(true).then((idToken) => {
                         loginService.login(idToken)
@@ -68,6 +73,7 @@ export const AuthProvider = ({ children }) => {
                                         "email": user_data.email,
                                         "picture": user_data.picture
                                     });
+                                    addMessage("Logged in successfully");
                                 }
                             })
                             .then(() => {

@@ -9,6 +9,7 @@ import { styled } from '@mui/system';
 import {unixToFormattedDate} from '../../utils/utils';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
+import { useNotify } from '../../contexts/NotifyContext';
 
 const ModalContent = styled(Box)({
     position: 'absolute',
@@ -29,15 +30,15 @@ function BotsList({ orgId, onSelect }) {
     const [botName, setBotName] = useState("");
     const [botDescription, setBotDescription] = useState("");
     const [loading, setLoading] = useState(true);
-    const [failed, setFailed] = useState(false);
-    const [failMessage, setFailMessage] = useState("");
     const { userInfo } = useAuth();
+    const { addMessage, addErrorMessage } = useNotify();
     console.log("Selected org: ", orgId)
 
     useEffect(() => {
         console.log("Org id in bots list: ", orgId)
         // fetch bots for the given org using /list_bots
         if (orgId) {
+            addMessage("Fetching bots...");
             console.log("Fetching bots for org: ", orgId)
             setLoading(true);
             assetsService.listBots(userInfo, orgId)
@@ -46,20 +47,25 @@ function BotsList({ orgId, onSelect }) {
                     return response.data
                 })
                 .then(data => {
-                    setBots(data.result.bots)
+                    if (data.success) {
+                        setBots(data.result.bots)
+                        addMessage("Fetched bots successfully");
+                    } else {
+                        addErrorMessage("Could not fetch bots. Backend returned success false");
+                    }
                     setLoading(false);
                 })
                 .catch(() => {
                     console.log("Could not fetch bots");
                     setLoading(false);
-                    setFailMessage("Could not fetch bots");
-                    setFailed(true);
+                    addErrorMessage("Could not fetch bots");
                 })
         }
     }, [orgId, userInfo]);
 
     const createBot = (botName, botDescription) => {
         console.log("Creating bot for org: ", orgId, botName, botDescription)
+        addMessage("Creating bot...");
         setLoading(true);
         assetsService.createBot(userInfo, orgId, botName, botDescription)
             .then((response) => {
@@ -71,23 +77,34 @@ function BotsList({ orgId, onSelect }) {
                 return response.data
             })
             .then(data => {
-                setBots(data.result.bots)
+                if (data.success) {
+                    setBots(data.result.bots)
+                    addMessage("Created bot successfully");
+                } else {
+                    addErrorMessage("Could not create bot. Backend returned success false");
+                }
                 setLoading(false)
             })
             .catch(() => {
                 console.log("Could not create bot");
                 setLoading(false);
-                setFailMessage("Could not create bot");
-                setFailed(true);
+                addErrorMessage("Could not create bot");
             });
     }
 
     const onDelete = (botId) => {
         console.log("Deleting bot: ", botId)
+        addMessage("Deleting bot...");
         assetsService.deleteBot(userInfo, orgId, botId)
             .then((response) => {
                 console.log("Response of delete bot: ", response.data);
-                return assetsService.listBots(userInfo, orgId);
+                if (response.data.success) {
+                    addMessage("Deleted bot successfully. Fetching updated bots list...");
+                    return assetsService.listBots(userInfo, orgId);
+                } else {
+                    addErrorMessage("Could not delete bot. Backend returned success false");
+                    throw new Error("Could not delete bot");
+                }
             })
             .then((bots) => {
                 console.log("Result of list bots", bots.data)
@@ -95,6 +112,7 @@ function BotsList({ orgId, onSelect }) {
             })
             .catch(() => {
                 console.log("Could not delete bot");
+                addErrorMessage("Could not delete bot");
             })
     }
 
@@ -111,7 +129,6 @@ function BotsList({ orgId, onSelect }) {
                     </ListItem>
                 ))}
             </List>
-            {failed && <TextOverlay message={failMessage} />}
             {loading && <LoadingOverlay message="Loading..." />}
             <IconButton onClick={() => setOpen(true)}>
                 <AddIcon />
