@@ -28,6 +28,13 @@ class AssetsService {
         });
     }
 
+    getSupportedModels() {
+        return http.get("/maestro_chat/asset/v1/get_supported_models", {
+            headers: {
+            }
+        });
+    }
+
     listBots(userInfo, orgId) {
         console.log("List bots userInfo: ", userInfo, " orgId: ", orgId)
         return http.get("/maestro_chat/asset/v1/list_bots", {
