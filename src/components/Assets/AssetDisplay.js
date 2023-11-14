@@ -12,6 +12,7 @@ import ChatIcon from '@material-ui/icons/Chat';
 import { useNavigate } from 'react-router-dom';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
+import { useNotify } from '../../contexts/NotifyContext';
 
 
 function AssetsDisplay({ orgId, bot }) {
@@ -23,6 +24,7 @@ function AssetsDisplay({ orgId, bot }) {
     const [selectedAsset, setSelectedAsset] = useState(null);
     const [assetUpdating, setAssetUpdating] = useState(false);  // to disable the submit button while the asset is being updated
     const { userInfo } = useAuth();
+    const { addMessage, addErrorMessage } = useNotify();
     const navigate = useNavigate();
     console.log("Selected bot: ", orgId, bot)
     console.log("Assets: ", assets)
@@ -71,13 +73,21 @@ function AssetsDisplay({ orgId, bot }) {
                 console.log("Result of list assets", response.data);
                 return response.data
             })
-            .then(data => setAssets(data.result.bot.assets))
+            .then(data => {
+                if (data.success) {
+                    setAssets(data.result.bot.assets)
+                } else {
+                    throw new Error("Could not update asset. Backend returned success false.")
+                }
+            })
             .then(() => {
+                addMessage("Asset updated successfully");
                 setAssetUpdating(false);
                 setOpen(false);
                 setSelectedAsset(null);
             })
             .catch(() => {
+                addErrorMessage("Could not update asset. Some error occurred.");
                 console.log("Could not update asset");
                 setAssetUpdating(false);
             });

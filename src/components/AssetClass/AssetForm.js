@@ -4,17 +4,20 @@ import SupportedTypeSelector from './SupportedTypes';
 import DefaultAsset from './DefaultAsset/DefaultAsset';
 import TextAsset from './TextAsset/TextAsset';
 import WebsiteAsset from './WebsiteAsset/WebsiteAsset';
+import CompleteFileAsset from './CompleteFileAsset/CompleteFileAsset';
 import Grid from '@mui/material/Grid';
 import validateTextAsset from './TextAsset/assetValidator'
 import validateWebsiteAsset from './WebsiteAsset/assetValidator'
+import validateCompleteFileAsset from './CompleteFileAsset/assetValidator'
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 
-const assetTypes = ["TEXT FILE", "WEBSITE", "DEFAULT", "NO CONTEXT"]
+const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "DEFAULT", "NO CONTEXT"]
 const assetClassToType = {
   "default": "DEFAULT",
   "text": "TEXT FILE",
   "website": "WEBSITE",
-  "no_context": "NO CONTEXT"
+  "no_context": "NO CONTEXT",
+  "complete_file": "COMPLETE FILE"
 }
 
 function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
@@ -60,6 +63,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         const temp = validateWebsiteAsset(assetDetails)
         setIsAssetValid(!temp)
       }
+      if (assetType === "COMPLETE FILE") {
+        const temp = validateCompleteFileAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
     }
     validate()
   }, [inputAsset, editMode, assetDetails, assetType]);
@@ -94,6 +101,14 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               bot={bot}/>}
           {assetType === "WEBSITE" &&
             <WebsiteAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>}
+          {assetType === "COMPLETE FILE" &&
+            <CompleteFileAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}
