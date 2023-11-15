@@ -62,7 +62,7 @@ const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
                         secondary={getStringFromUnix(session.time_created)}
                     />
                 </ListItem>)
-            }) : <div>Error in listing sessions</div>}
+            }) : <div></div>}
     </>)
 };
 

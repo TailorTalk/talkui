@@ -25,26 +25,34 @@ export const QueryStringProvider = ({ children }) => {
   const [queryDict, setQueryDict] = useState(parseQueryString(location.search));
   
   useEffect(() => {
-      console.log("Location search changed:", location.search);
+      console.log("akash Update Location search changed:", location.search);
       setQueryDict(parseQueryString(location.search));
   }, [location.search]);
   
-  const updateQueryKey = (key, value) => {
-    const newQueryDict = { ...queryDict, [key]: value };
+  const updateQueryKeys = (updatedDict) => {
+    console.log("akash Update query dict: ", updatedDict, queryDict)
+    const newQueryDict = {...queryDict};
+    for (const [key, value] of Object.entries(updatedDict)) {
+        newQueryDict[key] = value;
+    }
+    console.log("akash Update query dict: ", newQueryDict)
     setQueryDict(newQueryDict);
     const newQueryString = '?' + new URLSearchParams(newQueryDict).toString();
+    console.log("akash Update query dict: ", newQueryString)
     navigate(`${location.pathname}${newQueryString}`);
   };
 
-  const deleteQueryKey = (key) => {
+  const deleteQueryKeys = (keys) => {
     const newQueryDict = { ...queryDict };
-    delete newQueryDict[key];
+    for (const key of keys) {
+      delete newQueryDict[key];
+    }
     setQueryDict(newQueryDict);
     const newQueryString = '?' + new URLSearchParams(newQueryDict).toString();
     navigate(`${location.pathname}${newQueryString}`);
   };
   return (
-    <QueryStringContext.Provider value={{ queryDict, updateQueryKey, deleteQueryKey }}>
+    <QueryStringContext.Provider value={{ queryDict, updateQueryKeys, deleteQueryKeys }}>
       {children}
     </QueryStringContext.Provider>
   );

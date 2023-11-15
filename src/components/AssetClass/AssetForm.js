@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, Button } from '@mui/material';
+import { Box, Button, Typography } from '@mui/material';
 import SupportedTypeSelector from './SupportedTypes';
 import DefaultAsset from './DefaultAsset/DefaultAsset';
 import TextAsset from './TextAsset/TextAsset';
@@ -9,15 +9,18 @@ import Grid from '@mui/material/Grid';
 import validateTextAsset from './TextAsset/assetValidator'
 import validateWebsiteAsset from './WebsiteAsset/assetValidator'
 import validateCompleteFileAsset from './CompleteFileAsset/assetValidator'
+import validateGenericAsset from './GenericAsset/assetValidator'
 import NoContextAsset from './NoContextAsset/NoContextAsset';
+import GenericAsset from './GenericAsset/GenericAsset';
 
-const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "DEFAULT", "NO CONTEXT"]
+const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
 const assetClassToType = {
   "default": "DEFAULT",
   "text": "TEXT FILE",
   "website": "WEBSITE",
   "no_context": "NO CONTEXT",
-  "complete_file": "COMPLETE FILE"
+  "complete_file": "COMPLETE FILE",
+  "generic": "GENERIC ASSET"
 }
 
 function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
@@ -65,6 +68,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
       if (assetType === "COMPLETE FILE") {
         const temp = validateCompleteFileAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "GENERIC ASSET") {
+        const temp = validateGenericAsset(assetDetails)
         setIsAssetValid(!temp)
       }
     }
@@ -115,6 +122,15 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               isCreating={!editMode}
               orgId={orgId}
               bot={bot}/>}
+          {assetType === "GENERIC ASSET" &&
+            <GenericAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
         </Box>
       </Grid>
       <Grid item xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>

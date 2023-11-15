@@ -106,7 +106,7 @@ function AppBarComponent() {
             >
               {pages.map((page) => (
                 <MenuItem key={page} onClick={() => handleCloseNavMenu(page)}>
-                  <Typography textAlign="center">{page}</Typography>
+                  <Typography textAlign="center" style={{color: 'white'}}>{page}</Typography>
                 </MenuItem>
               ))}
             </Menu>
@@ -134,6 +134,7 @@ function AppBarComponent() {
               <Button
                 key={page}
                 onClick={() => handleCloseNavMenu(page)}
+                style={{color: 'white'}}
                 sx={{ my: 2, color: 'white', display: 'block' }}
               >
                 {page}
