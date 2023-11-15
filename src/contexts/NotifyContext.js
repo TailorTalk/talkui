@@ -58,7 +58,7 @@ export const NotifyProvider = ({ children }) => {
                 <CloseIcon fontSize="small" />
               </IconButton>
             }
-            {...(message.type !== 'error' ? { autoHideDuration: 6000 } : {autoHideDuration: null})}
+            {...(message.type !== 'error' ? { autoHideDuration: 2000 } : {autoHideDuration: null})}
             // Adjust the style to position each Snackbar below the previous one
             style={{ top: `${topOffset}px` }}
             anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
