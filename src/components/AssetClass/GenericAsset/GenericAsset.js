@@ -59,6 +59,7 @@ function GenericAsset({ asset, handleInputChange, isEditing, isCreating, orgId, 
                     handleInputChange={handleInputChange}
                     field_name={"function_schema"}
                     asset={asset} 
+                    isEditing={isCreating || isEditing}
                 />}
             {value === 'output' && 
                 <JsonInputComponent
@@ -66,6 +67,7 @@ function GenericAsset({ asset, handleInputChange, isEditing, isCreating, orgId, 
                     handleInputChange={handleInputChange}
                     field_name={"output_schema"}
                     asset={asset} 
+                    isEditing={isCreating || isEditing}
                 />}
         </Box>
     </>)

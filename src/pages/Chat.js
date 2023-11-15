@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Typography } from '@material-ui/core';
+import { Typography, Button, Box } from '@material-ui/core';
 
 import ChatService from "../services/chat.service";
 import { useAuth } from "../contexts/AuthContext";
@@ -9,6 +9,7 @@ import SessionList from "../components/SessionList";
 import StreamChatComponent from "../components/StreamChat";
 import { useQueryString } from '../contexts/QueryStringContext';
 import LoadingOverlay from "../components/Overlay/LoadingOverlay";
+import { useNotify } from '../contexts/NotifyContext';
 
 
 const Chat = () => {
@@ -16,13 +17,10 @@ const Chat = () => {
     const [currentChat, setCurrentChat] = useState(null);
     const [sessionId, setSessionId] = useState("");
     const [onGoingAPI, setOnGoingAPI] = useState(false);
-    const [message, setMessage] = useState("");
-    const [isError, setIsError] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [failed, setFailed] = useState(false);
-    const [failMessage, setFailMessage] = useState("");
 
     let { userInfo } = useAuth();
+    const { addMessage, addErrorMessage } = useNotify();
     const { queryDict } = useQueryString();
     if (userInfo && queryDict) {
         if (queryDict.email) {
@@ -39,8 +37,7 @@ const Chat = () => {
                 setLoading(false);
             })
             .catch(() => {
-                setMessage("Could not list sessions");
-                setIsError(true);
+                addErrorMessage("Could not list sessions");
                 setLoading(false);
             });
         }
@@ -56,8 +53,7 @@ const Chat = () => {
                 setSessionList(sessions.data)
             })
             .catch(() => {
-                setMessage("Could not delete the session!");
-                setIsError(true);
+                addErrorMessage("Could not delete the session!");
             })
     }
 
@@ -66,16 +62,21 @@ const Chat = () => {
         setOnGoingAPI(true);
     }
 
+    const onNewSession = () => {
+        console.log("akash", "onNewSession");
+        setSessionId("");
+        setCurrentChat(null);
+    }
+
     const onStreamDone = (thisSessionid) => {
-        console.log("akash", "onStreamDone", message, thisSessionid);
+        console.log("akash", "onStreamDone", thisSessionid);
         setOnGoingAPI(false);
         if (sessionId !== thisSessionid) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
                 setSessionList(response.data);
             })
             .catch(() => {
-                setMessage("Could not list sessions");
-                setIsError(true);
+                addErrorMessage("Could not list sessions");
             });
         }
         onSessionSelect({ session_id: thisSessionid })
@@ -89,36 +90,27 @@ const Chat = () => {
                 setSessionId(response.data.result.session_id);
             })
             .catch(() => {
-                setMessage("Could not select session!");
-                setIsError(true);
+                addErrorMessage("Could not select session!");
             })
     }
 
     return (
-        <div className="two-column-container">
+        <div style={{display: 'flex', height: '100vh'}}>
             {loading && <LoadingOverlay message="Loading..." />}
-            <div className="column left-column">
+            <Box style={{padding: '20px', flex: '0.2', backgroundColor: '#f5f5f5', maxHeight: '100vh', overflowY: 'auto'}}>
                 {/* Left column content goes here */}
-                <Typography variant="h6" className="list-header">
-                    SessionList
-                </Typography>
-                <ul className="list-group">
+                <>
+                {<Button variant='outlined' onClick={onNewSession}>New chat</Button>}
+                <ul style={{padding: '0', margin: '0'}}>
                     <SessionList
                         sessionList={sessionList}
                         onDelete={deleteSession}
                         onSessionClick={onSessionSelect} />
                 </ul>
-            </div>
-            <div className="column right-column">
+                </>
+            </Box>
+            <Box style={{padding: '20px', flex: '0.8', backgroundColor: '#e5e5e5'}}>
                 {/* Right column content goes here */}
-                {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
-                {/*<ChatComponent
-                    pastChatHistory={currentChat}
-                    onMessageSend={onMessageSend}
-                    sessionId={sessionId}
-                    ongoing={onGoingAPI} />
-                */}
-                <Typography variant="h6" className="list-header">{`Org: ${queryDict.orgId} Bot: ${queryDict.botName}`}</Typography>
                 <StreamChatComponent
                     pastChatHistory={currentChat}
                     onStart={onStreamStart}
@@ -128,9 +120,44 @@ const Chat = () => {
                     userInfo={userInfo}
                     orgId={queryDict.orgId}
                     botId={queryDict.botId} />
-                <Typography variant="subtitle2" className={`upload-message ${isError ? "error" : ""}`}>
-                    {message}
+            </Box>
+        </div>
+    )
+
+    return (
+        <div style={{display: 'flex', height: '100vh'}}>
+            {loading && <LoadingOverlay message="Loading..." />}
+            <div style={{padding: '20px', flex: '0.2', backgroundColor: '#f5f5f5'}}>
+                {/* Left column content goes here */}
+                <Typography variant="h6" style={{marginTop: '10px'}}>
+                    SessionList
                 </Typography>
+                <ul style={{padding: '0', margin: '0'}}>
+                    <SessionList
+                        sessionList={sessionList}
+                        onDelete={deleteSession}
+                        onSessionClick={onSessionSelect} />
+                </ul>
+            </div>
+            <div style={{padding: '20px', flex: '0.8', backgroundColor: '#e5e5e5'}}>
+                {/* Right column content goes here */}
+                {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
+                {/*<ChatComponent
+                    pastChatHistory={currentChat}
+                    onMessageSend={onMessageSend}
+                    sessionId={sessionId}
+                    ongoing={onGoingAPI} />
+                */}
+                <Typography variant="h6" style={{marginTop: '10px'}}>{`Org: ${queryDict.orgId} Bot: ${queryDict.botName}`}</Typography>
+                <StreamChatComponent
+                    pastChatHistory={currentChat}
+                    onStart={onStreamStart}
+                    onDone={onStreamDone}
+                    sessionId={sessionId}
+                    ongoing={onGoingAPI}
+                    userInfo={userInfo}
+                    orgId={queryDict.orgId}
+                    botId={queryDict.botId} />
             </div>
         </div>
     );

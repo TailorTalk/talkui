@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { TextField, Button, Box } from '@mui/material';
 import { useNotify } from '../../../contexts/NotifyContext';
 
-function JsonInputComponent({ hintJson, handleInputChange, field_name, asset }) {
+function JsonInputComponent({ hintJson, handleInputChange, field_name, asset, isEditing }) {
     const [jsonInput, setJsonInput] = useState(JSON.stringify(hintJson, null, 2));
     const [isEditable, setIsEditable] = useState(true);
     const { addErrorMessage } = useNotify();
@@ -50,6 +50,7 @@ function JsonInputComponent({ hintJson, handleInputChange, field_name, asset }) 
                     variant="contained"
                     color="primary"
                     onClick={handleSubmit}
+                    disabled={!isEditing}
                     sx={{ marginTop: 2 }}
                 >
                     Submit
@@ -59,6 +60,7 @@ function JsonInputComponent({ hintJson, handleInputChange, field_name, asset }) 
                     variant="contained"
                     color="secondary"
                     onClick={handleEdit}
+                    disabled={!isEditing}
                     sx={{ marginTop: 2 }}
                 >
                     Edit
