@@ -11,11 +11,21 @@ const input_hint = {
             "type": "string",
             "description": "The city and state, e.g. San Francisco, CA",
         },
-        "unit": {"type": "string", "enum": ["celsius", "fahrenheit"]},
+        "unit": { "type": "string", "enum": ["celsius", "fahrenheit"] },
     },
-    "required": ["location"],
+    "required": ["location", "unit"],
 }
-const output_hint = {"temperature": "The temperature of the provided city in the provided unit"}
+const output_hint = {
+    "type": "object",
+    "properties": {
+        "temperature_value": {
+            "description": "The temperature of the city",
+            "type": "string"
+        },
+        "unit": { "enum": ["celsius", "fahrenheit"], "type": "string" }
+    },
+    "required": ["temperature_value","unit"]
+}
 
 function GenericAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
     console.log("Asset in generic asset: ", asset)
@@ -42,31 +52,31 @@ function GenericAsset({ asset, handleInputChange, isEditing, isCreating, orgId, 
                 <Tab value="input" label="Input" />
                 <Tab value="output" label="Output" />
             </Tabs>
-            {value === 'defaults' && 
-            <AssetDefaults 
-                asset={asset} 
-                handleInputChange={handleInputChange}
-                isEditing={isCreating || isEditing}/>}
-            {value === 'model_details' && <Box>
-                <GenericAssetModelDetails 
-                    asset={asset} 
+            {value === 'defaults' &&
+                <AssetDefaults
+                    asset={asset}
                     handleInputChange={handleInputChange}
-                    isEditing={isCreating || isEditing}/>
-                </Box>}
-            {value === 'input' && 
+                    isEditing={isCreating || isEditing} />}
+            {value === 'model_details' && <Box>
+                <GenericAssetModelDetails
+                    asset={asset}
+                    handleInputChange={handleInputChange}
+                    isEditing={isCreating || isEditing} />
+            </Box>}
+            {value === 'input' &&
                 <JsonInputComponent
                     hintJson={input_hint}
                     handleInputChange={handleInputChange}
                     field_name={"function_schema"}
-                    asset={asset} 
+                    asset={asset}
                     isEditing={isCreating || isEditing}
                 />}
-            {value === 'output' && 
+            {value === 'output' &&
                 <JsonInputComponent
                     hintJson={output_hint}
                     handleInputChange={handleInputChange}
                     field_name={"output_schema"}
-                    asset={asset} 
+                    asset={asset}
                     isEditing={isCreating || isEditing}
                 />}
         </Box>
