@@ -7,6 +7,7 @@ import { useAuth } from "../contexts/AuthContext";
 import "./Files.css";
 import SessionList from "../components/SessionList";
 import StreamChatComponent from "../components/StreamChat";
+import ChatComponent from "../components/Chat";
 import { useQueryString } from '../contexts/QueryStringContext';
 import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 import { useNotify } from '../contexts/NotifyContext';
@@ -18,6 +19,7 @@ const Chat = () => {
     const [sessionId, setSessionId] = useState("");
     const [onGoingAPI, setOnGoingAPI] = useState(false);
     const [loading, setLoading] = useState(true);
+    const [streamMode, setStreamMode] = useState(true);
 
     let { userInfo } = useAuth();
     const { addMessage, addErrorMessage } = useNotify();
@@ -40,6 +42,10 @@ const Chat = () => {
                 addErrorMessage("Could not list sessions");
                 setLoading(false);
             });
+        }
+        if (queryDict.stream) {
+            addMessage("Stream mode: " + queryDict.stream)
+            setStreamMode(!(queryDict.stream === "false"));
         }
     }, [userInfo, queryDict]);
 
@@ -89,6 +95,29 @@ const Chat = () => {
         onSessionSelect({ session_id: thisSessionid })
     }
 
+    const onMessageSend = (message, thisSessionid) => {
+        console.log("akash", "onMessageSend", message, thisSessionid);
+        setOnGoingAPI(true);
+        ChatService.chat(userInfo, thisSessionid, message, queryDict.orgId, queryDict.botId)
+            .then((response) => {
+                setSessionId(response.data.result.session_id);
+                onSessionSelect({ session_id: response.data.result.session_id })
+                if (thisSessionid === "") {
+                    ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
+                        setSessionList(response.data);
+                    })
+                    .catch(() => {
+                        addErrorMessage("Could not list sessions");
+                    });
+                }
+                setOnGoingAPI(false);
+            })
+            .catch(() => {
+                addErrorMessage("Could not execute chat!");
+                setOnGoingAPI(false);
+            })
+    }
+
     const onSessionSelect = (session) => {
         ChatService.getSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
@@ -124,13 +153,7 @@ const Chat = () => {
             <Box style={{padding: '20px', flex: '0.8', backgroundColor: '#e5e5e5'}}>
                 {/* Right column content goes here */}
                 {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
-                {/*<ChatComponent
-                    pastChatHistory={currentChat}
-                    onMessageSend={onMessageSend}
-                    sessionId={sessionId}
-                    ongoing={onGoingAPI} />
-                */}
-                <StreamChatComponent
+                {streamMode?<StreamChatComponent
                     pastChatHistory={currentChat}
                     onStart={onStreamStart}
                     onDone={onStreamDone}
@@ -138,7 +161,13 @@ const Chat = () => {
                     ongoing={onGoingAPI}
                     userInfo={userInfo}
                     orgId={queryDict.orgId}
-                    botId={queryDict.botId} />
+                    botId={queryDict.botId} 
+                    />:<ChatComponent
+                        pastChatHistory={currentChat}
+                        onMessageSend={onMessageSend}
+                        sessionId={sessionId}
+                        ongoing={onGoingAPI} />
+                }
             </Box>
         </div>
     )

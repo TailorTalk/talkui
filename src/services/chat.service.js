@@ -3,7 +3,7 @@ import { createHeader } from "./http-common";
 
 class ChatService {
     chat(userInfo, sessionId, message, orgId, botId) {
-        console.log("akash", "API call for chat", sessionId, message);
+        console.log("akash", "API call for chat", sessionId, message, orgId, botId);
         sessionId = sessionId ? sessionId : "";
         return http.post("/maestro_chat/v1/chat", 
             {"query": message, "session_id": sessionId}, 
