@@ -1,6 +1,9 @@
 
 import React, { useState, useEffect } from "react";
 import { Typography, Button, Box } from '@material-ui/core';
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 
 import ChatService from "../services/chat.service";
 import { useAuth } from "../contexts/AuthContext";
@@ -13,7 +16,7 @@ import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 import { useNotify } from '../contexts/NotifyContext';
 
 
-const Chat = () => {
+const Chat = ({ hideSessions }) => {
     const [sessionList, setSessionList] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [sessionId, setSessionId] = useState("");
@@ -33,21 +36,22 @@ const Chat = () => {
 
     useEffect(() => {
         setLoading(true);
-        if (queryDict.botId) {
+        if (queryDict.botId && queryDict.orgId) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
                 setSessionList(response.data);
                 setLoading(false);
             })
-            .catch(() => {
-                addErrorMessage("Could not list sessions");
-                setLoading(false);
-            });
-        }
-        if (queryDict.stream) {
-            addMessage("Stream mode: " + queryDict.stream)
-            setStreamMode(!(queryDict.stream === "false"));
+                .catch(() => {
+                    addErrorMessage("Could not list sessions");
+                    setLoading(false);
+                });
         }
     }, [userInfo, queryDict]);
+
+    const onStreamModeChange = (event) => {
+        addMessage("Stream mode changed to " + event.target.checked);
+        setStreamMode(event.target.checked);
+    }
 
     const deleteSession = (session) => {
         addMessage("Deleting session...");
@@ -88,9 +92,9 @@ const Chat = () => {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
                 setSessionList(response.data);
             })
-            .catch(() => {
-                addErrorMessage("Could not list sessions");
-            });
+                .catch(() => {
+                    addErrorMessage("Could not list sessions");
+                });
         }
         onSessionSelect({ session_id: thisSessionid })
     }
@@ -106,9 +110,9 @@ const Chat = () => {
                     ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
                         setSessionList(response.data);
                     })
-                    .catch(() => {
-                        addErrorMessage("Could not list sessions");
-                    });
+                        .catch(() => {
+                            addErrorMessage("Could not list sessions");
+                        });
                 }
                 setOnGoingAPI(false);
             })
@@ -136,24 +140,46 @@ const Chat = () => {
     }
 
     return (
-        <div style={{display: 'flex', height: '100vh'}}>
+        <div style={{ display: 'flex', height: '100vh' }}>
             {loading && <LoadingOverlay message="Loading..." />}
-            <Box style={{padding: '20px', flex: '0.2', backgroundColor: '#f5f5f5', maxHeight: '100vh', overflowY: 'auto'}}>
+            {!hideSessions && <Box style={{ padding: '20px', flex: '0.2', backgroundColor: '#f5f5f5', maxHeight: '100vh', overflowY: 'auto' }}>
                 {/* Left column content goes here */}
                 <>
-                {<Button variant='outlined' onClick={onNewSession}>New chat</Button>}
-                {sessionList && <ul style={{padding: '0', margin: '0'}}>
-                    <SessionList
-                        sessionList={sessionList}
-                        onDelete={deleteSession}
-                        onSessionClick={onSessionSelect} />
-                </ul>}
+                    <Box style={{
+                        display: 'flex', // This aligns children left to right
+                        flexDirection: 'row', // This ensures the Button and Checkbox are in a line
+                        marginTop: '2px',
+                        marginBottom: '8px', // Adjust as needed for spacing between this row and the ChatComponent
+                    }}><Button variant='outlined' onClick={onNewSession}>New chat</Button>
+                        <FormGroup style={{ marginLeft: '20px', marginTop: '10px' }}>
+                            <FormControlLabel control={<Checkbox checked={streamMode} onChange={onStreamModeChange} />} label="Streaming" />
+                        </FormGroup></Box>
+                    {sessionList && <ul style={{ padding: '0', margin: '0' }}>
+                        <SessionList
+                            sessionList={sessionList}
+                            onDelete={deleteSession}
+                            onSessionClick={onSessionSelect} />
+                    </ul>}
                 </>
-            </Box>
-            <Box style={{padding: '20px', flex: '0.8', backgroundColor: '#e5e5e5'}}>
+            </Box>}
+            <Box style={{
+                paddingLeft: '2px', flex: hideSessions ? '1' : '0.8',
+                backgroundColor: '#e5e5e5',
+                display: 'flex',
+                flexDirection: 'column'
+            }}>
                 {/* Right column content goes here */}
                 {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
-                {streamMode?<StreamChatComponent
+                {hideSessions && <Box style={{
+                    display: 'flex', // This aligns children left to right
+                    flexDirection: 'row', // This ensures the Button and Checkbox are in a line
+                    marginTop: '2px',
+                    marginBottom: '8px', // Adjust as needed for spacing between this row and the ChatComponent
+                }}><Button variant='outlined' onClick={onNewSession}>New chat</Button>
+                    <FormGroup style={{ marginLeft: '20px', marginTop: '10px' }}>
+                        <FormControlLabel control={<Checkbox checked={streamMode} onChange={onStreamModeChange} />} label="Streaming" />
+                    </FormGroup></Box>}
+                {streamMode ? <StreamChatComponent
                     pastChatHistory={currentChat}
                     onStart={onStreamStart}
                     onDone={onStreamDone}
@@ -161,12 +187,12 @@ const Chat = () => {
                     ongoing={onGoingAPI}
                     userInfo={userInfo}
                     orgId={queryDict.orgId}
-                    botId={queryDict.botId} 
-                    />:<ChatComponent
-                        pastChatHistory={currentChat}
-                        onMessageSend={onMessageSend}
-                        sessionId={sessionId}
-                        ongoing={onGoingAPI} />
+                    botId={queryDict.botId}
+                /> : <ChatComponent
+                    pastChatHistory={currentChat}
+                    onMessageSend={onMessageSend}
+                    sessionId={sessionId}
+                    ongoing={onGoingAPI} />
                 }
             </Box>
         </div>
