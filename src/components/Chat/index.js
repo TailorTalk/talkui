@@ -5,6 +5,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import ReactMarkdown from 'react-markdown';
 
 function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
     const [inputMessage, setInputMessage] = useState('');
@@ -53,9 +54,12 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
                                     {msg.role==="user"?<PersonIcon />:<MemoryIcon/>}
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText
+                            {/*<ListItemText
                                 primary={msg.content}
-                            />
+                    />*/}
+                        <div style={{textAlign: 'left', fontFamily: 'Arial, sans-serif'}}>
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            </div>
                         </ListItem>
                     ))}
                     <div ref={chatEndRef}></div>

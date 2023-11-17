@@ -52,7 +52,7 @@ function AssetsPage() {
             {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </Grid>
-        <Grid item xs={isCollapsed?6.8:7.8} >
+        <Grid item xs={isCollapsed?6.8:7.8} style={{overflowY: 'auto', maxHeight: '100vh', paddingLeft: '10px'}}>
           {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} />}
         </Grid>
         <Grid item xs={isCollapsed?5:false} style={{paddingLeft: '10px'}}>
