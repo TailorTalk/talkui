@@ -20,7 +20,7 @@ function getStringFromUnix(unixTimestamp) {
 
 
 const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
-    console.log("akash", "session list", sessionList);
+    // console.log("akash", "session list", sessionList);
     let sortedSessions = [];
     if (sessionList && sessionList.success) {
         sortedSessions = sessionList.result.sort(
@@ -29,13 +29,13 @@ const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
     return (<>
         {sessionList && sessionList.success ?
             sortedSessions.map((session, index) => {
-                console.log("akash", session, index);
+                // console.log("akash", session, index);
                 return (<ListItem
                     style={{ cursor: 'pointer' }}
                     onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f5f5f5'}
                     onMouseLeave={(e) => e.currentTarget.style.backgroundColor = ''}
                     onClick={() => {
-                        console.log("ListItem clicked for session:", session);
+                        // console.log("ListItem clicked for session:", session);
                         onSessionClick(session);
                     }}
                     secondaryAction={
@@ -44,7 +44,7 @@ const SessionList = ({ sessionList, onDelete, onSessionClick }) => {
                             aria-label="delete"
                             onClick={(e) => {
                                 e.stopPropagation(); // This will prevent the ListItem's onClick from being triggered when the IconButton is clicked
-                                console.log("Delete icon clicked!");
+                                // console.log("Delete icon clicked!");
                                 onDelete(session); // Handle delete logic here
                             }}>
                             <DeleteIcon />

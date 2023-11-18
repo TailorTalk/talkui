@@ -7,9 +7,9 @@ import OutputWidget from './OutputWidget';
 
 
 function TextAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
-    console.log("Asset in text asset: ", asset)
-    console.log("Is editing in text asset: ", isEditing)
-    console.log("Is creating in text asset: ", isCreating)
+    // console.log("Asset in text asset: ", asset)
+    // console.log("Is editing in text asset: ", isEditing)
+    // console.log("Is creating in text asset: ", isCreating)
     const [value, setValue] = React.useState('defaults');
 
     const handleChange = (event, newValue) => {

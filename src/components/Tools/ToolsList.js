@@ -30,7 +30,7 @@ function ExpandableList({ data, handleToolChange }) {
   };
 
   const handleSubmit = (index) => {
-    console.log("akash", "toolDetails", tools[index])
+    // console.log("akash", "toolDetails", tools[index])
     handleToolChange(tools[index])
   };
 

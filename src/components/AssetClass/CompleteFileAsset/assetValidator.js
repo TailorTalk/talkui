@@ -7,7 +7,7 @@ const fields = [
 ]
 
 function validateCompleteFileAsset(asset) {
-    console.log("Asset in validateTextAsset: ", asset)
+    // console.log("Asset in validateTextAsset: ", asset)
     let errors = ""
     fields.forEach((field) => {
         if (!asset[field]) {

@@ -18,7 +18,7 @@ const FileList = ({ fileInfos, onDelete }) => {
   return (<>
     {fileInfos && fileInfos.success ?
       fileInfos.result.files.map((file, index) => {
-        console.log("akash", file, index);
+        // console.log("akash", file, index);
         return (<ListItem
           secondaryAction={
             <IconButton edge="end" aria-label="delete">

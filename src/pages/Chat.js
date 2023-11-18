@@ -32,7 +32,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
             userInfo.email = queryDict.email;
         }
     }
-    console.log("Query dict values in Chat", queryDict)
+    // console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
         setStreamMode(!isAnAgent);
@@ -58,7 +58,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
         addMessage("Deleting session...");
         ChatService.deleteSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
-                console.log("Response of delete: ", response.data);
+                // console.log("Response of delete: ", response.data);
                 if (response.data.success) {
                     addMessage("Session deleted successfully");
                     return ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId);
@@ -75,19 +75,19 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     }
 
     const onStreamStart = () => {
-        console.log("akash", "onStreamStart");
+        // console.log("akash", "onStreamStart");
         setOnGoingAPI(true);
     }
 
     const onNewSession = () => {
-        console.log("akash", "onNewSession");
+        // console.log("akash", "onNewSession");
         setSessionId("");
         setCurrentChat(null);
         addMessage("New session started");
     }
 
     const onStreamDone = (thisSessionid) => {
-        console.log("akash", "onStreamDone", thisSessionid);
+        // console.log("akash", "onStreamDone", thisSessionid);
         setOnGoingAPI(false);
         if (sessionId !== thisSessionid) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
@@ -101,7 +101,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     }
 
     const onMessageSend = (message, thisSessionid) => {
-        console.log("akash", "onMessageSend", message, thisSessionid);
+        // console.log("akash", "onMessageSend", message, thisSessionid);
         setOnGoingAPI(true);
         ChatService.chat(userInfo, thisSessionid, message, queryDict.orgId, queryDict.botId)
             .then((response) => {
@@ -126,7 +126,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     const onSessionSelect = (session) => {
         ChatService.getSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
-                console.log("Response of get session: ", response.data);
+                // console.log("Response of get session: ", response.data);
                 setCurrentChat(response.data)
                 if (response.data.success) {
                     setSessionId(response.data.result.session_id);

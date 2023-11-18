@@ -30,11 +30,11 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const [assetDetails, setAssetDetails] = useState(inputAsset); // This will be used to store the asset details for the asset type selected
   const [isAssetValid, setIsAssetValid] = useState(false); // This will be used to store the asset details for the asset type selected
   
-  console.log("Asset in asset form: ", assetDetails)
-  console.log("Is editing in asset form: ", isEditing)
+  // console.log("Asset in asset form: ", assetDetails)
+  // console.log("Is editing in asset form: ", isEditing)
 
   const onAssetTypeSelected = (assetType) => {
-    console.log("Selected asset type: ", assetType)
+    // console.log("Selected asset type: ", assetType)
     setAssetType(assetType);
     setAssetDetails(prevDetails => ({
       ...prevDetails,
@@ -44,7 +44,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   }
 
   const handleInputChange = (value, key) => {
-    console.log("Input changed: ", value, key)
+    // console.log("Input changed: ", value, key)
     setAssetDetails(prevDetails => ({
       ...prevDetails,
       [key]: value,

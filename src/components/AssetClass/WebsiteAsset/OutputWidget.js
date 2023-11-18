@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 
 function OutputWidget({ asset, handleInputChange, isEditing }) {
-    console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
+    // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
 
     useEffect(() => {
         if (!asset.output_short_description) {

@@ -26,7 +26,7 @@ class UploadFilesService {
     }
 
     deleteFile(userInfo, file) {
-        console.log("akash", "API call for delete", file);
+        // console.log("akash", "API call for delete", file);
         return http.post("/maestro_chat/v1/file/delete", 
         {
             "file": file.name
@@ -41,7 +41,7 @@ class UploadFilesService {
     }
 
     triggerDatagen(userInfo) {
-        console.log("akash", "Triggering datagen");
+        // console.log("akash", "Triggering datagen");
         return http.post("/maestro_chat/v1/datagen", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
@@ -51,7 +51,7 @@ class UploadFilesService {
     }
 
     getSystemMessage(userInfo) {
-        console.log("akash", "Getting system message");
+        // console.log("akash", "Getting system message");
         return http.get("/maestro_chat/v1/system_message/get", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
@@ -61,7 +61,7 @@ class UploadFilesService {
     }
 
     setSystemMessage(userInfo, message) {
-        console.log("akash", "Setting system message", message);
+        // console.log("akash", "Setting system message", message);
         return http.post("/maestro_chat/v1/system_message/set", {
             "system_message": message
         },
@@ -74,7 +74,7 @@ class UploadFilesService {
     }
 
     listTools(userInfo) {
-        console.log("akash", "Getting tools");
+        // console.log("akash", "Getting tools");
         return http.get("/maestro_chat/v1/tools/list", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
@@ -84,7 +84,7 @@ class UploadFilesService {
     }
 
     setTool(userInfo, tool) {
-        console.log("akash", "Setting tool", tool);
+        // console.log("akash", "Setting tool", tool);
         return http.post("/maestro_chat/v1/tool/set", tool,
         {
             headers: {

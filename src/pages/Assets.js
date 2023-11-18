@@ -14,10 +14,10 @@ function AssetsPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
-  console.log("Selected bot in the main page: ", selectedBot)
+  // console.log("Selected bot in the main page: ", selectedBot)
 
   const onOrgSelect = (orgId) => {
-    console.log("Org selected: ", orgId);
+    // console.log("Org selected: ", orgId);
     setSelectedOrgId(orgId);
     setSelectedBot(null);
     deleteQueryKeys(["orgId", "botId"]);
@@ -42,8 +42,8 @@ function AssetsPage() {
     }
   }
 
-  console.log("Selected bot in assets page: ", selectedBot)
-  console.log("Default asset in Assets page: ", botDefaultAsset)
+  // console.log("Selected bot in assets page: ", selectedBot)
+  // console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
     <Container style={{ margin: "0px", height: '100vh' }} maxWidth="false">

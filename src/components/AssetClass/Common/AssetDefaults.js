@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, TextField } from '@mui/material';
 
 function AssetDefaults({ asset, handleInputChange, isEditing }) {
-    console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
+    // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField

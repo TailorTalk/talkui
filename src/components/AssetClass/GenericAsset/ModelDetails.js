@@ -9,7 +9,7 @@ function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
     const { supportedModels } = useGlobals();
     
-    console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
+    // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField

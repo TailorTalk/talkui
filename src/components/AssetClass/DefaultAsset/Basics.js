@@ -8,8 +8,8 @@ import { useGlobals } from '../../../contexts/GlobalsContext';
 function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
     const { supportedModels } = useGlobals();
-    console.log("Asset in default asset: ", asset)
-    console.log("Is editing in default asset: ", isEditing)
+    // console.log("Asset in default asset: ", asset)
+    // console.log("Is editing in default asset: ", isEditing)
 
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">

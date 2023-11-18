@@ -33,25 +33,25 @@ function OrgsList({ onSelect }) {
 
     const handleCollaborateClick = (event, orgName) => {
         event.stopPropagation();
-        console.log("Collaborate clicked for org: ", orgName);
+        // console.log("Collaborate clicked for org: ", orgName);
         setCollaboratorOrg(orgName);
         handleOpen(true);
     }
 
     const handleInfoClick = (event, org) => {
         event.stopPropagation();
-        console.log("Info clicked for org: ", org);
+        // console.log("Info clicked for org: ", org);
         setViewOrg(org);
         handleOpen(true);
     }
 
     const addCollaborator = (orgName, collaboratorId) => {
-        console.log("Adding collaborator: ", orgName, collaboratorId) //addCollaborator(orgName, collaboratorId)
+        // console.log("Adding collaborator: ", orgName, collaboratorId) //addCollaborator(orgName, collaboratorId)
         addMessage("Adding collaborator...");
         setLoading(true);
         orgsService.addCollaborator(orgName, collaboratorId)
             .then((response) => {
-                console.log("Response of create org: ", response.data);
+                // console.log("Response of create org: ", response.data);
                 return response.data
             })
             .then(data => {
@@ -63,26 +63,26 @@ function OrgsList({ onSelect }) {
                 setLoading(false);
             })
             .catch(() => {
-                console.log("Could not add collaborator");
+                // console.log("Could not add collaborator");
                 setLoading(false);
                 addErrorMessage("Could not add collaborator");
             });
     }
 
     const createOrg = (orgId) => {
-        console.log("Creating org: ", orgId)
+        // console.log("Creating org: ", orgId)
         addMessage("Creating organisation ...");
         setLoading(true);
         orgsService.createOrg(orgId)
             .then((response) => {
-                console.log("Response of create org: ", response.data);
+                // console.log("Response of create org: ", response.data);
                 addMessage("Created org successfully. Retrieving updated orgs list");
                 return orgsService.listOrgs();
             })
             .then(
                 response => {
                     addMessage("Retrieved updated orgs list")
-                    console.log("Result of list org", response.data);
+                    // console.log("Result of list org", response.data);
                     return response.data
                 }
             )
@@ -91,7 +91,7 @@ function OrgsList({ onSelect }) {
                 setLoading(false);
             })
             .catch(() => {
-                console.log("Could not create org");
+                // console.log("Could not create org");
                 setLoading(false);
                 addErrorMessage("Could not create org");
             });
@@ -104,12 +104,12 @@ function OrgsList({ onSelect }) {
         orgsService.listOrgs()
             .then(
                 response => {
-                    console.log("Result of list org", response.data);
+                    // console.log("Result of list org", response.data);
                     return response.data
                 }
             )
             .then(data => {
-                console.log("Orgs: ", data.result.orgs)
+                // console.log("Orgs: ", data.result.orgs)
                 if (data.success) {
                     addMessage("Retrieved organisation list successfully");
                     setOrgs(data.result.orgs)
@@ -120,7 +120,7 @@ function OrgsList({ onSelect }) {
                 setLoading(false);
             })
             .catch(() => {
-                console.log("Could not list orgs");
+                // console.log("Could not list orgs");
                 addErrorMessage("Could not list orgs. Backend error");
                 setLoading(false);
             });

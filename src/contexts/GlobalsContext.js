@@ -15,26 +15,43 @@ export const GlobalsProvider = ({children}) => {
     const getAndSetSupportedModels = () => {
         assetsService.getSupportedModels()
         .then((response) => {
-            console.log("Supported models: ", response.data)
+            // console.log("Supported models: ", response.data)
             return response.data
         })
         .then((data) => {
             if (data.success) {
                 setSupportedModels(data.result)
-                console.log("Supported models set successfully")
+                // console.log("Supported models set successfully")
             } else {
-                console.log("Error in getting supported models: ", data)
+                // console.log("Error in getting supported models: ", data)
                 throw new Error("Error in getting supported models")
             }
         })
         .catch((error) => {
-            console.log("Error in getting supported models: ", error)
+            // console.log("Error in getting supported models: ", error)
             alert("Error in getting supported models: " + error.message)
         })
     }
 
     const getAndSetSupportedStartegies = () => {
-        setSupportedStrategies(["plan_execute", "reason_execute"])
+        assetsService.getExecutionStrategies()
+        .then((response) => {
+            // console.log("Execution strategies: ", response.data)
+            return response.data
+        })
+        .then((data) => {
+            if (data.success) {
+                setSupportedStrategies(data.result)
+                // console.log("Supported strategies set successfully")
+            } else {
+                // console.log("Error in getting supported strategies: ", data)
+                throw new Error("Error in getting supported strategies")
+            }
+        })
+        .catch((error) => {
+            // console.log("Error in getting supported strategies: ", error)
+            alert("Error in getting supported strategies: " + error.message)
+        })
     }
 
     useEffect(() => {

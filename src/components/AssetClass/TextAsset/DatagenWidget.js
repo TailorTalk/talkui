@@ -12,7 +12,7 @@ function DatagenWidget({ asset, handleInputChange, isEditing }) {
         }
     }, [asset, handleInputChange])
     
-    console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
+    // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField

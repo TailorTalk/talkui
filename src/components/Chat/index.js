@@ -17,7 +17,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
     };
 
     useEffect(()=>{
-        console.log("akash", "I received new history", pastChatHistory)
+        // console.log("akash", "I received new history", pastChatHistory)
         setChatHistory(pastChatHistory);
         scrollToBottom()
     }, [pastChatHistory]);
@@ -28,7 +28,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputMessage.trim()) {
-            console.log("akash", "Message after enter", inputMessage, chatHistory);
+            // console.log("akash", "Message after enter", inputMessage, chatHistory);
             if (chatHistory) {
                 const chatHistoryCopy = {...chatHistory};
                 chatHistoryCopy.result.history.push({role: "user", content: inputMessage});

@@ -2,8 +2,8 @@ import React from 'react';
 import { Box, TextField } from '@mui/material';
 
 function NoContextAsset({ asset, handleInputChange, isEditing }) {
-    console.log("Asset in default asset: ", asset)
-    console.log("Is editing in default asset: ", isEditing)
+    // console.log("Asset in default asset: ", asset)
+    // console.log("Is editing in default asset: ", isEditing)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField

@@ -10,7 +10,7 @@ import AppBarComponent from './components/AppBar/AppBarComponent';
 
 function App() {
   const { isLoggedIn } = useAuth();
-  console.log("akash", "is logged in", isLoggedIn)
+  // console.log("akash", "is logged in", isLoggedIn)
 
   return (
     <Router>

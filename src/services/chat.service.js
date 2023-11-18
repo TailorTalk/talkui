@@ -3,7 +3,7 @@ import { createHeader } from "./http-common";
 
 class ChatService {
     chat(userInfo, sessionId, message, orgId, botId) {
-        console.log("akash", "API call for chat", sessionId, message, orgId, botId);
+        // console.log("akash", "API call for chat", sessionId, message, orgId, botId);
         sessionId = sessionId ? sessionId : "";
         return http.post("/maestro_chat/v1/chat", 
             {"query": message, "session_id": sessionId}, 
@@ -13,7 +13,7 @@ class ChatService {
     }
 
     getSession(userInfo, sessionId, orgId, botId) {
-        console.log("akash", "API call for get session", sessionId);
+        // console.log("akash", "API call for get session", sessionId);
         return http.post("/maestro_chat/v1/session/get", 
         {
             "session_id": sessionId
@@ -25,7 +25,7 @@ class ChatService {
     }
 
     listSessions(userInfo, orgId, botId) {
-        console.log("akash", "API call for list", userInfo, orgId, botId);
+        // console.log("akash", "API call for list", userInfo, orgId, botId);
         return http.post("/maestro_chat/v1/session/list", 
         {},
         {
@@ -34,7 +34,7 @@ class ChatService {
     }
 
     deleteSession(userInfo, sessionId, orgId, botId) {
-        console.log("akash", "API call for delete", sessionId);
+        // console.log("akash", "API call for delete", sessionId);
         return http.post("/maestro_chat/v1/session/delete", 
         {
             "session_id": sessionId

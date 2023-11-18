@@ -9,12 +9,12 @@ function DatagenWidget({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
 
     const handleChange = (event) => {
-        console.log('Handle change called')
+        // console.log('Handle change called')
         handleInputChange(event.target.checked, 'use_model');
     };
 
     
-    console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
+    // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <FormControl fullWidth style={{paddingLeft: '10px'}}>

@@ -20,7 +20,7 @@ const MyDropzoneComponent = ({ initialFiles, onFilesDropped, onFileDeleted }) =>
         setDropzoneKey(Date.now());
     }, [initialFiles]);
 
-    console.log("Initial files", initialFiles);
+    // console.log("Initial files", initialFiles);
 
     return (
         <div>

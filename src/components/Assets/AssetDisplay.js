@@ -26,16 +26,16 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     const { userInfo } = useAuth();
     const { addMessage, addErrorMessage } = useNotify();
     const navigate = useNavigate();
-    console.log("Selected bot: ", orgId, bot)
-    console.log("Assets: ", assets)
+    // console.log("Selected bot: ", orgId, bot)
+    // console.log("Assets: ", assets)
     useEffect(() => {
         // fetch assets for the given bot using /get_assets
         if (bot) {
-            console.log("Fetching assets for bot: ", bot, orgId)
+            // console.log("Fetching assets for bot: ", bot, orgId)
             setLoading(true);
             assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
                 .then(response => {
-                    console.log("Result of list assets", response.data);
+                    // console.log("Result of list assets", response.data);
                     return response.data
                 }
                 )
@@ -44,7 +44,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                     onAssetFetch(data.result.bot.assets)
                     setLoading(false)})
                 .catch(() => {
-                    console.log("Could not fetch assets");
+                    // console.log("Could not fetch assets");
                     setLoading(false);
                     setFailed(true);
                     setFailMessage("Could not fetch assets");
@@ -53,25 +53,25 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     }, [bot, orgId, userInfo]);
 
     const onAssetClick = (asset) => {
-        console.log("Clicked on asset: ", asset)
+        // console.log("Clicked on asset: ", asset)
         setSelectedAsset(asset);
         setOpen(true);
     }
 
     const onAssetUpdate = (asset) => {
-        console.log("Updated asset: ", asset)
+        // console.log("Updated asset: ", asset)
         setAssetUpdating(true);
         assetsService.updateAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id, asset)
             .then(response => {
-                console.log("Result of update asset", response.data);
+                // console.log("Result of update asset", response.data);
                 return response.data
             })
             .then(data => {
-                console.log("Fetching assets for bot: ", bot, orgId)
+                // console.log("Fetching assets for bot: ", bot, orgId)
                 return assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
             })
             .then(response => {
-                console.log("Result of list assets", response.data);
+                // console.log("Result of list assets", response.data);
                 return response.data
             })
             .then(data => {
@@ -89,28 +89,28 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
             })
             .catch(() => {
                 addErrorMessage("Could not update asset. Some error occurred.");
-                console.log("Could not update asset");
+                // console.log("Could not update asset");
                 setAssetUpdating(false);
             });
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
-        console.log('Updated details:', asset);
+        // console.log('Updated details:', asset);
     }
 
     const onAssetDelete = (asset) => {
-        console.log("Delete asset: ", asset)
+        // console.log("Delete asset: ", asset)
         setAssetUpdating(true);
         assetsService.deleteAsset(userInfo, orgId, bot.org_chat_bot_id, asset.asset_id)
             .then(response => {
-                console.log("Result of delete asset", response.data);
+                // console.log("Result of delete asset", response.data);
                 return response.data
             })
             .then(data => {
-                console.log("Fetching assets for bot: ", bot, orgId)
+                // console.log("Fetching assets for bot: ", bot, orgId)
                 return assetsService.listAssets(userInfo, orgId, bot.org_chat_bot_id)
             })
             .then(response => {
-                console.log("Result of list assets", response.data);
+                // console.log("Result of list assets", response.data);
                 return response.data
             })
             .then(data => setAssets(data.result.bot.assets))
@@ -120,20 +120,20 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                 setAssetUpdating(false);
             })
             .catch(() => {
-                console.log("Could not delete asset");
+                // console.log("Could not delete asset");
                 setAssetUpdating(false);
             });
         // Logic to fire an API call to update the fields in the backend
         // For demonstration purposes, just logging the data:
-        console.log('Deleted');
+        // console.log('Deleted');
     }
 
     const handleChatClick = () => {
-        console.log("Chat clicked for: ", orgId, bot)
+        // console.log("Chat clicked for: ", orgId, bot)
         navigate(`/chats?orgId=${orgId}&botId=${bot.org_chat_bot_id}&botName=${bot.bot_name}`)
     }
 
-    console.log("Selected asset: ", selectedAsset)
+    // console.log("Selected asset: ", selectedAsset)
 
     return (
         <div>
