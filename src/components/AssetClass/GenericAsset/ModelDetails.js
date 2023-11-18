@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, TextField, Typography, Checkbox, FormControlLabel, FormControl } from '@mui/material';
+import { Box, TextField, Typography, Checkbox, FormControlLabel, FormGroup } from '@mui/material';
 import SupportedTypeSelector from '../SupportedTypes';
 import { useNotify } from '../../../contexts/NotifyContext';
 import assetsService from '../../../services/assets.service';
@@ -26,6 +26,15 @@ function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
                 onItemSelected={(value)=>handleInputChange(value, 'model_name')}
                 label = {"Model for generic asset"}
                 editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
+            <FormGroup style={{paddingLeft: '10px'}}>
+                <FormControlLabel
+                    control={
+                    <Checkbox checked={asset.is_reasoning_tool?asset.is_reasoning_tool:false} 
+                        onChange={e => handleInputChange(e.target.checked, 'is_reasoning_tool')}
+                        disabled={!isEditing} />}
+                    label="Is Reasoning tool (To be used with reasoning engine)"
+                />
+            </FormGroup>
         </Box>
     );
 }

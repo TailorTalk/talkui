@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Box, TextField, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import SupportedTypeSelector from '../SupportedTypes';
-import assetsService from '../../../services/assets.service';
 import { useNotify } from '../../../contexts/NotifyContext';
 import { useGlobals } from '../../../contexts/GlobalsContext';
 
