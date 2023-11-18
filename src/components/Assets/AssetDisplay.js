@@ -15,7 +15,7 @@ import LoadingOverlay from '../Overlay/LoadingOverlay';
 import { useNotify } from '../../contexts/NotifyContext';
 
 
-function AssetsDisplay({ orgId, bot }) {
+function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     const [assets, setAssets] = useState([{ id: 1, name: "Asset 1" }, { id: 2, name: "Asset 2" }]);
     const [open, setOpen] = useState(false);
     const [loading, setLoading] = useState(true);
@@ -41,6 +41,7 @@ function AssetsDisplay({ orgId, bot }) {
                 )
                 .then(data => {
                     setAssets(data.result.bot.assets)
+                    onAssetFetch(data.result.bot.assets)
                     setLoading(false)})
                 .catch(() => {
                     console.log("Could not fetch assets");

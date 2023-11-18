@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, TextField, Typography } from '@mui/material';
+import { Box, TextField, Typography, FormGroup, FormControlLabel, Checkbox } from '@mui/material';
 import SupportedTypeSelector from '../SupportedTypes';
 import assetsService from '../../../services/assets.service';
 import { useNotify } from '../../../contexts/NotifyContext';
@@ -42,7 +42,15 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 label = {"Model for your chatbot"}
                 editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
 
-            {}
+            <FormGroup style={{paddingLeft: '10px'}}>
+                <FormControlLabel
+                    control={
+                    <Checkbox checked={asset.is_an_agent?asset.is_an_agent:false} 
+                        onChange={e => handleInputChange(e.target.checked, 'is_an_agent')}
+                        disabled={!isEditing} />}
+                    label="Is an Agent"
+                />
+            </FormGroup>
 
         </Box>
     );

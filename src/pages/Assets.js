@@ -12,6 +12,7 @@ function AssetsPage() {
   const [selectedOrgId, setSelectedOrgId] = useState(null);
   const [selectedBot, setSelectedBot] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
   console.log("Selected bot in the main page: ", selectedBot)
 
@@ -32,7 +33,17 @@ function AssetsPage() {
     setIsCollapsed(!isCollapsed);
   };
 
+  const onAssetFetch = (assets) => {
+    for (let asset of assets) {
+      if (asset.asset_class === "default") {
+        setBotDefaultAsset(asset);
+        break;
+      }
+    }
+  }
+
   console.log("Selected bot in assets page: ", selectedBot)
+  console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
     <Container style={{ margin: "0px", height: '100vh' }} maxWidth="false">
@@ -53,13 +64,13 @@ function AssetsPage() {
           </IconButton>
         </Grid>
         <Grid item xs={isCollapsed?6.8:7.8} style={{overflowY: 'auto', maxHeight: '100vh', paddingLeft: '10px'}}>
-          {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} />}
+          {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} onAssetFetch={onAssetFetch}/>}
         </Grid>
         <Grid item xs={isCollapsed?5:false} style={{paddingLeft: '10px'}}>
           {queryDict.orgId && 
           queryDict.botId && 
-          isCollapsed && 
-          <Chat hideSessions={true} />}
+          isCollapsed && botDefaultAsset &&
+          <Chat hideSessions={true} isAnAgent={!!botDefaultAsset.is_an_agent}/>}
         </Grid>
       </Grid>
     </Container>

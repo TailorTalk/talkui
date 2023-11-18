@@ -16,13 +16,13 @@ import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 import { useNotify } from '../contexts/NotifyContext';
 
 
-const Chat = ({ hideSessions }) => {
+const Chat = ({ hideSessions, isAnAgent }) => {
     const [sessionList, setSessionList] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [sessionId, setSessionId] = useState("");
     const [onGoingAPI, setOnGoingAPI] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [streamMode, setStreamMode] = useState(true);
+    const [streamMode, setStreamMode] = useState(!isAnAgent);
 
     let { userInfo } = useAuth();
     const { addMessage, addErrorMessage } = useNotify();
@@ -35,6 +35,7 @@ const Chat = ({ hideSessions }) => {
     console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
+        setStreamMode(!isAnAgent);
         setLoading(true);
         if (queryDict.botId && queryDict.orgId) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
@@ -46,7 +47,7 @@ const Chat = ({ hideSessions }) => {
                     setLoading(false);
                 });
         }
-    }, [userInfo, queryDict]);
+    }, [userInfo, queryDict, isAnAgent]);
 
     const onStreamModeChange = (event) => {
         addMessage("Stream mode changed to " + event.target.checked);
