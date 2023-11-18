@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Typography } from '@mui/material';
 import SupportedTypeSelector from '../SupportedTypes';
 import assetsService from '../../../services/assets.service';
 import { useNotify } from '../../../contexts/NotifyContext';
@@ -35,12 +35,14 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 onChange={e => handleInputChange(e.target.value, 'bot_system_message')}
                 disabled={!isEditing}
             />
-            {supportedModels && <SupportedTypeSelector
+            {supportedModels? <SupportedTypeSelector
                 items={supportedModels.supported_models} 
                 currentItem={asset.model?asset.model:supportedModels.default_model}
                 onItemSelected={(value)=>handleInputChange(value, 'model')}
                 label = {"Model for your chatbot"}
-                editable= {isEditing} />}
+                editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
+
+            {}
 
         </Box>
     );

@@ -20,12 +20,12 @@ function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
                 onChange={e => handleInputChange(e.target.value, 'run_instruction')}
                 disabled={!isEditing}
             />
-            {supportedModels && <SupportedTypeSelector
+            {supportedModels ? <SupportedTypeSelector
                 items={supportedModels.supported_models} 
                 currentItem={asset.model_name?asset.model_name:supportedModels.default_model}
                 onItemSelected={(value)=>handleInputChange(value, 'model_name')}
                 label = {"Model for generic asset"}
-                editable= {isEditing} />}
+                editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
         </Box>
     );
 }

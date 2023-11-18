@@ -26,12 +26,12 @@ function DatagenWidget({ asset, handleInputChange, isEditing }) {
                         inputProps={{ 'aria-label': 'controlled' }}/>
                     } label="Uses models"/>
             </FormControl>
-            {supportedModels && asset.use_model && <SupportedTypeSelector
+            {supportedModels ? asset.use_model && <SupportedTypeSelector
                 items={supportedModels.supported_models} 
                 currentItem={asset.model_name?asset.model_name:supportedModels.default_model}
                 onItemSelected={(value)=>handleInputChange(value, 'model_name')}
                 label = {"Model for your chatbot"}
-                editable= {isEditing} />}
+                editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
         </Box>
     );
 }
