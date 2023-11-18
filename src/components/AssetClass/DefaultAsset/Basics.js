@@ -3,36 +3,13 @@ import { Box, TextField } from '@mui/material';
 import SupportedTypeSelector from '../SupportedTypes';
 import assetsService from '../../../services/assets.service';
 import { useNotify } from '../../../contexts/NotifyContext';
-
+import { useGlobals } from '../../../contexts/GlobalsContext';
 
 function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
-    const [supportedModels, setSupportedModels] = useState(null);
+    const { supportedModels } = useGlobals();
     console.log("Asset in default asset: ", asset)
     console.log("Is editing in default asset: ", isEditing)
-
-    useEffect(() => {
-        console.log("Fetching supported models")
-        assetsService.getSupportedModels()
-        .then((response) => {
-            console.log("Supported models: ", response.data)
-            return response.data
-        })
-        .then((data) => {
-            if (data.success) {
-                setSupportedModels(data.result)
-                addMessage("Supported models fetched successfully")
-            } else {
-                console.log("Error in getting supported models: ", data)
-                throw new Error("Error in getting supported models")
-            }
-        })
-        .catch((error) => {
-            console.log("Error in getting supported models: ", error)
-            addErrorMessage("Error in getting supported models")
-        })
-    }, [])
-
 
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
@@ -64,6 +41,7 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 onItemSelected={(value)=>handleInputChange(value, 'model')}
                 label = {"Model for your chatbot"}
                 editable= {isEditing} />}
+
         </Box>
     );
 }

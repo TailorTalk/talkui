@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-d
 import Chat from './pages/Chat';
 import Assets from './pages/Assets';
 import FirebaseLogin from './pages/FirebaseLogin';
+import { GlobalsProvider } from './contexts/GlobalsContext';
 import { useAuth } from './contexts/AuthContext'
 import { QueryStringProvider } from './contexts/QueryStringContext';
 import AppBarComponent from './components/AppBar/AppBarComponent';
@@ -13,6 +14,7 @@ function App() {
 
   return (
     <Router>
+      <GlobalsProvider>
         <QueryStringProvider>
           <div className="App">
             <AppBarComponent />
@@ -24,6 +26,7 @@ function App() {
             </Routes>
           </div>
         </QueryStringProvider>
+        </GlobalsProvider>
     </Router>
   );
 }

@@ -3,39 +3,11 @@ import { Box, TextField, Typography, Checkbox, FormControlLabel, FormControl } f
 import SupportedTypeSelector from '../SupportedTypes';
 import { useNotify } from '../../../contexts/NotifyContext';
 import assetsService from '../../../services/assets.service';
+import { useGlobals } from '../../../contexts/GlobalsContext';
 
 function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
-    const [supportedModels, setSupportedModels] = useState(null);
     const { addMessage, addErrorMessage } = useNotify();
-
-    useEffect(() => {
-        populateModels();
-    }, [])
-    
-    const populateModels = () => {
-        console.log("Fetching supported models")
-        assetsService.getSupportedModels()
-        .then((response) => {
-            console.log("Supported models: ", response.data)
-            return response.data
-        })
-        .then((data) => {
-            if (data.success) {
-                setSupportedModels(data.result)
-                if (asset.model_name === null || asset.model_name === undefined) {
-                    handleInputChange(data.result.default_model, 'model_name')
-                }
-                addMessage("Supported models fetched successfully")
-            } else {
-                console.log("Error in getting supported models: ", data)
-                throw new Error("Error in getting supported models")
-            }
-        })
-        .catch((error) => {
-            console.log("Error in getting supported models: ", error)
-            addErrorMessage("Error in getting supported models")
-        })
-    }
+    const { supportedModels } = useGlobals();
     
     console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
     return (
