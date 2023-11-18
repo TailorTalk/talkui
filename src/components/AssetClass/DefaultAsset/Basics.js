@@ -7,7 +7,7 @@ import { useGlobals } from '../../../contexts/GlobalsContext';
 
 function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
-    const { supportedModels } = useGlobals();
+    const { supportedModels, supportedStrategies } = useGlobals();
     // console.log("Asset in default asset: ", asset)
     // console.log("Is editing in default asset: ", isEditing)
 
@@ -41,6 +41,13 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 onItemSelected={(value)=>handleInputChange(value, 'model')}
                 label = {"Model for your chatbot"}
                 editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
+
+            {supportedStrategies? <SupportedTypeSelector
+                items={supportedStrategies} 
+                currentItem={asset.execution_strategy?asset.execution_strategy:supportedStrategies[0]}
+                onItemSelected={(value)=>handleInputChange(value, 'execution_strategy')}
+                label = {"Execution strategy for your chatbot"}
+                editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting strategies </Typography>}
 
             <FormGroup style={{paddingLeft: '10px'}}>
                 <FormControlLabel
