@@ -5,6 +5,7 @@ import MemoryIcon from '@mui/icons-material/Memory';
 import ListItemAvatar from '@mui/material/ListItemAvatar';
 import ListItemText from '@mui/material/ListItemText';
 import Avatar from '@mui/material/Avatar';
+import ReactMarkdown from 'react-markdown';
 
 function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
     const [inputMessage, setInputMessage] = useState('');
@@ -16,7 +17,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
     };
 
     useEffect(()=>{
-        console.log("akash", "I received new history", pastChatHistory)
+        // console.log("akash", "I received new history", pastChatHistory)
         setChatHistory(pastChatHistory);
         scrollToBottom()
     }, [pastChatHistory]);
@@ -27,7 +28,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
 
     const handleKeyPress = (event) => {
         if (event.key === 'Enter' && inputMessage.trim()) {
-            console.log("akash", "Message after enter", inputMessage, chatHistory);
+            // console.log("akash", "Message after enter", inputMessage, chatHistory);
             if (chatHistory) {
                 const chatHistoryCopy = {...chatHistory};
                 chatHistoryCopy.result.history.push({role: "user", content: inputMessage});
@@ -53,9 +54,12 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
                                     {msg.role==="user"?<PersonIcon />:<MemoryIcon/>}
                                 </Avatar>
                             </ListItemAvatar>
-                            <ListItemText
+                            {/*<ListItemText
                                 primary={msg.content}
-                            />
+                    />*/}
+                        <div style={{textAlign: 'left', fontFamily: 'Arial, sans-serif'}}>
+                            <ReactMarkdown>{msg.content}</ReactMarkdown>
+                            </div>
                         </ListItem>
                     ))}
                     <div ref={chatEndRef}></div>

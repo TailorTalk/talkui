@@ -12,7 +12,7 @@ function DatagenComponent({onDone, onError}) {
         const eventSource = createDatagenConnection(userInfo);
 
         eventSource.onmessage = (event) => {
-            console.log("Event data", event.data)
+            // console.log("Event data", event.data)
             if (event.data === "DONE") {
                 onDone();
                 setFinished(true);
@@ -22,13 +22,13 @@ function DatagenComponent({onDone, onError}) {
         };
 
         function onStreamEnd() {
-            console.log('Running a function at the end of the SSE stream.');
+            // console.log('Running a function at the end of the SSE stream.');
         }
 
         eventSource.onerror = (error) => {
-            console.log("Is finished", finished)
+            // console.log("Is finished", finished)
             if (finished) {
-                console.log('Stream has been closed!');
+                // console.log('Stream has been closed!');
                 // Run your function here
                 onStreamEnd();
             } else {

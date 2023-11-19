@@ -32,18 +32,18 @@ function BotsList({ orgId, onSelect }) {
     const [loading, setLoading] = useState(true);
     const { userInfo } = useAuth();
     const { addMessage, addErrorMessage } = useNotify();
-    console.log("Selected org: ", orgId)
+    // console.log("Selected org: ", orgId)
 
     useEffect(() => {
-        console.log("Org id in bots list: ", orgId)
+        // console.log("Org id in bots list: ", orgId)
         // fetch bots for the given org using /list_bots
         if (orgId) {
             addMessage("Fetching bots...");
-            console.log("Fetching bots for org: ", orgId)
+            // console.log("Fetching bots for org: ", orgId)
             setLoading(true);
             assetsService.listBots(userInfo, orgId)
                 .then(response => {
-                    console.log("Result of list bots", response.data);
+                    // console.log("Result of list bots", response.data);
                     return response.data
                 })
                 .then(data => {
@@ -56,7 +56,7 @@ function BotsList({ orgId, onSelect }) {
                     setLoading(false);
                 })
                 .catch(() => {
-                    console.log("Could not fetch bots");
+                    // console.log("Could not fetch bots");
                     setLoading(false);
                     addErrorMessage("Could not fetch bots");
                 })
@@ -64,16 +64,16 @@ function BotsList({ orgId, onSelect }) {
     }, [orgId, userInfo]);
 
     const createBot = (botName, botDescription) => {
-        console.log("Creating bot for org: ", orgId, botName, botDescription)
+        // console.log("Creating bot for org: ", orgId, botName, botDescription)
         addMessage("Creating bot...");
         setLoading(true);
         assetsService.createBot(userInfo, orgId, botName, botDescription)
             .then((response) => {
-                console.log("Response of create bot: ", response.data);
+                // console.log("Response of create bot: ", response.data);
                 return assetsService.listBots(userInfo, orgId);
             })
             .then(response => {
-                console.log("Result of list bots", response.data);
+                // console.log("Result of list bots", response.data);
                 return response.data
             })
             .then(data => {
@@ -86,18 +86,18 @@ function BotsList({ orgId, onSelect }) {
                 setLoading(false)
             })
             .catch(() => {
-                console.log("Could not create bot");
+                // console.log("Could not create bot");
                 setLoading(false);
                 addErrorMessage("Could not create bot");
             });
     }
 
     const onDelete = (botId) => {
-        console.log("Deleting bot: ", botId)
+        // console.log("Deleting bot: ", botId)
         addMessage("Deleting bot...");
         assetsService.deleteBot(userInfo, orgId, botId)
             .then((response) => {
-                console.log("Response of delete bot: ", response.data);
+                // console.log("Response of delete bot: ", response.data);
                 if (response.data.success) {
                     addMessage("Deleted bot successfully. Fetching updated bots list...");
                     return assetsService.listBots(userInfo, orgId);
@@ -107,11 +107,11 @@ function BotsList({ orgId, onSelect }) {
                 }
             })
             .then((bots) => {
-                console.log("Result of list bots", bots.data)
+                // console.log("Result of list bots", bots.data)
                 setBots(bots.data.result.bots)
             })
             .catch(() => {
-                console.log("Could not delete bot");
+                // console.log("Could not delete bot");
                 addErrorMessage("Could not delete bot");
             })
     }

@@ -17,7 +17,7 @@ function ToolsModal() {
         if (isModalOpen) {
             UploadService.listTools(userInfo)
                 .then(response => {
-                    console.log("akash", "Tools response:", response.data.result);
+                    // console.log("akash", "Tools response:", response.data.result);
                     setTools(response.data.result); // Assuming the response contains { message: 'your system message' }
                 })
                 .catch(error => {

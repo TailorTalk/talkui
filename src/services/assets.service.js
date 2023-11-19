@@ -2,7 +2,7 @@ import http from "./http-common";
 
 class AssetsService {
     upload(userInfo, orgId, botId, file, onUploadProgress) {
-        console.log("Uploading file in asset service: ", userInfo, orgId, botId, file)
+        // console.log("Uploading file in asset service: ", userInfo, orgId, botId, file)
         let formData = new FormData();
 
         formData.append("file", file);
@@ -35,8 +35,15 @@ class AssetsService {
         });
     }
 
+    getExecutionStrategies() {
+        return http.get("/maestro_chat/asset/v1/get_execution_strategies", {
+            headers: {
+            }
+        });
+    }
+
     listBots(userInfo, orgId) {
-        console.log("List bots userInfo: ", userInfo, " orgId: ", orgId)
+        // console.log("List bots userInfo: ", userInfo, " orgId: ", orgId)
         return http.get("/maestro_chat/asset/v1/list_bots", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
@@ -60,7 +67,7 @@ class AssetsService {
     }
 
     deleteBot(userInfo, orgId, botId) {
-        console.log("Delete bot userInfo: ", userInfo, " orgId: ", orgId, " botId: ", botId)
+        // console.log("Delete bot userInfo: ", userInfo, " orgId: ", orgId, " botId: ", botId)
         return http.post("/maestro_chat/asset/v1/delete_bot", {
             "org_id": orgId,
             "org_chat_bot_id": botId
@@ -75,7 +82,7 @@ class AssetsService {
     }
 
     listAssets(userInfo, orgId, botId) {
-        console.log("List assets userInfo: ", userInfo, " orgId: ", orgId, " botId: ", botId)
+        // console.log("List assets userInfo: ", userInfo, " orgId: ", orgId, " botId: ", botId)
         return http.get("/maestro_chat/asset/v1/bot/get", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
@@ -87,8 +94,8 @@ class AssetsService {
     }
 
     updateAsset(userInfo, orgId, botId, assetId, assetDict) {
-        console.log("Update asset userInfo: ", userInfo, 
-        " orgId: ", orgId, " botId: ", botId, " assetId: ", assetId, "assetDict: ", assetDict)
+        // console.log("Update asset userInfo: ", userInfo, 
+        //" orgId: ", orgId, " botId: ", botId, " assetId: ", assetId, "assetDict: ", assetDict)
         return http.post("/maestro_chat/asset/v1/update_asset", {
             "asset_id": assetId,
             "asset": assetDict
@@ -103,8 +110,8 @@ class AssetsService {
     }
 
     deleteAsset(userInfo, orgId, botId, assetId) {
-        console.log("Delete asset userInfo: ", userInfo, 
-        " orgId: ", orgId, " botId: ", botId, " assetId: ", assetId)
+        // console.log("Delete asset userInfo: ", userInfo, 
+        //" orgId: ", orgId, " botId: ", botId, " assetId: ", assetId)
         return http.post("/maestro_chat/asset/v1/delete_asset", {
             "asset_id": assetId
         }, {
@@ -118,8 +125,8 @@ class AssetsService {
     }
 
     getSuggestions(userInfo, orgId, botId) {
-        console.log("Delete asset userInfo: ", userInfo, 
-        " orgId: ", orgId, " botId: ", botId)
+        // console.log("Get suggestions userInfo: ", userInfo, 
+        //" orgId: ", orgId, " botId: ", botId)
         return http.post("/maestro_chat/asset/v1/suggestions", {}, {
             headers: {
                 "X-USER-EMAIL": userInfo.email,

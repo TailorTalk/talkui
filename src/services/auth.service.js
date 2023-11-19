@@ -2,7 +2,7 @@ import http from "./http-common";
 
 class AuthService {
     googleAuth(code) {
-        console.log("Google auth code: ", code)
+        // console.log("Google auth code: ", code)
         return fetch("/maestro_chat/v1/auth/google", {
             method: "POST",
             headers: {

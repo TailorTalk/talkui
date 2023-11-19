@@ -38,7 +38,7 @@ export const NotifyProvider = ({ children }) => {
     setMessages(prevMessages => prevMessages.filter(message => message.key !== key));
   };
 
-  console.log("Messages in NotifyContext: ", messages)
+  // console.log("Messages in NotifyContext: ", messages)
 
   return (
     <NotifyContext.Provider value={{ messages, addMessage, addErrorMessage, removeMessage }}>

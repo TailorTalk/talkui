@@ -34,7 +34,7 @@ function AppBarComponent() {
   };
 
   const handleCloseNavMenu = (page) => {
-    console.log("akash anand", page)
+    // console.log("akash anand", page)
     if (page === "Chats") {
         navigate('/chats')
     }
@@ -45,7 +45,7 @@ function AppBarComponent() {
   };
 
   const handleCloseUserMenu = (menuItem) => {
-    console.log("akash", menuItem)
+    // console.log("akash", menuItem)
     if (menuItem === "Logout") {
         logout()
     }

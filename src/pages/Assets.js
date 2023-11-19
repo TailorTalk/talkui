@@ -12,11 +12,12 @@ function AssetsPage() {
   const [selectedOrgId, setSelectedOrgId] = useState(null);
   const [selectedBot, setSelectedBot] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
-  console.log("Selected bot in the main page: ", selectedBot)
+  // console.log("Selected bot in the main page: ", selectedBot)
 
   const onOrgSelect = (orgId) => {
-    console.log("Org selected: ", orgId);
+    // console.log("Org selected: ", orgId);
     setSelectedOrgId(orgId);
     setSelectedBot(null);
     deleteQueryKeys(["orgId", "botId"]);
@@ -32,7 +33,17 @@ function AssetsPage() {
     setIsCollapsed(!isCollapsed);
   };
 
-  console.log("Selected bot in assets page: ", selectedBot)
+  const onAssetFetch = (assets) => {
+    for (let asset of assets) {
+      if (asset.asset_class === "default") {
+        setBotDefaultAsset(asset);
+        break;
+      }
+    }
+  }
+
+  // console.log("Selected bot in assets page: ", selectedBot)
+  // console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
     <Container style={{ margin: "0px", height: '100vh' }} maxWidth="false">
@@ -52,47 +63,18 @@ function AssetsPage() {
             {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
           </IconButton>
         </Grid>
-        <Grid item xs={isCollapsed?6.8:7.8} >
-          {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} />}
+        <Grid item xs={isCollapsed?6.8:7.8} style={{overflowY: 'auto', maxHeight: '100vh', paddingLeft: '10px'}}>
+          {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} onAssetFetch={onAssetFetch}/>}
         </Grid>
         <Grid item xs={isCollapsed?5:false} style={{paddingLeft: '10px'}}>
           {queryDict.orgId && 
           queryDict.botId && 
-          isCollapsed && 
-          <Chat hideSessions={true} />}
+          isCollapsed && botDefaultAsset &&
+          <Chat hideSessions={true} isAnAgent={!!botDefaultAsset.is_an_agent}/>}
         </Grid>
       </Grid>
     </Container>
   )
-
-  return (
-    <Container style={{ margin: "0px", height: '100vh' }} maxWidth="false">
-      <Grid container style={{ margin: '0px', height: '100vh' }} maxWidth="false">
-        <Grid item xs={isCollapsed ? false : 2} style={{ paddingLeft: '20px' }}>
-          <Collapse in={!isCollapsed} orientation="horizontal">
-            <OrgsList onSelect={onOrgSelect} />
-          </Collapse>
-        </Grid>
-        <Grid item xs={isCollapsed ? false : 2} style={{ paddingLeft: '0px' }}>
-          <Collapse in={!isCollapsed} orientation="horizontal">
-            {selectedOrgId && <BotsList orgId={selectedOrgId} onSelect={onBotSelect} />}
-          </Collapse>
-        </Grid>
-        <Grid item xs={0.2} style={{}}>
-          <IconButton onClick={toggleCollapse} size="small">
-            {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
-          </IconButton>
-          <Divider orientation="vertical" flexItem style={{ width: '10px', height: '100vh' }} />
-        </Grid>
-        <Grid item xs={isCollapsed ? 5 : 7}>
-          {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} />}
-        </Grid>
-        <Grid item xs={isCollapsed ? 5 : false}>
-          {selectedBot && isCollapsed && <Chat hideSessions={true} orgId={selectedOrgId} botId={selectedBot && selectedBot.org_chat_bot_id} />}
-        </Grid>
-      </Grid>
-    </Container>
-  );
 }
 
 export default AssetsPage;

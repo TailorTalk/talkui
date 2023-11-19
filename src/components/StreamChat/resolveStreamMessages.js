@@ -1,5 +1,5 @@
 const resolveStreamMessages = (messages) => {
-    console.log("akash", "I am currentMessageRef", messages)
+    // console.log("akash", "I am currentMessageRef", messages)
     let toDisplay = "";
     let sessionId = "";
     for (const obj of messages) {

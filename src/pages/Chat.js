@@ -16,13 +16,13 @@ import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 import { useNotify } from '../contexts/NotifyContext';
 
 
-const Chat = ({ hideSessions }) => {
+const Chat = ({ hideSessions, isAnAgent }) => {
     const [sessionList, setSessionList] = useState([]);
     const [currentChat, setCurrentChat] = useState(null);
     const [sessionId, setSessionId] = useState("");
     const [onGoingAPI, setOnGoingAPI] = useState(false);
     const [loading, setLoading] = useState(true);
-    const [streamMode, setStreamMode] = useState(true);
+    const [streamMode, setStreamMode] = useState(!isAnAgent);
 
     let { userInfo } = useAuth();
     const { addMessage, addErrorMessage } = useNotify();
@@ -32,9 +32,10 @@ const Chat = ({ hideSessions }) => {
             userInfo.email = queryDict.email;
         }
     }
-    console.log("Query dict values in Chat", queryDict)
+    // console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
+        setStreamMode(!isAnAgent);
         setLoading(true);
         if (queryDict.botId && queryDict.orgId) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
@@ -46,7 +47,7 @@ const Chat = ({ hideSessions }) => {
                     setLoading(false);
                 });
         }
-    }, [userInfo, queryDict]);
+    }, [userInfo, queryDict, isAnAgent]);
 
     const onStreamModeChange = (event) => {
         addMessage("Stream mode changed to " + event.target.checked);
@@ -57,7 +58,7 @@ const Chat = ({ hideSessions }) => {
         addMessage("Deleting session...");
         ChatService.deleteSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
-                console.log("Response of delete: ", response.data);
+                // console.log("Response of delete: ", response.data);
                 if (response.data.success) {
                     addMessage("Session deleted successfully");
                     return ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId);
@@ -74,19 +75,19 @@ const Chat = ({ hideSessions }) => {
     }
 
     const onStreamStart = () => {
-        console.log("akash", "onStreamStart");
+        // console.log("akash", "onStreamStart");
         setOnGoingAPI(true);
     }
 
     const onNewSession = () => {
-        console.log("akash", "onNewSession");
+        // console.log("akash", "onNewSession");
         setSessionId("");
         setCurrentChat(null);
         addMessage("New session started");
     }
 
     const onStreamDone = (thisSessionid) => {
-        console.log("akash", "onStreamDone", thisSessionid);
+        // console.log("akash", "onStreamDone", thisSessionid);
         setOnGoingAPI(false);
         if (sessionId !== thisSessionid) {
             ChatService.listSessions(userInfo, queryDict.orgId, queryDict.botId).then(response => {
@@ -100,7 +101,7 @@ const Chat = ({ hideSessions }) => {
     }
 
     const onMessageSend = (message, thisSessionid) => {
-        console.log("akash", "onMessageSend", message, thisSessionid);
+        // console.log("akash", "onMessageSend", message, thisSessionid);
         setOnGoingAPI(true);
         ChatService.chat(userInfo, thisSessionid, message, queryDict.orgId, queryDict.botId)
             .then((response) => {
@@ -125,7 +126,7 @@ const Chat = ({ hideSessions }) => {
     const onSessionSelect = (session) => {
         ChatService.getSession(userInfo, session.session_id, queryDict.orgId, queryDict.botId)
             .then((response) => {
-                console.log("Response of get session: ", response.data);
+                // console.log("Response of get session: ", response.data);
                 setCurrentChat(response.data)
                 if (response.data.success) {
                     setSessionId(response.data.result.session_id);

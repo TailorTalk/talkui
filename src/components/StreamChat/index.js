@@ -9,7 +9,7 @@ import StreamMessageItem from './StreamedMessage';
 import ChatSuggestions from '../ChatSuggestions';
 
 const MessageItem = React.memo(({ msg }) => {
-    console.log("akash", "MessageItem", msg);
+    // console.log("akash", "MessageItem", msg);
     return (
         <ListItem
         >
@@ -37,7 +37,7 @@ function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId, user
     };
 
     useEffect(() => {
-        console.log("akash", "I received new history", pastChatHistory)
+        // console.log("akash", "I received new history", pastChatHistory)
         setChatHistory(pastChatHistory);
         scrollToBottom()
     }, [pastChatHistory]);
@@ -48,7 +48,7 @@ function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId, user
     };
 
     const onStreamDone = (streamedMessage, sessionId) => {
-        console.log("akash", "onStreamDone", streamedMessage, sessionId);
+        // console.log("akash", "onStreamDone", streamedMessage, sessionId);
         setStartStream(false);
         onDone(sessionId);
     }
@@ -70,7 +70,7 @@ function StreamChatComponent({ pastChatHistory, onStart, onDone, sessionId, user
     };
 
     const onSuggestionClick = (suggestion) => {
-        console.log("akash", "onSuggestionClick", suggestion);
+        // console.log("akash", "onSuggestionClick", suggestion);
         setFinalInputMessage(suggestion);
         onStart();
         if (chatHistory) {

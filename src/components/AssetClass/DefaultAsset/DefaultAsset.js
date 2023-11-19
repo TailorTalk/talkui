@@ -5,8 +5,8 @@ import Clients from "./Clients"
 import Suggestions from './Suggestions';
 
 function DefaultAsset({ asset, handleInputChange, isEditing }) {
-    console.log("Asset in default asset: ", asset)
-    console.log("Is editing in default asset: ", isEditing)
+    // console.log("Asset in default asset: ", asset)
+    // console.log("Is editing in default asset: ", isEditing)
     const [value, setValue] = React.useState('defaults');
 
     const handleChange = (event, newValue) => {

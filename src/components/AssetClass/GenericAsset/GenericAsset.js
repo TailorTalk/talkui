@@ -28,9 +28,9 @@ const output_hint = {
 }
 
 function GenericAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
-    console.log("Asset in generic asset: ", asset)
-    console.log("Is editing in generic asset: ", isEditing)
-    console.log("Is creating in generic asset: ", isCreating)
+    // console.log("Asset in generic asset: ", asset)
+    // console.log("Is editing in generic asset: ", isEditing)
+    // console.log("Is creating in generic asset: ", isCreating)
     const [value, setValue] = React.useState('defaults');
 
     const handleChange = (event, newValue) => {

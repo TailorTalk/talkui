@@ -33,12 +33,12 @@ export const AuthProvider = ({ children }) => {
         setLoading(true);
         loginService.autoLogin()
             .then(response => {
-                console.log("Auto Login response: ", response)
+                // // // console.log("Auto Login response: ", response)
                 return response.data
             })
             .then((data) => {
                 const user_data = data.result
-                console.log("Logged in User is: ", user_data)
+                // console.log("Logged in User is: ", user_data)
                 setIsLoggedIn(!!user_data);
                 if (user_data) {
                     setUserInfo({
@@ -60,12 +60,12 @@ export const AuthProvider = ({ children }) => {
                     user ? user.getIdToken(true).then((idToken) => {
                         loginService.login(idToken)
                             .then(response => {
-                                console.log("Login response: ", response)
+                                // console.log("Login response: ", response)
                                 return response.data
                             })
                             .then((data) => {
                                 const user_data = data.result
-                                console.log("Logged in User is: ", user_data)
+                                // console.log("Logged in User is: ", user_data)
                                 setIsLoggedIn(!!user_data);
                                 if (user) {
                                     setUserInfo({
@@ -80,7 +80,7 @@ export const AuthProvider = ({ children }) => {
                                 setLoading(false);
                             })
                             .catch(() => {
-                                console.log("Could not login");
+                                // console.log("Could not login");
                                 setIsLoggedIn(false);
                                 setLoading(false);
                             })
@@ -95,17 +95,17 @@ export const AuthProvider = ({ children }) => {
         auth.signOut();
         loginService.logout()
         .then(response => {
-            console.log("Logout response: ", response)
+            // console.log("Logout response: ", response)
             return response.data
         })
         .catch(() => {
-            console.log("Could not logout properly");
+            // console.log("Could not logout properly");
         })
         setIsLoggedIn(false);
         setUserInfo({});
     }
 
-    console.log("Auth context: ", loading, isLoggedIn, userInfo)
+    // console.log("Auth context: ", loading, isLoggedIn, userInfo)
 
     return (
         <AuthContext.Provider value={{ isLoggedIn, userInfo, logout, auth }}>

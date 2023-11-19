@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { Box, TextField, Chip } from '@mui/material';
 
 function Suggestions({ asset, handleInputChange, isEditing }) {
-    console.log("Asset in default asset: ", asset)
-    console.log("Is editing in default asset: ", isEditing)
+    // console.log("Asset in default asset: ", asset)
+    // console.log("Is editing in default asset: ", isEditing)
     const [inputValue, setInputValue] = useState('');
 
     const handleTextInputChange = (event) => {

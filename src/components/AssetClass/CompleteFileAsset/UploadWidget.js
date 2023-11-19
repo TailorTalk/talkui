@@ -9,7 +9,7 @@ function FileUpload({assetFileDetails, orgId, bot, handleInputChange}) {
   const [uploadProgress, setUploadProgress] = useState(0);
   const [uploadResult, setUploadResult] = useState(null);
   const { userInfo } = useAuth();
-  console.log("Upload progress: ", uploadProgress)
+  // console.log("Upload progress: ", uploadProgress)
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -28,7 +28,7 @@ function FileUpload({assetFileDetails, orgId, bot, handleInputChange}) {
         setUploadProgress(progress);
     })
     .then(response => {
-        console.log("Result of upload asset", response.data);
+        // console.log("Result of upload asset", response.data);
         return response.data
     })
     .then(data => {
@@ -36,7 +36,7 @@ function FileUpload({assetFileDetails, orgId, bot, handleInputChange}) {
         handleInputChange(data.result.upload_details, "file_details")
     })
     .catch(error => {
-        console.log("Error uploading asset", error);
+        // console.log("Error uploading asset", error);
         setUploadResult({ error: 'Upload failed!' });
     })
   };

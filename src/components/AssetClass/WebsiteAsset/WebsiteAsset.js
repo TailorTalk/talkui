@@ -7,9 +7,9 @@ import OutputWidget from './OutputWidget';
 
 
 function WebsiteAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
-    console.log("Asset in website asset: ", asset)
-    console.log("Is editing in website asset: ", isEditing)
-    console.log("Is creating in website asset: ", isCreating)
+    // console.log("Asset in website asset: ", asset)
+    // console.log("Is editing in website asset: ", isEditing)
+    // console.log("Is creating in website asset: ", isCreating)
     const [value, setValue] = React.useState('defaults');
 
     const handleChange = (event, newValue) => {

@@ -25,20 +25,20 @@ export const QueryStringProvider = ({ children }) => {
   const [queryDict, setQueryDict] = useState(parseQueryString(location.search));
   
   useEffect(() => {
-      console.log("akash Update Location search changed:", location.search);
+      // console.log("akash Update Location search changed:", location.search);
       setQueryDict(parseQueryString(location.search));
   }, [location.search]);
   
   const updateQueryKeys = (updatedDict) => {
-    console.log("akash Update query dict: ", updatedDict, queryDict)
+    // console.log("akash Update query dict: ", updatedDict, queryDict)
     const newQueryDict = {...queryDict};
     for (const [key, value] of Object.entries(updatedDict)) {
         newQueryDict[key] = value;
     }
-    console.log("akash Update query dict: ", newQueryDict)
+    // console.log("akash Update query dict: ", newQueryDict)
     setQueryDict(newQueryDict);
     const newQueryString = '?' + new URLSearchParams(newQueryDict).toString();
-    console.log("akash Update query dict: ", newQueryString)
+    // console.log("akash Update query dict: ", newQueryString)
     navigate(`${location.pathname}${newQueryString}`);
   };
 
