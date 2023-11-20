@@ -11,9 +11,11 @@ import validateWebsiteAsset from './WebsiteAsset/assetValidator'
 import validateCompleteFileAsset from './CompleteFileAsset/assetValidator'
 import validateGenericAsset from './GenericAsset/assetValidator'
 import validateSendClientMsgAsset from './SendClientMessage/assetValidator'
+import validateGetClientMsgAsset from './GetClientMessage/assetValidator';
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 import GenericAsset from './GenericAsset/GenericAsset';
 import SendClientMessage from './SendClientMessage/SendClientMessageAsset';
+import GetClientMessage from './GetClientMessage/GetClientMessageAsset';
 import { useGlobals } from '../../contexts/GlobalsContext';
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
@@ -83,6 +85,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         const temp = validateSendClientMsgAsset(assetDetails)
         setIsAssetValid(!temp)
       }
+      if (assetType === "FETCH_CLIENT_MESSAGE") {
+        const temp = validateGetClientMsgAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
     }
     validate()
   }, [inputAsset, editMode, assetDetails, assetType]);
@@ -142,6 +148,15 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
           }
           {assetType === "SEND_CLIENT_MESSAGE" &&
             <SendClientMessage
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "FETCH_CLIENT_MESSAGE" &&
+            <GetClientMessage
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}
