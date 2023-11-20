@@ -10,18 +10,21 @@ import validateTextAsset from './TextAsset/assetValidator'
 import validateWebsiteAsset from './WebsiteAsset/assetValidator'
 import validateCompleteFileAsset from './CompleteFileAsset/assetValidator'
 import validateGenericAsset from './GenericAsset/assetValidator'
+import validateSendClientMsgAsset from './SendClientMessage/assetValidator'
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 import GenericAsset from './GenericAsset/GenericAsset';
+import SendClientMessage from './SendClientMessage/SendClientMessageAsset';
+import { useGlobals } from '../../contexts/GlobalsContext';
 
-const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
-const assetClassToType = {
-  "default": "DEFAULT",
-  "text": "TEXT FILE",
-  "website": "WEBSITE",
-  "no_context": "NO CONTEXT",
-  "complete_file": "COMPLETE FILE",
-  "generic": "GENERIC ASSET"
-}
+// const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
+// const assetClassToType = {
+//   "default": "DEFAULT",
+//   "text": "TEXT FILE",
+//   "website": "WEBSITE",
+//   "no_context": "NO CONTEXT",
+//   "complete_file": "COMPLETE FILE",
+//   "generic": "GENERIC ASSET"
+// }
 
 function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const [editMode, setEditMode] = useState(false); // This is used if the component was rendered using an existing asset
@@ -29,7 +32,9 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const [assetType, setAssetType] = useState(null);
   const [assetDetails, setAssetDetails] = useState(inputAsset); // This will be used to store the asset details for the asset type selected
   const [isAssetValid, setIsAssetValid] = useState(false); // This will be used to store the asset details for the asset type selected
-  
+  const { assetClasses } = useGlobals();
+  const assetTypes = assetClasses ? assetClasses.asset_class_list: []
+  const assetClassToType = assetClasses ? assetClasses.asset_class_dict: {}
   // console.log("Asset in asset form: ", assetDetails)
   // console.log("Is editing in asset form: ", isEditing)
 
@@ -58,7 +63,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       setAssetType(assetClassToType[inputAsset.asset_class]);
     }
     const validate = () => {
-      if (assetType === "TEXT FILE") {
+      if (assetType === "UNSTRUCTURED_TEXT") {
         const temp = validateTextAsset(assetDetails)
         setIsAssetValid(!temp)
       }
@@ -66,12 +71,16 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         const temp = validateWebsiteAsset(assetDetails)
         setIsAssetValid(!temp)
       }
-      if (assetType === "COMPLETE FILE") {
+      if (assetType === "COMPLETE_FILE") {
         const temp = validateCompleteFileAsset(assetDetails)
         setIsAssetValid(!temp)
       }
-      if (assetType === "GENERIC ASSET") {
+      if (assetType === "GENERIC") {
         const temp = validateGenericAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "SEND_CLIENT_MESSAGE") {
+        const temp = validateSendClientMsgAsset(assetDetails)
         setIsAssetValid(!temp)
       }
     }
@@ -84,7 +93,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         {/* Your content for the top 80% goes here */}
         <Box display="flex" flexDirection="column" gap={2} style={{paddingTop: '20px'}}>
           <SupportedTypeSelector
-            items={editMode ? assetTypes : assetTypes.filter((item) => (item !== "DEFAULT" && item !== "NO CONTEXT"))}
+            items={editMode ? assetTypes : assetTypes.filter((item) => (item !== "DEFAULT" && item !== "NO_CONTEXT"))}
             currentItem={assetType}
             onItemSelected={onAssetTypeSelected}
             editable={!editMode} />
@@ -93,12 +102,12 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing} />}
-          {assetType === "NO CONTEXT" &&
+          {assetType === "NO_CONTEXT" &&
             <NoContextAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing} />}
-          {assetType === "TEXT FILE" &&
+          {assetType === "UNSTRUCTURED_TEXT" &&
             <TextAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
@@ -114,7 +123,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               isCreating={!editMode}
               orgId={orgId}
               bot={bot}/>}
-          {assetType === "COMPLETE FILE" &&
+          {assetType === "COMPLETE_FILE" &&
             <CompleteFileAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
@@ -122,8 +131,17 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
               isCreating={!editMode}
               orgId={orgId}
               bot={bot}/>}
-          {assetType === "GENERIC ASSET" &&
+          {assetType === "GENERIC" &&
             <GenericAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "SEND_CLIENT_MESSAGE" &&
+            <SendClientMessage
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}

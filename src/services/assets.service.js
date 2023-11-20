@@ -136,6 +136,13 @@ class AssetsService {
             }
         });
     }
+
+    getAssetClasses() {
+        return http.get("/maestro_chat/asset/v1/get_asset_classes", {
+            headers: {
+            }
+        });
+    }
 }
 
 const assetsService = new AssetsService();
