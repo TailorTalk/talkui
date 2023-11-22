@@ -27,7 +27,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     const { addMessage, addErrorMessage } = useNotify();
     const navigate = useNavigate();
     // console.log("Selected bot: ", orgId, bot)
-    // console.log("Assets: ", assets)
+    console.log("akash", "Assets: ", assets)
     useEffect(() => {
         // fetch assets for the given bot using /get_assets
         if (bot) {

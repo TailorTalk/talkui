@@ -3,7 +3,9 @@ const fields = [
     "asset_tool_name",
     "asset_tool_short_description",
     "asset_tool_description",
-    "bot_id"
+    "bot_id",
+    "org_id",
+    "tt_chat_plugin_url"
 ]
 
 function validateSendClientMsgAsset(asset) {

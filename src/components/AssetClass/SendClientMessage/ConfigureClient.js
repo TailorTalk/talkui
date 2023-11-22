@@ -1,12 +1,15 @@
 import React, { useEffect } from 'react';
 import { Box, TextField } from '@mui/material';
 
-function ClientConfiguration({ asset, handleInputChange, isEditing, botId }) {
+function ClientConfiguration({ asset, handleInputChange, isEditing, botId, orgId }) {
     // console.log("Asset in default asset: ", asset)
     // console.log("Is editing in default asset: ", isEditing)
     useEffect(() => {
         if (botId && !asset.bot_id) {
             handleInputChange(botId, 'bot_id')
+        }
+        if (orgId && !asset.org_id) {
+            handleInputChange(orgId, 'org_id')
         }
     }, []);
     
@@ -19,21 +22,15 @@ function ClientConfiguration({ asset, handleInputChange, isEditing, botId }) {
                 disabled={!isEditing}
             />
             <TextField
-                label="WhatsApp Number"
-                value={asset.bot_whatsapp_number}
-                onChange={e => handleInputChange(e.target.value, 'bot_whatsapp_number')}
+                label="Org id"
+                value={asset.org_id}
+                onChange={e => handleInputChange(e.target.value, 'org_id')}
                 disabled={!isEditing}
             />
             <TextField
-                label="WhatsApp ID"
-                value={asset.bot_whatsapp_id}
-                onChange={e => handleInputChange(e.target.value, 'bot_whatsapp_id')}
-                disabled={!isEditing}
-            />
-            <TextField
-                label="WhatsApp Number"
-                value={asset.bot_whatsapp_number}
-                onChange={e => handleInputChange(e.target.value, 'bot_whatsapp_number')}
+                label="TT chat plugin endpoint"
+                value={asset.tt_chat_plugin_url}
+                onChange={e => handleInputChange(e.target.value, 'tt_chat_plugin_url')}
                 disabled={!isEditing}
             />
         </Box>

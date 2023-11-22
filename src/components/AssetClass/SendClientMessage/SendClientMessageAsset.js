@@ -38,7 +38,8 @@ function SendClientMessage({ asset, handleInputChange, isEditing, isCreating, or
                     asset={asset}
                     handleInputChange={handleInputChange}
                     isEditing={isCreating || isEditing}
-                    botId={bot.org_chat_bot_id} />
+                    botId={bot.org_chat_bot_id}
+                    orgId={orgId} />
             </Box>}
         </Box>
     </>)
