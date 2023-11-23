@@ -5,7 +5,7 @@ import Templates from './Templates';
 
 
 function SendMessageTemplate({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
-    // console.log("Asset in generic asset: ", asset)
+    // console.log("Asset in Send template message asset: ", asset)
     // console.log("Is editing in generic asset: ", isEditing)
     // console.log("Is creating in generic asset: ", isCreating)
     const [value, setValue] = React.useState('defaults');

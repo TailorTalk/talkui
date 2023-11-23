@@ -4,7 +4,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 
-function MultilineTextWithCloseButton({ text, onClose, textSize }) {
+function MultilineTextWithCloseButton({ text, onClose, textSize, disabled }) {
     const textLines = text.split('\n').map((line, index, array) => (
       <span key={index}>
         {line}
@@ -17,9 +17,9 @@ function MultilineTextWithCloseButton({ text, onClose, textSize }) {
         <Typography variant="body1" sx={{ flexGrow: 1, wordBreak: 'break-word', fontSize: textSize }}>
           {textLines}
         </Typography>
-        <IconButton onClick={onClose} size="small">
+        {!disabled && <IconButton onClick={onClose} size="small">
           <CloseIcon fontSize="small" />
-        </IconButton>
+        </IconButton>}
       </Card>
     );
   }
@@ -51,7 +51,7 @@ function Templates({ asset, handleInputChange, isEditing }) {
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             {/* Text field for user input */}
-            <TextField
+            { !!isEditing && <TextField
                 label="Add messages for this template"
                 variant="outlined"
                 fullWidth
@@ -61,7 +61,7 @@ function Templates({ asset, handleInputChange, isEditing }) {
                 onChange={handleTextInputChange}
                 onKeyPress={handleKeyPress}
                 disabled={!isEditing}
-            />
+            /> }
             {/* Display suggestions as chips */}
             {asset && asset.messages && <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {asset.messages.map((message, index) => (

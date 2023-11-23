@@ -7,7 +7,6 @@ const fields = [
 ]
 
 function validateSendTemplateAsset(asset) {
-    console.log("Asset in validateTextAsset: ", asset)
     let errors = ""
     fields.forEach((field) => {
         if (!asset[field]) {
