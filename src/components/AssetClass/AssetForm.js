@@ -13,11 +13,13 @@ import validateGenericAsset from './GenericAsset/assetValidator'
 import validateSendClientMsgAsset from './SendClientMessage/assetValidator'
 import validateGetClientMsgAsset from './GetClientMessage/assetValidator';
 import validateTimedTriggerAsset from './TimedTrigger/assetValidator';
+import validateSendTemplateAsset from './SendMessageTemplate/assetValidator';
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 import GenericAsset from './GenericAsset/GenericAsset';
 import SendClientMessage from './SendClientMessage/SendClientMessageAsset';
 import GetClientMessage from './GetClientMessage/GetClientMessageAsset';
 import TimedTrigger from './TimedTrigger/TimedTriggerAsset';
+import SendMessageTemplate from './SendMessageTemplate/SendTemplateMessage';
 import { useGlobals } from '../../contexts/GlobalsContext';
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
@@ -93,6 +95,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
       if (assetType === "TIMED_TRIGGER") {
         const temp = validateTimedTriggerAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "SEND_TEMPLATE_MESSAGE") {
+        const temp = validateSendTemplateAsset(assetDetails)
         setIsAssetValid(!temp)
       }
     }
@@ -172,6 +178,15 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
           }
           {assetType === "TIMED_TRIGGER" &&
             <TimedTrigger
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "SEND_TEMPLATE_MESSAGE" &&
+            <SendMessageTemplate
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}
