@@ -17,20 +17,14 @@ function ClientConfiguration({ asset, handleInputChange, isEditing, botId, orgId
         <Box display="flex" flexDirection="column" gap={2} position="relative">
             <TextField
                 label="Bot id"
-                value={asset.bot_id}
+                value={asset.bot_id || ""}
                 onChange={e => handleInputChange(e.target.value, 'bot_id')}
                 disabled={!isEditing}
             />
             <TextField
                 label="Org id"
-                value={asset.org_id}
+                value={asset.org_id || ""}
                 onChange={e => handleInputChange(e.target.value, 'org_id')}
-                disabled={!isEditing}
-            />
-            <TextField
-                label="TT chat plugin endpoint"
-                value={asset.tt_chat_plugin_url}
-                onChange={e => handleInputChange(e.target.value, 'tt_chat_plugin_url')}
                 disabled={!isEditing}
             />
         </Box>
