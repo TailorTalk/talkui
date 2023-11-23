@@ -5,10 +5,10 @@ import ClientConfiguration from './ConfigureClient';
 
 
 function GetClientMessage({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
-    // console.log("Asset in generic asset: ", asset)
+    console.log("Asset in get client message asset: ", asset)
     // console.log("Is editing in generic asset: ", isEditing)
     // console.log("Is creating in generic asset: ", isCreating)
-    console.log("Bot in send client msg: ", bot)
+    // console.log("Bot in send client msg: ", bot)
     const [value, setValue] = React.useState('defaults');
 
     const handleChange = (event, newValue) => {

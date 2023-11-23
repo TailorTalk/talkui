@@ -8,6 +8,12 @@ import { useGlobals } from '../../../contexts/GlobalsContext';
 function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
     const { supportedModels } = useGlobals();
+
+    useEffect(() => {
+        if (asset && !asset.model_name) {
+            handleInputChange(supportedModels.default_model, 'model_name')
+        }
+    }, [asset, supportedModels]);
     
     // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
     return (

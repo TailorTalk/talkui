@@ -11,7 +11,7 @@ function ClientConfiguration({ asset, handleInputChange, isEditing, botId, orgId
         if (orgId && !asset.org_id) {
             handleInputChange(orgId, 'org_id')
         }
-    }, []);
+    }, [asset, botId, orgId]);
     
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">

@@ -37,7 +37,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const { assetClasses } = useGlobals();
   const assetTypes = assetClasses ? assetClasses.asset_class_list: []
   const assetClassToType = assetClasses ? assetClasses.asset_class_dict: {}
-  // console.log("Asset in asset form: ", assetDetails)
+  console.log("Asset in asset form: ", assetDetails)
   // console.log("Is editing in asset form: ", isEditing)
 
   const onAssetTypeSelected = (assetType) => {

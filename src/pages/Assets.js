@@ -14,7 +14,7 @@ function AssetsPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
-  console.log("akash", "bot default asset", botDefaultAsset, selectedBot)
+  // console.log("akash", "bot default asset", botDefaultAsset, selectedBot)
 
   const onOrgSelect = (orgId) => {
     // console.log("Org selected: ", orgId);
