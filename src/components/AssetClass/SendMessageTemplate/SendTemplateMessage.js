@@ -2,6 +2,7 @@ import React from 'react';
 import { Box, Tab, Tabs, Typography } from '@mui/material';
 import AssetDefaults from '../Common/AssetDefaults';
 import Templates from './Templates';  
+import SendTemplateConfiguration from './ConfigureTool';
 
 
 function SendMessageTemplate({ asset, handleInputChange, isEditing, isCreating, orgId, bot }) {
@@ -25,6 +26,7 @@ function SendMessageTemplate({ asset, handleInputChange, isEditing, isCreating, 
                 style={{ marginBottom: "20px" }}
             >
                 <Tab value="defaults" label="Defaults" />
+                <Tab value="messages" label="Messages" />
                 <Tab value="configure" label="Configure" />
             </Tabs>
             {value === 'defaults' &&
@@ -32,8 +34,16 @@ function SendMessageTemplate({ asset, handleInputChange, isEditing, isCreating, 
                     asset={asset}
                     handleInputChange={handleInputChange}
                     isEditing={isCreating || isEditing} />}
-            {value === 'configure' && <Box>
+            {value === 'messages' && <Box>
                 <Templates
+                    asset={asset}
+                    handleInputChange={handleInputChange}
+                    isEditing={isCreating || isEditing}
+                    botId={bot.org_chat_bot_id}
+                    orgId={orgId} />
+            </Box>}
+            {value === 'configure' && <Box>
+                <SendTemplateConfiguration
                     asset={asset}
                     handleInputChange={handleInputChange}
                     isEditing={isCreating || isEditing}
