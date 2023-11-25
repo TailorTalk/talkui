@@ -119,7 +119,9 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
             <DefaultAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
-              isEditing={isEditing} />}
+              isEditing={isEditing}
+              bot={bot}
+              orgId={orgId} />}
           {assetType === "NO_CONTEXT" &&
             <NoContextAsset
               asset={assetDetails}
