@@ -4,8 +4,7 @@ const fields = [
     "asset_tool_short_description",
     "asset_tool_description",
     "run_instruction",
-    "model_name",
-    "function_schema"
+    "model_name"
 ]
 
 function validateReasoningAsset(asset) {
