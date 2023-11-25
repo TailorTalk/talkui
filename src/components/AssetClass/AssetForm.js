@@ -14,6 +14,8 @@ import validateSendClientMsgAsset from './SendClientMessage/assetValidator'
 import validateGetClientMsgAsset from './GetClientMessage/assetValidator';
 import validateTimedTriggerAsset from './TimedTrigger/assetValidator';
 import validateSendTemplateAsset from './SendMessageTemplate/assetValidator';
+import validateToolChainAsset from './ToolChain/assetValidator';
+import validateReasoningAsset from './ReasoningAsset/assetValidator';
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 import GenericAsset from './GenericAsset/GenericAsset';
 import SendClientMessage from './SendClientMessage/SendClientMessageAsset';
@@ -21,6 +23,8 @@ import GetClientMessage from './GetClientMessage/GetClientMessageAsset';
 import TimedTrigger from './TimedTrigger/TimedTriggerAsset';
 import SendMessageTemplate from './SendMessageTemplate/SendTemplateMessage';
 import { useGlobals } from '../../contexts/GlobalsContext';
+import ToolChainTool from './ToolChain/ToolChainTool';
+import ReasoningAsset from './ReasoningAsset/ReasoningAsset';
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
 // const assetClassToType = {
@@ -99,6 +103,14 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
       if (assetType === "SEND_TEMPLATE_MESSAGE") {
         const temp = validateSendTemplateAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "TOOL_CHAIN") {
+        const temp = validateToolChainAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "REASONING_TOOL") {
+        const temp = validateReasoningAsset(assetDetails)
         setIsAssetValid(!temp)
       }
     }
@@ -189,6 +201,24 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
           }
           {assetType === "SEND_TEMPLATE_MESSAGE" &&
             <SendMessageTemplate
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "TOOL_CHAIN" &&
+            <ToolChainTool
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "REASONING_TOOL" &&
+            <ReasoningAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}

@@ -1,10 +1,19 @@
 import React from 'react';
-import { Box, TextField } from '@mui/material';
+import { Box, TextField, Checkbox } from '@mui/material';
+
 
 function AssetDefaults({ asset, handleInputChange, isEditing }) {
     // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing)
     return (
         <Box display="flex" flexDirection="column" gap={2} position="relative">
+            <Box display="flex" alignItems="center">
+                <Checkbox
+                    checked={asset.disabled || false}
+                    onChange={e => handleInputChange(e.target.checked, 'disabled')}
+                    disabled={!isEditing}
+                />
+                <span>Disabled</span>
+            </Box>
             <TextField
                 label="Asset Tool Name"
                 value={asset.asset_tool_name}
