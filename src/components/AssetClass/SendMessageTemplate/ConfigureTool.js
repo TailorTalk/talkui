@@ -27,6 +27,12 @@ function SendTemplateConfiguration({ asset, handleInputChange, isEditing, botId,
                 onChange={e => handleInputChange(e.target.value, 'org_id')}
                 disabled={!isEditing}
             />
+            <TextField
+                label="Send as (Name)"
+                value={asset.role || ''}
+                onChange={e => handleInputChange(e.target.value, 'role')}
+                disabled={!isEditing}
+            />
         </Box>
     );
 }

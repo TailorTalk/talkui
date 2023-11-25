@@ -27,6 +27,12 @@ function ClientConfiguration({ asset, handleInputChange, isEditing, botId, orgId
                 onChange={e => handleInputChange(e.target.value, 'org_id')}
                 disabled={!isEditing}
             />
+            <TextField
+                label="Send as (Name)"
+                value={asset.role || ''}
+                onChange={e => handleInputChange(e.target.value, 'role')}
+                disabled={!isEditing}
+            />
         </Box>
     );
 }

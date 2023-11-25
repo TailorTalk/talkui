@@ -5,7 +5,8 @@ const fields = [
     "asset_tool_description",
     "messages",
     "org_id",
-    "bot_id"
+    "bot_id",
+    "role"
 ]
 
 function validateSendTemplateAsset(asset) {
