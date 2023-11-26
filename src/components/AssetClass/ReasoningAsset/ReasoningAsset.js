@@ -38,7 +38,6 @@ function ReasoningAsset({ asset, handleInputChange, isEditing, isCreating, orgId
             >
                 <Tab value="defaults" label="Defaults" />
                 <Tab value="configure" label="Configure" />
-                <Tab value="schema" label="Schema" />
             </Tabs>
             {value === 'defaults' &&
                 <AssetDefaults
@@ -53,14 +52,6 @@ function ReasoningAsset({ asset, handleInputChange, isEditing, isCreating, orgId
                     botId={bot.org_chat_bot_id}
                     orgId={orgId} />
             </Box>}
-            {value === 'schema' &&
-                <JsonInputComponent
-                    hintJson={input_hint}
-                    handleInputChange={handleInputChange}
-                    field_name={"function_schema"}
-                    asset={asset}
-                    isEditing={isCreating || isEditing}
-                />}
         </Box>
     </>)
 }
