@@ -3,7 +3,8 @@ import assetsService from '../services/assets.service';
 
 const GlobalsContext = createContext({
     supportedModels: null,
-    supportedStrategies: null
+    supportedStrategies: null,
+    assetClasses: null
 });
 
 export const useGlobals = () => useContext(GlobalsContext);
@@ -11,6 +12,7 @@ export const useGlobals = () => useContext(GlobalsContext);
 export const GlobalsProvider = ({children}) => {
     const [supportedModels, setSupportedModels] = useState(null);
     const [supportedStrategies, setSupportedStrategies] = useState(null);
+    const [assetClasses, setAssetClasses] = useState(null);
 
     const getAndSetSupportedModels = () => {
         assetsService.getSupportedModels()
@@ -54,13 +56,35 @@ export const GlobalsProvider = ({children}) => {
         })
     }
 
+    const getAndSetAssetClasses = () => {
+        assetsService.getAssetClasses()
+        .then((response) => {
+            // console.log("Execution strategies: ", response.data)
+            return response.data
+        })
+        .then((data) => {
+            if (data.success) {
+                setAssetClasses(data.result)
+                // console.log("Supported strategies set successfully")
+            } else {
+                // console.log("Error in getting supported strategies: ", data)
+                throw new Error("Error in getting asset classes")
+            }
+        })
+        .catch((error) => {
+            // console.log("Error in getting supported strategies: ", error)
+            alert("Error in getting asset classes: " + error.message)
+        })
+    }
+
     useEffect(() => {
         getAndSetSupportedModels();
         getAndSetSupportedStartegies();
+        getAndSetAssetClasses();
     }, []);
 
     return (
-        <GlobalsContext.Provider value={{supportedModels, supportedStrategies}}>
+        <GlobalsContext.Provider value={{supportedModels, supportedStrategies, assetClasses}}>
             {children}
         </GlobalsContext.Provider>
     )

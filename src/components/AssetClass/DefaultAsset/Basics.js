@@ -41,13 +41,6 @@ function DefaultAssetBasics({ asset, handleInputChange, isEditing }) {
                 label = {"Model for your chatbot"}
                 editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
 
-            {supportedStrategies? <SupportedTypeSelector
-                items={supportedStrategies} 
-                currentItem={asset.execution_strategy?asset.execution_strategy:supportedStrategies[0]}
-                onItemSelected={(value)=>handleInputChange(value, 'execution_strategy')}
-                label = {"Execution strategy for your chatbot"}
-                editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting strategies </Typography>}
-
             <FormGroup style={{paddingLeft: '10px'}}>
                 <FormControlLabel
                     control={

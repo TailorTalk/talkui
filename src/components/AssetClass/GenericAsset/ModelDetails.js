@@ -8,6 +8,12 @@ import { useGlobals } from '../../../contexts/GlobalsContext';
 function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
     const { addMessage, addErrorMessage } = useNotify();
     const { supportedModels } = useGlobals();
+
+    useEffect(() => {
+        if (asset && !asset.model_name) {
+            handleInputChange(supportedModels.default_model, 'model_name')
+        }
+    }, [asset, supportedModels]);
     
     // console.log("Props in Asset Defaults: ", asset, "isEditing", isEditing, supportedModels)
     return (
@@ -26,7 +32,7 @@ function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
                 onItemSelected={(value)=>handleInputChange(value, 'model_name')}
                 label = {"Model for generic asset"}
                 editable= {isEditing} />: <Typography color={'red'}> Failed getting supporting models </Typography>}
-            <FormGroup style={{paddingLeft: '10px'}}>
+            {/*<FormGroup style={{paddingLeft: '10px'}}>
                 <FormControlLabel
                     control={
                     <Checkbox checked={asset.is_reasoning_tool?asset.is_reasoning_tool:false} 
@@ -34,7 +40,7 @@ function GenericAssetModelDetails({ asset, handleInputChange, isEditing }) {
                         disabled={!isEditing} />}
                     label="Is Reasoning tool (To be used with reasoning engine)"
                 />
-            </FormGroup>
+                    </FormGroup>*/}
         </Box>
     );
 }

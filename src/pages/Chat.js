@@ -35,6 +35,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     // console.log("Query dict values in Chat", queryDict)
 
     useEffect(() => {
+        console.log('akash', 'isAnAgent', isAnAgent)
         setStreamMode(!isAnAgent);
         setLoading(true);
         if (queryDict.botId && queryDict.orgId) {

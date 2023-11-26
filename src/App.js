@@ -17,7 +17,7 @@ function App() {
       <GlobalsProvider>
         <QueryStringProvider>
           <div className="App">
-            <AppBarComponent />
+            {<AppBarComponent />}
             <Routes>
               <Route path="/login" element={isLoggedIn ? <Navigate to="/assets" /> : <FirebaseLogin />} />
               <Route path="/" element={!isLoggedIn ? <Navigate to="/login" /> : <Navigate to="/assets" />} />
