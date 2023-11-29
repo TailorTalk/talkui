@@ -2,10 +2,11 @@ import React from 'react';
 import { Card, CardContent, Typography, ButtonBase } from '@mui/material';
 
 function AssetCard({ asset, assetClick }) {
+  const disabled = asset.disabled || false;
   return (
     <ButtonBase style={{ width: '100%', borderRadius: '4px' }}>
       <Card
-        style={{ width: 275, height: 200, cursor: 'pointer' }}
+        style={{ width: 275, height: 200, cursor: 'pointer', 'opacity': disabled ? '0.5' : '1' }}
         onClick={() => assetClick(asset)}
         elevation={2}
       >

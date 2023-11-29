@@ -16,6 +16,7 @@ import validateTimedTriggerAsset from './TimedTrigger/assetValidator';
 import validateSendTemplateAsset from './SendMessageTemplate/assetValidator';
 import validateToolChainAsset from './ToolChain/assetValidator';
 import validateReasoningAsset from './ReasoningAsset/assetValidator';
+import validateSaveFieldsAsset from './SaveFieldsAsset/assetValidator';
 import NoContextAsset from './NoContextAsset/NoContextAsset';
 import GenericAsset from './GenericAsset/GenericAsset';
 import SendClientMessage from './SendClientMessage/SendClientMessageAsset';
@@ -25,6 +26,7 @@ import SendMessageTemplate from './SendMessageTemplate/SendTemplateMessage';
 import { useGlobals } from '../../contexts/GlobalsContext';
 import ToolChainTool from './ToolChain/ToolChainTool';
 import ReasoningAsset from './ReasoningAsset/ReasoningAsset';
+import SaveFieldsAsset from './SaveFieldsAsset/SaveFields';
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
 // const assetClassToType = {
@@ -111,6 +113,10 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       }
       if (assetType === "REASONING_TOOL") {
         const temp = validateReasoningAsset(assetDetails)
+        setIsAssetValid(!temp)
+      }
+      if (assetType === "SAVE_FIELDS") {
+        const temp = validateSaveFieldsAsset(assetDetails)
         setIsAssetValid(!temp)
       }
     }
@@ -219,6 +225,15 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
           }
           {assetType === "REASONING_TOOL" &&
             <ReasoningAsset
+              asset={assetDetails}
+              handleInputChange={handleInputChange}
+              isEditing={isEditing}
+              isCreating={!editMode}
+              orgId={orgId}
+              bot={bot}/>
+          }
+          {assetType === "SAVE_FIELDS" &&
+            <SaveFieldsAsset
               asset={assetDetails}
               handleInputChange={handleInputChange}
               isEditing={isEditing}

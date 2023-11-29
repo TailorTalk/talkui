@@ -12,17 +12,25 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
                     onChange={e => handleInputChange(e.target.checked, 'disabled')}
                     disabled={!isEditing}
                 />
-                <span>Disabled</span>
+                <span>Disable from regular execution</span>
+            </Box>
+            <Box display="flex" alignItems="center">
+                <Checkbox
+                    checked={asset.exclude_from_history || false}
+                    onChange={e => handleInputChange(e.target.checked, 'exclude_from_history')}
+                    disabled={!isEditing}
+                />
+                <span>Exclude from history</span>
             </Box>
             <TextField
                 label="Asset Tool Name"
-                value={asset.asset_tool_name}
+                value={asset.asset_tool_name || ''}
                 onChange={e => handleInputChange(e.target.value, 'asset_tool_name')}
                 disabled={!isEditing}
             />
             <TextField
                 label="Asset tool Short Description"
-                value={asset.asset_tool_short_description}
+                value={asset.asset_tool_short_description || ''}
                 multiline
                 rows={1}
                 onChange={e => handleInputChange(e.target.value, 'asset_tool_short_description')}
@@ -30,7 +38,7 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
             />
             <TextField
                 label="Asset tool full Description"
-                value={asset.asset_tool_description}
+                value={asset.asset_tool_description || ''}
                 multiline
                 rows={3}
                 onChange={e => handleInputChange(e.target.value, 'asset_tool_description')}
