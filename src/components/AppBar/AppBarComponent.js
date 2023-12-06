@@ -1,5 +1,5 @@
 import * as React from "react";
-import Logo from "../../assets/logo.png";
+import Logo from "../../assets/logo.svg";
 import AppBar from "@mui/material/AppBar";
 import Box from "@mui/material/Box";
 import Toolbar from "@mui/material/Toolbar";
@@ -175,7 +175,7 @@ function AppBarComponent() {
     //   </Container>
     // </AppBar>
     <header className="fixed w-full left-0 z-10 bg-white top-0">
-      <nav className="flex justify-between py-4 px-8 border-b-2 items-center">
+      <nav className="flex justify-between py-2 px-8 border-b-[1px] items-center">
         <img src={Logo} alt="" className="relative w-40 max-sm:w-28" />
         {isLoggedIn ? (
           <>
