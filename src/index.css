@@ -1,0 +1,28 @@
+/* Importing the google fonts used in the website - Comfortaa & Ubuntu */
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque&family=Roboto+Mono:wght@300;400;500;600;700&family=Signika+Negative&family=Source+Sans+3:wght@200;300;400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque&family=Comfortaa:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;600;700&family=Signika+Negative&family=Source+Sans+3:wght@200;300;400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+.dashboard-layout{
+  display: grid;
+  grid-template-columns: 100px 1fr;
+
+}
+
+.scrollbar-hidden {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.scrollbar-hidden::-webkit-scrollbar {
+  display: none;
+}
+
+.active .activeIcon{
+  color:#4764FC
+}
+
