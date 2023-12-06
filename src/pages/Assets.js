@@ -46,8 +46,8 @@ function AssetsPage() {
   // console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
-    <Container style={{ margin: "0px", height: '100vh' }} maxWidth="false">
-      <Grid container style={{ margin: '0px', height: '100vh' }} maxWidth="false">
+    <Container style={{ margin: "0px"}} maxWidth="false">
+      <Grid container style={{ margin: '0px' }} maxWidth="false">
         <Grid item xs={isCollapsed?false:2} >
           <Collapse in={!isCollapsed} orientation="horizontal">
             <OrgsList onSelect={onOrgSelect} />
@@ -58,12 +58,12 @@ function AssetsPage() {
             {selectedOrgId && <BotsList orgId={selectedOrgId} onSelect={onBotSelect} />}
           </Collapse>
         </Grid>
-        <Grid item xs={0.2} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '100vh' }}>
+        <Grid item xs={0.2} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center'  }}>
           <IconButton onClick={toggleCollapse} size="small">
-            {isCollapsed ? <ChevronRightIcon /> : <ChevronLeftIcon />}
+            {isCollapsed ? <ChevronRightIcon  sx={{ color: "#4764FC" }}/> : <ChevronLeftIcon sx={{ color: "#4764FC" }} />}
           </IconButton>
         </Grid>
-        <Grid item xs={isCollapsed?6.8:7.8} style={{overflowY: 'auto', maxHeight: '100vh', paddingLeft: '10px'}}>
+        <Grid item xs={isCollapsed?6.8:7.8} style={{overflowY: 'auto', maxHeight: '100vh', paddingLeft: '10px' }}>
           {selectedBot && <AssetsDisplay orgId={selectedOrgId} bot={selectedBot} onAssetFetch={onAssetFetch}/>}
         </Grid>
         <Grid item xs={isCollapsed?5:false} style={{paddingLeft: '10px'}}>

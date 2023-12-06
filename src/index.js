@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import App from './App'; // Importing your main App component
 import { AuthProvider } from './contexts/AuthContext';
 import { NotifyProvider } from './contexts/NotifyContext';
+import "./index.css";
 
 // Render the App component into the 'root' div in index.html
 ReactDOM.render(
