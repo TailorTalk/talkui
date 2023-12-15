@@ -1,6 +1,6 @@
 
 import React, { useState, useEffect } from "react";
-import { Typography, Button, Box } from '@material-ui/core';
+import { Typography, Button, Box } from '@mui/material';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';

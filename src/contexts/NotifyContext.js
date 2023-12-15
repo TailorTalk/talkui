@@ -1,15 +1,15 @@
-
-import React, { createContext, useContext, useState } from 'react';
-import Snackbar from '@mui/material/Snackbar';
-import IconButton from '@mui/material/IconButton';
-import CloseIcon from '@mui/icons-material/Close';
+import React, { createContext, useContext, useState } from "react";
+import Snackbar from "@mui/material/Snackbar";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
+import { Alert } from "@mui/material";
 
 // Create a context with a default empty state
 const NotifyContext = createContext({
   messages: [],
   addMessage: () => {},
   addErrorMessage: () => {},
-  removeMessage: () => {}
+  removeMessage: () => {},
 });
 
 export const useNotify = () => useContext(NotifyContext);
@@ -23,10 +23,10 @@ export const NotifyProvider = ({ children }) => {
   // Add a message to the array
   const addMessage = (content, type) => {
     if (!type) {
-      type = 'info';
+      type = "info";
     }
     const newMessage = { type, content, key: new Date().getTime() }; // use timestamp as unique key
-    setMessages(prevMessages => [...prevMessages, newMessage]);
+    setMessages((prevMessages) => [...prevMessages, newMessage]);
   };
 
   const addErrorMessage = (content) => {
@@ -35,13 +35,17 @@ export const NotifyProvider = ({ children }) => {
 
   // Remove a message from the array by key
   const removeMessage = (key) => {
-    setMessages(prevMessages => prevMessages.filter(message => message.key !== key));
+    setMessages((prevMessages) =>
+      prevMessages.filter((message) => message.key !== key)
+    );
   };
 
   // console.log("Messages in NotifyContext: ", messages)
 
   return (
-    <NotifyContext.Provider value={{ messages, addMessage, addErrorMessage, removeMessage }}>
+    <NotifyContext.Provider
+      value={{ messages, addMessage, addErrorMessage, removeMessage }}
+    >
       {children}
       {messages.map((message, index) => {
         // Calculate the top offset for each Snackbar based on its index
@@ -52,17 +56,25 @@ export const NotifyProvider = ({ children }) => {
             key={message.key}
             open={true}
             onClose={() => removeMessage(message.key)}
-            message={message.content}
             action={
-              <IconButton size="small" aria-label="close" color="inherit" onClick={() => removeMessage(message.key)}>
+              <IconButton
+                size="small"
+                aria-label="close"
+                color="inherit"
+                onClick={() => removeMessage(message.key)}
+              >
                 <CloseIcon fontSize="small" />
               </IconButton>
             }
-            {...(message.type !== 'error' ? { autoHideDuration: 2000 } : {autoHideDuration: null})}
+            {...(message.type !== "error"
+              ? { autoHideDuration: 2000 }
+              : { autoHideDuration: 2000 })}
             // Adjust the style to position each Snackbar below the previous one
             style={{ top: `${topOffset}px` }}
-            anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
-          />
+            anchorOrigin={{ vertical: "top", horizontal: "right" }}
+          >
+            <Alert severity={message.type !== "error"?"success":"error"} onClose={() => removeMessage(message.key)}>{message.content}</Alert>
+          </Snackbar>
         );
       })}
     </NotifyContext.Provider>

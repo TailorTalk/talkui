@@ -7,8 +7,8 @@ import assetsService from "../../services/assets.service";
 import SideDrawer from '../Drawer';
 import AssetCard from './AssetCard';
 import AssetForm from '../AssetClass/AssetForm';
-import Fab from '@material-ui/core/Fab';
-import ChatIcon from '@material-ui/icons/Chat';
+import { Fab } from '@mui/material';
+import {Chat} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
@@ -213,7 +213,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                 }}
                 onClick={handleChatClick}  // Optionally add a click handler
             >
-                <ChatIcon />
+                <Chat />
             </Fab>
         </div>
     );

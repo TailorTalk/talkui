@@ -17,6 +17,7 @@ import Layout from "./pages/Layout";
 import DashboardRootLayout from "./pages/DashboardRootLayout";
 import Dashboard from "./pages/Dashboard";
 import { createBrowserRouter } from "react-router-dom";
+import DashboardRoot from "./pages/DashboardRoot";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -43,7 +44,7 @@ function App() {
             },
             {
               path: "dashboard",
-              element: <Dashboard />,
+              element: <DashboardRoot />,
             },
           ],
         },

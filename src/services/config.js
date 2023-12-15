@@ -12,7 +12,7 @@ switch (process.env.REACT_APP_ENV_NAME?process.env.REACT_APP_ENV_NAME.toLowerCas
         BASE_URL = "https://tailortalk-preview.up.railway.app";
         break;
     default:
-        BASE_URL = "http://localhost:8000";
+        BASE_URL = "https://tailortalk-preview.up.railway.app";
         break;
 }
 
