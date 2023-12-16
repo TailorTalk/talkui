@@ -139,13 +139,13 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
         <div>
             {failed && <TextOverlay message={failMessage} />}
             {loading && <LoadingOverlay message="Loading..." />}
-            <Typography variant="h6" component="h2" style={{ paddingBottom: '5px', paddingTop: '22px' }}>
+            <h2 className='relative pt-5 text-5xl'>
                 {bot.bot_name}
-            </Typography>
-            <Typography variant="subtitle2" component="h2" style={{ paddingBottom: '22px', paddingTop: '5px' }}>
+            </h2>
+            <p className='relative text-gray-500 mt-2 text-xl pl-2'>
                 {bot.bot_description}
-            </Typography>
-            <Grid container spacing={2}>
+            </p>
+            <div className='flex gap-8 flex-wrap mt-6'>
                 {assets.map((asset, index) => (
                     <Grid
                         item
@@ -153,7 +153,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                         <AssetCard asset={asset} assetClick={onAssetClick} />
                     </Grid>
                 ))}
-            </Grid>
+            </div>
             <IconButton
                 onClick={() => {
                     setSelectedAsset(null);

@@ -9,6 +9,10 @@ import {
   Button,
   ListSubheader,
   Fab,
+  Chip,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -137,10 +141,14 @@ function BotsList({ orgId, onSelect }) {
   return (
     <div>
       <List>
-        <ListSubheader>Bots for {orgId}</ListSubheader>
+        <ListSubheader sx={{
+          backgroundColor:'#4764FC'
+        }}>
+          <Chip label={`${orgId} bots`} variant="outlined" sx={{borderColor:'#fff', color:'#fff', fontSize:'16px'}} />
+        </ListSubheader>
         {bots.map((bot) => (
           <ListItem button key={bot.id} onClick={() => onSelect(bot)}>
-            <ListItemText
+            {/* <ListItemText
               primary={bot.bot_name}
               secondary={unixToFormattedDate(bot.created_at)}
             />
@@ -149,14 +157,36 @@ function BotsList({ orgId, onSelect }) {
               onClick={() => onDelete(bot.org_chat_bot_id)}
             >
               <DeleteIcon />
-            </IconButton>
+            </IconButton> */}
+
+            <Card sx={{ minWidth: 200 }}>
+              <CardContent>
+                <h3 className="text-xl font-medium font-[Roboto]">
+                {bot.bot_name}
+                </h3>
+                
+              </CardContent>
+              <CardActions className="justify-between gap-4">
+              <p className=" font-medium font-[Roboto] text-sm">
+                {unixToFormattedDate(bot.created_at)}
+                </p>
+                <IconButton onClick={() => onDelete(bot.org_chat_bot_id)}>
+                  <DeleteIcon fontSize="medium" />
+                </IconButton>
+              </CardActions>
+            </Card>
           </ListItem>
         ))}
       </List>
       {loading && <LoadingOverlay message="Loading..." />}
       <IconButton onClick={() => setOpen(true)}>
-        <Fab sx={{backgroundColor:'#4764FC','&:hover':{backgroundColor:'#4764FC'}}} >
-          <AddIcon sx={{ color: "#fff" }} />
+        <Fab
+          sx={{
+            backgroundColor: "#fff",
+            "&:hover": { backgroundColor: "#fff" },
+          }}
+        >
+          <AddIcon sx={{ color: "#4764FC" }} />
         </Fab>
       </IconButton>
       <Modal open={open} onClose={() => setOpen(false)}>

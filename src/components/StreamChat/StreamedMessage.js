@@ -67,13 +67,21 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
     if (!msg) return null;  // Return null if msg hasn't been received yet
 
     return (
-        <ListItem>
-            <ListItemAvatar>
-                <Avatar>
-                    {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
-                </Avatar>
-            </ListItemAvatar>
-            <ListItemText primary={msg.content} />
+        <ListItem
+        className={`${
+          msg.role !== "user"
+            ? " rounded-md  flex !justify-end "
+            : " text-white rounded-md  flex justify-end"
+        }`}
+      >
+            <p className={`w-full ${msg.role !== "user"?'flex items-center  flex-row-reverse gap-2 !justify-start ':'flex items-center  '}`}>
+        <ListItemAvatar>
+          <Avatar>
+            {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role !== "user"?'bg-white':'bg-[#4764fc]'} `} />
+      </p>
         </ListItem>
     );
 });
