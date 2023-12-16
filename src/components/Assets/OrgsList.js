@@ -10,6 +10,11 @@ import {
   ListSubheader,
   ListItemIcon,
   Fab,
+  Chip,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../../contexts/AuthContext";
@@ -143,12 +148,21 @@ function OrgsList({ onSelect }) {
   }, [userInfo]);
 
   return (
-    <div>
-      <List>
-        <ListSubheader>Organisations</ListSubheader>
+    <div className="full" >
+      <List  >
+        <ListSubheader sx={{
+          backgroundColor:'#4764FC'
+        }}>
+          <Chip label="Organisations" variant="outlined" sx={{borderColor:'#fff', color:'#fff', fontSize:'16px'}} />
+        </ListSubheader>
         {orgs.map((org) => (
-          <ListItem button sx={{marginBottom:'12px'}} key={org.name} onClick={() => onSelect(org.name)}>
-            <ListItemText primary={org.name} />
+          <ListItem
+            button
+            sx={{ marginBottom: "12px" }}
+            key={org.name}
+            onClick={() => onSelect(org.name)}
+          >
+            {/* <ListItemText primary={org.name} />
             {org.is_admin && (
               <ListItemIcon>
                 <GroupsIcon
@@ -160,21 +174,39 @@ function OrgsList({ onSelect }) {
               <InfoOutlinedIcon
                 onClick={(event) => handleInfoClick(event, org)}
               />
-            </ListItemIcon>
+            </ListItemIcon> */}
+
+            <Card sx={{ minWidth: 200 }}>
+              <CardContent>
+                <h3 className="text-2xl font-medium font-[Roboto]">{org.name}</h3>
+              </CardContent>
+              <CardActions className="justify-between">
+                {org.is_admin && (
+                  <IconButton
+                    onClick={(event) => handleCollaborateClick(event, org.name)}
+                  >
+                    <GroupsIcon fontSize="medium" />
+                  </IconButton>
+                )}
+                <IconButton
+                  onClick={(event) => handleInfoClick(event, org)}
+                >
+                  <InfoOutlinedIcon fontSize="medium" />
+                </IconButton>
+              </CardActions>
+            </Card>
           </ListItem>
         ))}
       </List>
       {loading && <LoadingOverlay message="Loading..." />}
-      <IconButton onClick={() => handleOpen(true)}>
-        <Fab variant="extended"
+      <IconButton onClick={() => setOpen(true)}>
+        <Fab
           sx={{
-            backgroundColor: "#4764FC",
-            "&:hover": { backgroundColor: "#4764FC" },
-            color:'#fff'
+            backgroundColor: "#fff",
+            "&:hover": { backgroundColor: "#fff" },
           }}
         >
-            Add Organisation 
-          <AddIcon sx={{ color: "#fff" }} />
+          <AddIcon sx={{ color: "#4764FC" }} />
         </Fab>
       </IconButton>
       {!collaboratorOrg ? (
