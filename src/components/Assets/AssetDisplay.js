@@ -202,7 +202,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                     </Backdrop>
                 )}
             </SideDrawer>
-            <Fab
+            {/* <Fab
                 color="primary"
                 aria-label="chat"
                 style={{
@@ -214,7 +214,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                 onClick={handleChatClick}  // Optionally add a click handler
             >
                 <Chat />
-            </Fab>
+            </Fab> */}
         </div>
     );
 }

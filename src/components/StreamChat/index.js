@@ -3,8 +3,9 @@ import {
   TextField,
   List,
   ListItem,
-  Paper,
   LinearProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import MemoryIcon from "@mui/icons-material/Memory";
@@ -13,25 +14,20 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import StreamMessageItem from "./StreamedMessage";
 import ChatSuggestions from "../ChatSuggestions";
+import { Send } from "@mui/icons-material";
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
   return (
-    <ListItem
-      className={`${
-        msg.role !== "user"
-          ? " rounded-md  flex !justify-end "
-          : " text-white rounded-md  flex justify-end"
-      }`}
-    >
-      <p className={`w-full ${msg.role !== "user"?'flex items-center  flex-row-reverse gap-2 !justify-start ':'flex items-center  '}`}>
+    <ListItem>
+      <div className={`w-full flex items-center   ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
         <ListItemAvatar>
           <Avatar>
             {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
           </Avatar>
         </ListItemAvatar>
-        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role !== "user"?'bg-white':'bg-[#4764fc]'} `} />
-      </p>
+        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
+      </div>
     </ListItem>
   );
 });
@@ -61,6 +57,10 @@ function StreamChatComponent({
     scrollToBottom();
   }, [pastChatHistory]);
 
+  useEffect(()=>{
+    scrollToBottom();
+  },[chatHistory]);
+
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
     setFinalInputMessage(event.target.value);
@@ -73,7 +73,8 @@ function StreamChatComponent({
   };
 
   const handleKeyPress = (event) => {
-    if (event.key === "Enter" && inputMessage.trim()) {
+    console.log(event);
+    if ((event.key === "Enter" && inputMessage.trim()) || (event.type === "click"  && inputMessage.trim())) {
       onStart();
       if (chatHistory) {
         const chatHistoryCopy = { ...chatHistory };
@@ -115,7 +116,7 @@ function StreamChatComponent({
     setStartStream(true);
   };
   return (
-    <div className=" flex-1 flex flex-col bg-[#f9f9fa] overflow-y-scroll ">
+    <div className=" flex-1 flex flex-col bg-[#f9f9fa] overflow-y-hidden ">
       {chatHistory && chatHistory.success ? (
         <List
           style={{
@@ -128,7 +129,7 @@ function StreamChatComponent({
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
-            <MessageItem msg={msg} />
+            <MessageItem msg={msg} key={index} />
           ))}
           {startStream && (
             <StreamMessageItem
@@ -162,6 +163,18 @@ function StreamChatComponent({
           fullWidth
           sx={{
             padding: "10px",
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="end">
+                <IconButton aria-label="send" onClick={handleKeyPress}>
+                <Send />
+                </IconButton>
+              </InputAdornment>
+            ),
+            sx: {
+              color: "#717171",
+            },
           }}
         />
       </div>

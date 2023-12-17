@@ -227,6 +227,9 @@ export default function BasicTable({ data }) {
             ).map((row, index) => (
               <TableRow
                 key={index}
+                sx={{'td':{
+                  border:0
+                }}}
               >
                 <TableCell align="center" sx={{
                   color: '#717171',
@@ -296,6 +299,7 @@ export default function BasicTable({ data }) {
           ActionsComponent={TablePaginationActionsComponent}
           sx={{
             display: 'flex',
+            borderTop:'1px solid #D3D3D3',
             width: '100%',
             justifyContent: 'center',
             fontSize: '18px',

@@ -35,7 +35,15 @@ html{
 }
 
 .active {
-  color: #4764FC
+  color: #4764FC;
+ 
+ 
+}
+
+.active div{
+  border:2px solid #A7A7A7;
+  border-radius: 12px;
+  background: #fff;
 }
 
 

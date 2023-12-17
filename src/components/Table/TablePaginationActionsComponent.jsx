@@ -30,12 +30,12 @@ function TablePaginationActionsComponent(props) {
         disabled={page === 0}
         aria-label="previous page"
       >
-        {theme.direction === 'rtl' ? <ArrowCircleRightOutlined sx={{
+        {theme.direction === 'rtl' ? <KeyboardArrowRight sx={{
           fontSize: '40px', '@media (max-width: 800px)': {
             fontSize: '30px',
 
           }
-        }} /> : <ArrowCircleLeftOutlined sx={{
+        }} /> : <KeyboardArrowLeft sx={{
           fontSize: '40px', '@media (max-width: 800px)': {
             fontSize: '30px',
 
@@ -47,12 +47,12 @@ function TablePaginationActionsComponent(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="next page"
       >
-        {theme.direction === 'rtl' ? <ArrowCircleLeftOutlined sx={{
+        {theme.direction === 'rtl' ? <KeyboardArrowLeft sx={{
           fontSize: '40px', '@media (max-width: 800px)': {
             fontSize: '30px',
 
           }
-        }} /> : <ArrowCircleRightOutlined sx={{
+        }} /> : <KeyboardArrowRight sx={{
           fontSize: '40px', '@media (max-width: 800px)': {
             fontSize: '30px',
 
