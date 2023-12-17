@@ -5,8 +5,27 @@ import { FilterAlt, Search } from "@mui/icons-material";
 import BasicTable from "../components/Table/Table";
 
 import useData from "../hooks/useData";
+import { Button, InputAdornment, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { FilterAlt, Search } from "@mui/icons-material";
+
+import BasicTable from "../components/Table/Table";
+
+import useData from "../hooks/useData";
 
 const Dashboard = () => {
+  const { data } = useData();
+  const [search, setSearch] = useState("");
+
+  const FilteredDataTable = () => {
+    let filteredData = data;
+
+    filteredData = filteredData.filter((dataObj) => {
+      return dataObj.name.toLowerCase().includes(search.toLowerCase());
+    });
+    return <BasicTable data={filteredData} />;
+  };
+
   const { data } = useData();
   const [search, setSearch] = useState("");
 
@@ -53,5 +72,7 @@ const Dashboard = () => {
     </div>
   );
 };
+
+export default Dashboard;
 
 export default Dashboard;

@@ -9,6 +9,8 @@ import AssetCard from './AssetCard';
 import AssetForm from '../AssetClass/AssetForm';
 import { Fab } from '@mui/material';
 import {Chat} from '@mui/icons-material';
+import { Fab } from '@mui/material';
+import {Chat} from '@mui/icons-material';
 import { useNavigate } from 'react-router-dom';
 import TextOverlay from '../Overlay/TextOverlay';
 import LoadingOverlay from '../Overlay/LoadingOverlay';
@@ -140,10 +142,15 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
             {failed && <TextOverlay message={failMessage} />}
             {loading && <LoadingOverlay message="Loading..." />}
             <h2 className='relative pt-5 text-5xl'>
+            <h2 className='relative pt-5 text-5xl'>
                 {bot.bot_name}
             </h2>
             <p className='relative text-gray-500 mt-2 text-xl pl-2'>
+            </h2>
+            <p className='relative text-gray-500 mt-2 text-xl pl-2'>
                 {bot.bot_description}
+            </p>
+            <div className='flex gap-8 flex-wrap mt-6'>
             </p>
             <div className='flex gap-8 flex-wrap mt-6'>
                 {assets.map((asset, index) => (
@@ -153,6 +160,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
                         <AssetCard asset={asset} assetClick={onAssetClick} />
                     </Grid>
                 ))}
+            </div>
             </div>
             <IconButton
                 onClick={() => {

@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import React, { useEffect } from "react";
 import Logo from "../../assets/logo.svg";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
@@ -41,6 +42,26 @@ function AppBarComponent() {
       logout();
     }
     setAnchorElUser(null);
+  };
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(fetchOrgs())
+        .unwrap()
+        .then((result) => {
+          console.log("Yo");
+          console.log(result);
+          dispatch(fetchBots(result[0]));
+        });
+    }
+  }, [dispatch, isLoggedIn]);
+
+  const handleOrgChange = async (event) => {
+    dispatch(fetchBots(event.target.value));
+    dispatch(setOrgId(event.target.value));
+  };
+  const handleBotChange = (event) => {
+    dispatch(setBotId(event.target.value));
   };
 
   useEffect(() => {
@@ -143,6 +164,7 @@ function AppBarComponent() {
 
         {isLoggedIn ? (
           <div className="flex gap-6">
+          <div className="flex gap-6">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
               <Avatar alt="User" src={userInfo.picture} />
             </IconButton>
@@ -171,6 +193,7 @@ function AppBarComponent() {
                 </MenuItem>
               ))}
             </Menu>
+          </div>
           </div>
         ) : (
           ""

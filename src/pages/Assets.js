@@ -8,6 +8,16 @@ import OrgsList from "../components/Assets/OrgsList";
 import Chat from "./Chat";
 import { useQueryString } from "../contexts/QueryStringContext";
 import { Height } from "@mui/icons-material";
+import React, { useState, useEffect, useRef } from "react";
+import { Container, Grid, Collapse, Divider, IconButton } from "@mui/material";
+import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
+import ChevronRightIcon from "@mui/icons-material/ChevronRight";
+import BotsList from "../components/Assets/BotsList";
+import AssetsDisplay from "../components/Assets/AssetDisplay";
+import OrgsList from "../components/Assets/OrgsList";
+import Chat from "./Chat";
+import { useQueryString } from "../contexts/QueryStringContext";
+import { Height } from "@mui/icons-material";
 
 function AssetsPage() {
   const [selectedOrgId, setSelectedOrgId] = useState(null);
@@ -15,6 +25,7 @@ function AssetsPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
+  const chatWindowRef = useRef();
   // console.log("akash", "bot default asset", botDefaultAsset, selectedBot)
 
   const onOrgSelect = (orgId) => {
@@ -23,11 +34,13 @@ function AssetsPage() {
     setSelectedBot(null);
     deleteQueryKeys(["orgId", "botId"]);
   };
+  };
 
   const onBotSelect = (bot) => {
     setSelectedBot(bot);
     updateQueryKeys({ orgId: bot.org_id, botId: bot.org_chat_bot_id });
     setIsCollapsed(true);
+  };
   };
 
   const toggleCollapse = () => {
@@ -41,6 +54,7 @@ function AssetsPage() {
         break;
       }
     }
+  };
   };
 
   // console.log("Selected bot in assets page: ", selectedBot)

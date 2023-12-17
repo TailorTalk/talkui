@@ -46,7 +46,24 @@ function StreamChatComponent({
   const [chatHistory, setChatHistory] = useState(pastChatHistory);
   const [startStream, setStartStream] = useState(false);
   const chatEndRef = useRef(null);
+function StreamChatComponent({
+  pastChatHistory,
+  onStart,
+  onDone,
+  sessionId,
+  userInfo,
+  orgId,
+  botId,
+}) {
+  const [inputMessage, setInputMessage] = useState("");
+  const [finalInputMessage, setFinalInputMessage] = useState("");
+  const [chatHistory, setChatHistory] = useState(pastChatHistory);
+  const [startStream, setStartStream] = useState(false);
+  const chatEndRef = useRef(null);
 
+  const scrollToBottom = () => {
+    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };
@@ -65,7 +82,16 @@ function StreamChatComponent({
     setInputMessage(event.target.value);
     setFinalInputMessage(event.target.value);
   };
+  const handleInputChange = (event) => {
+    setInputMessage(event.target.value);
+    setFinalInputMessage(event.target.value);
+  };
 
+  const onStreamDone = (streamedMessage, sessionId) => {
+    // console.log("akash", "onStreamDone", streamedMessage, sessionId);
+    setStartStream(false);
+    onDone(sessionId);
+  };
   const onStreamDone = (streamedMessage, sessionId) => {
     // console.log("akash", "onStreamDone", streamedMessage, sessionId);
     setStartStream(false);

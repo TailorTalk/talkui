@@ -13,6 +13,10 @@ import {
   Card,
   CardContent,
   CardActions,
+  Chip,
+  Card,
+  CardContent,
+  CardActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -156,6 +160,7 @@ function BotsList({ orgId, onSelect }) {
         {bots.map((bot) => (
           <ListItem button key={bot.id} onClick={() => onSelect(bot)}>
             {/* <ListItemText
+            {/* <ListItemText
               primary={bot.bot_name}
               secondary={unixToFormattedDate(bot.created_at)}
             />
@@ -201,6 +206,13 @@ function BotsList({ orgId, onSelect }) {
       </List>
       {loading && <LoadingOverlay message="Loading..." />}
       <IconButton onClick={() => setOpen(true)}>
+        <Fab
+          sx={{
+            backgroundColor: "#fff",
+            "&:hover": { backgroundColor: "#fff" },
+          }}
+        >
+          <AddIcon sx={{ color: "#4764FC" }} />
         <Fab
           sx={{
             backgroundColor: "#fff",

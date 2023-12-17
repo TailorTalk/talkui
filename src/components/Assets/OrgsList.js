@@ -15,6 +15,11 @@ import {
   CardContent,
   Typography,
   CardActions,
+  Chip,
+  Card,
+  CardContent,
+  Typography,
+  CardActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../../contexts/AuthContext";
@@ -170,6 +175,13 @@ function OrgsList({ onSelect }) {
             onClick={() => onSelect(org.name)}
           >
             {/* <ListItemText primary={org.name} />
+          <ListItem
+            button
+            sx={{ marginBottom: "12px" }}
+            key={org.name}
+            onClick={() => onSelect(org.name)}
+          >
+            {/* <ListItemText primary={org.name} />
             {org.is_admin && (
               <ListItemIcon>
                 <GroupsIcon
@@ -229,11 +241,16 @@ function OrgsList({ onSelect }) {
       {loading && <LoadingOverlay message="Loading..." />}
       <IconButton onClick={() => setOpen(true)}>
         <Fab
+      <IconButton onClick={() => setOpen(true)}>
+        <Fab
           sx={{
+            backgroundColor: "#fff",
+            "&:hover": { backgroundColor: "#fff" },
             backgroundColor: "#fff",
             "&:hover": { backgroundColor: "#fff" },
           }}
         >
+          <AddIcon sx={{ color: "#4764FC" }} />
           <AddIcon sx={{ color: "#4764FC" }} />
         </Fab>
       </IconButton>

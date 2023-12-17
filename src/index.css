@@ -12,9 +12,22 @@ html{
 }
 
 .dashboard-layout {
+html{
+  overflow-x: hidden;
+}
+
+.dashboard-layout {
   display: grid;
   grid-template-columns: 80px 1fr;
 
+}
+
+@media(max-width:640px){
+  .dashboard-layout {
+    display: grid;
+    grid-template-columns: 50px 1fr;
+  
+  }
 }
 
 @media(max-width:640px){
