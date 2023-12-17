@@ -24,6 +24,7 @@ import { unixToFormattedDate } from "../../utils/utils";
 import TextOverlay from "../Overlay/TextOverlay";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useNotify } from "../../contexts/NotifyContext";
+import CustomCard from "../Card/CustomCard";
 
 const ModalContent = styled(Box)({
   position: "absolute",
@@ -141,10 +142,16 @@ function BotsList({ orgId, onSelect }) {
   return (
     <div>
       <List>
-        <ListSubheader sx={{
-          backgroundColor:'#4764FC'
-        }}>
-          <Chip label={`${orgId} bots`} variant="outlined" sx={{borderColor:'#fff', color:'#fff', fontSize:'16px'}} />
+        <ListSubheader
+          sx={{
+            backgroundColor: "#4764FC",
+          }}
+        >
+          <Chip
+            label={`${orgId} bots`}
+            variant="outlined"
+            sx={{ borderColor: "#fff", color: "#fff", fontSize: "16px" }}
+          />
         </ListSubheader>
         {bots.map((bot) => (
           <ListItem button key={bot.id} onClick={() => onSelect(bot)}>
@@ -159,7 +166,7 @@ function BotsList({ orgId, onSelect }) {
               <DeleteIcon />
             </IconButton> */}
 
-            <Card sx={{ minWidth: 200 }}>
+            {/* <Card sx={{ minWidth: 200 }}>
               <CardContent>
                 <h3 className="text-xl font-medium font-[Roboto]">
                 {bot.bot_name}
@@ -174,7 +181,21 @@ function BotsList({ orgId, onSelect }) {
                   <DeleteIcon fontSize="medium" />
                 </IconButton>
               </CardActions>
-            </Card>
+            </Card> */}
+            <CustomCard
+              name={bot.bot_name}
+              dataItem={bot}
+              cardBody="4 Assets"
+              date={unixToFormattedDate(bot.created_at)}
+              cardActions={[
+                {
+                  name: "Delete",
+                  action: () => {
+                    onDelete(bot.org_chat_bot_id);
+                  },
+                },
+              ]}
+            />
           </ListItem>
         ))}
       </List>

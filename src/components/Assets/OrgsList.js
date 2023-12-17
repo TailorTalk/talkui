@@ -27,6 +27,7 @@ import CreateOrgModal from "./OrgModals/CreateOrg";
 import CreateCollaboratorModal from "./OrgModals/Collaborate";
 import OrgInfoModal from "./OrgModals/Info";
 import { useNotify } from "../../contexts/NotifyContext";
+import CustomCard from "../Card/CustomCard";
 
 function OrgsList({ onSelect }) {
   const [orgs, setOrgs] = useState([]);
@@ -148,12 +149,18 @@ function OrgsList({ onSelect }) {
   }, [userInfo]);
 
   return (
-    <div className="full" >
-      <List  >
-        <ListSubheader sx={{
-          backgroundColor:'#4764FC'
-        }}>
-          <Chip label="Organisations" variant="outlined" sx={{borderColor:'#fff', color:'#fff', fontSize:'16px'}} />
+    <div className="full">
+      <List>
+        <ListSubheader
+          sx={{
+            backgroundColor: "#4764FC",
+          }}
+        >
+          <Chip
+            label="Organisations"
+            variant="outlined"
+            sx={{ borderColor: "#fff", color: "#fff", fontSize: "16px" }}
+          />
         </ListSubheader>
         {orgs.map((org) => (
           <ListItem
@@ -176,9 +183,11 @@ function OrgsList({ onSelect }) {
               />
             </ListItemIcon> */}
 
-            <Card sx={{ minWidth: 200 }}>
+            {/* <Card sx={{ minWidth: 200 }}>
               <CardContent>
-                <h3 className="text-2xl font-medium font-[Roboto]">{org.name}</h3>
+                <h3 className="text-2xl font-medium font-[Roboto]">
+                  {org.name}
+                </h3>
               </CardContent>
               <CardActions className="justify-between">
                 {org.is_admin && (
@@ -188,13 +197,32 @@ function OrgsList({ onSelect }) {
                     <GroupsIcon fontSize="medium" />
                   </IconButton>
                 )}
-                <IconButton
-                  onClick={(event) => handleInfoClick(event, org)}
-                >
+                <IconButton onClick={(event) => handleInfoClick(event, org)}>
                   <InfoOutlinedIcon fontSize="medium" />
                 </IconButton>
               </CardActions>
-            </Card>
+            </Card> */}
+
+            <CustomCard
+              name={org.name}
+              dataItem={org}
+              cardBody="2 Bots"
+              date="26 Jul, 23"
+              cardActions={[
+                {
+                  name: "Collaborate",
+                  action: (event) => {
+                    handleCollaborateClick(event, org.name);
+                  },
+                },
+                {
+                  name: "Info",
+                  action: (event) => {
+                    handleInfoClick(event, org);
+                  },
+                },
+              ]}
+            />
           </ListItem>
         ))}
       </List>

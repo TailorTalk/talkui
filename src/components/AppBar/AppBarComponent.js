@@ -14,6 +14,7 @@ import {
   fetchBots,
   fetchOrgs,
 } from "../../store/OrganisationSlice";
+ import { useLocation } from "react-router-dom";
 
 const settings = ["Logout"];
 
@@ -25,6 +26,10 @@ function AppBarComponent() {
   );
   const { bots, botId } = useSelector((state) => state.organisation.bots);
   const dispatch = useDispatch();
+  const location = useLocation();
+
+
+  const isDashboard = location.pathname === "/dashboard";
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -59,14 +64,10 @@ function AppBarComponent() {
   };
 
   return (
-    <header className="fixed w-full left-0 z-10 bg-white top-0">
-      <nav className="flex justify-between py-2 px-8 max-sm:px-4 border-b-[1px] items-center">
+    <header className="w-full  bg-white ">
+      <nav className="flex justify-between py-4 px-4 max-sm:px-4 border-b-[1px] items-center">
         <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
-          <div className="flex items-center text-gray-800">
-          <img src={Logo} alt="" className="relative h-12 max-w-full mt-1   mr-1 max-sm:h-10" />
-          <span class="text-xl font-semibold font-comfortaa max-sm:text-lg">Tailor Talk</span>
-          </div>
-          {isLoggedIn ? (
+          {(isLoggedIn && isDashboard) ? (
             <div className="flex gap-0 items-center">
               <FormControl
                 variant="outlined"

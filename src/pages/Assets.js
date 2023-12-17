@@ -15,7 +15,6 @@ function AssetsPage() {
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [botDefaultAsset, setBotDefaultAsset] = useState(null);
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
-  const chatWindowRef = useRef();
   // console.log("akash", "bot default asset", botDefaultAsset, selectedBot)
 
   const onOrgSelect = (orgId) => {
@@ -48,7 +47,7 @@ function AssetsPage() {
   // console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
-    <section className="py-2">
+    <section >
       <div className="flex relative">
         <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-md rounded-br-md h-[90vh] ">
           <div className="h-full overflow-y-scroll scrollbar-hidden">

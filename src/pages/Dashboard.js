@@ -21,50 +21,33 @@ const Dashboard = () => {
 
   return (
     <div className="px-4 py-4 max-sm:py-8  flex justify-center overflow-hidden">
-      <div className="relative overflow-hidden w-full ">
-        <div className="flex max-sm:flex-col justify-between items-center bg-[#FBFBFB] py-[16px] px-[10px] border-[1px] border-[#D3D3D3] rounded-xl mb-4 w-full  max-md:gap-4">
-          <TextField
-            id="outlined-basic"
-            label="Search"
-            variant="outlined"
-            size="small"
-            
-            onChange={(e) => {
-              setSearch(e.target.value);
-            }}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="start">
-                  <Search />
-                </InputAdornment>
-              ),
-              sx: {
-                color: "#717171",
-              },
-            }}
-          />
-          <div className="flex gap-6 max-sm:gap-4 h-full">
-            <Button
-              variant="filled"
-              startIcon={<FilterAlt />}
-              sx={{
-                backgroundColor: "#fff",
-                height: '40px',
-                color: "#717171",
-                textTransform: "none",
-                boxShadow: "none",
-                border: "1px solid #D3D3D3",
-                "&:hover": { backgroundColor: "white" },
-                "@media (max-width: 640px)": {
-                  fontSize: "12px",
-                  padding: "2px",
-                },
-              }}
-            >
-              Filter
-            </Button>
-          </div>
-        </div>
+      <div className="relative overflow-hidden w-full py-2">
+        <TextField
+          id="outlined-basic"
+          label="Search leads"
+          className="mb-4"
+          variant="outlined"
+          size="medium"
+          sx={{
+            marginBottom:'8px',
+            '& .MuiOutlinedInput-root':{
+              borderRadius:'50px'
+            }
+          }}
+          onChange={(e) => {
+            setSearch(e.target.value);
+          }}
+          InputProps={{
+            endAdornment: (
+              <InputAdornment position="start">
+                <Search />
+              </InputAdornment>
+            ),
+            sx: {
+              color: "#717171",
+            },
+          }}
+        />
         <FilteredDataTable />
       </div>
     </div>
