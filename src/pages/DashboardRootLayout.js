@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import FirebaseLogin from "./FirebaseLogin";
-import { Link, Navigate, Outlet, NavLink } from "react-router-dom";
-import { IconButton } from "@mui/material";
-
+import {  Navigate, Outlet, NavLink } from "react-router-dom";
 import { HomeRounded, SpaceDashboardRounded } from "@mui/icons-material";
 import AppBarComponent from "../components/AppBar/AppBarComponent";
 import Logo from "../assets/logo.svg";
-import { SidePanel } from "../components/Sidepanel/SidePanel";
+
 
 const DashboardRootLayout = () => {
   const { isLoggedIn } = useAuth();
-  // const [sidePanelWidth, setSidePanelWidth] = useState("240px");
+
   const [openSidePanel, setOpenSidePanel] = useState(false);
   return (
     <section
