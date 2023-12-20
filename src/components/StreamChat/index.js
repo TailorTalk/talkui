@@ -116,7 +116,7 @@ function StreamChatComponent({
     setStartStream(true);
   };
   return (
-    <div className=" flex-1 flex flex-col bg-[#f9f9fa] overflow-y-hidden ">
+    <div className="flex flex-col bg-[#f9f9fa]  justify-between h-full">
       {chatHistory && chatHistory.success ? (
         <List
           style={{
@@ -126,6 +126,7 @@ function StreamChatComponent({
             display: "flex",
             flexDirection: "column",
             gap: "20px",
+           flexBasis:0,
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
@@ -143,7 +144,7 @@ function StreamChatComponent({
       ) : (
         <div
           ref={chatEndRef}
-          style={{ overflowY: "auto", flexGrow: 1, padding: "1rem" }}
+          style={{ overflowY: "scroll", flexGrow: 1, padding: "1rem",height:"100%" }}
         ></div>
       )}
       <div>

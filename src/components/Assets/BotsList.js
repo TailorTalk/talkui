@@ -140,48 +140,11 @@ function BotsList({ orgId, onSelect }) {
   };
 
   return (
-    <div>
-      <List>
-        <ListSubheader
-          sx={{
-            backgroundColor: "#4764FC",
-          }}
-        >
-          <Chip
-            label={`${orgId} bots`}
-            variant="outlined"
-            sx={{ borderColor: "#fff", color: "#fff", fontSize: "16px" }}
-          />
-        </ListSubheader>
+    <div className="flex flex-col justify-center items-center gap-6">
+       <h3 className="text-2xl text-white">Bots</h3>
+      <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {bots.map((bot) => (
-          <ListItem button key={bot.id} onClick={() => onSelect(bot)}>
-            {/* <ListItemText
-              primary={bot.bot_name}
-              secondary={unixToFormattedDate(bot.created_at)}
-            />
-            <IconButton
-              aria-label="delete"
-              onClick={() => onDelete(bot.org_chat_bot_id)}
-            >
-              <DeleteIcon />
-            </IconButton> */}
-
-            {/* <Card sx={{ minWidth: 200 }}>
-              <CardContent>
-                <h3 className="text-xl font-medium font-[Roboto]">
-                {bot.bot_name}
-                </h3>
-                
-              </CardContent>
-              <CardActions className="justify-between gap-4">
-              <p className=" font-medium font-[Roboto] text-sm">
-                {unixToFormattedDate(bot.created_at)}
-                </p>
-                <IconButton onClick={() => onDelete(bot.org_chat_bot_id)}>
-                  <DeleteIcon fontSize="medium" />
-                </IconButton>
-              </CardActions>
-            </Card> */}
+          <ListItem  key={bot.id} onClick={() => onSelect(bot)}>
             <CustomCard
               name={bot.bot_name}
               dataItem={bot}
@@ -199,7 +162,7 @@ function BotsList({ orgId, onSelect }) {
           </ListItem>
         ))}
       </List>
-      {loading && <LoadingOverlay message="Loading..." />}
+      {/* {loading && <LoadingOverlay message="Loading..." />} */}
       <IconButton onClick={() => setOpen(true)}>
         <Fab
           sx={{
@@ -207,7 +170,7 @@ function BotsList({ orgId, onSelect }) {
             "&:hover": { backgroundColor: "#fff" },
           }}
         >
-          <AddIcon sx={{ color: "#4764FC" }} />
+          <AddIcon color="primary"/>
         </Fab>
       </IconButton>
       <Modal open={open} onClose={() => setOpen(false)}>

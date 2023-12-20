@@ -149,60 +149,11 @@ function OrgsList({ onSelect }) {
   }, [userInfo]);
 
   return (
-    <div className="full">
-      <List>
-        <ListSubheader
-          sx={{
-            backgroundColor: "#4764FC",
-          }}
-        >
-          <Chip
-            label="Organisations"
-            variant="outlined"
-            sx={{ borderColor: "#fff", color: "#fff", fontSize: "16px" }}
-          />
-        </ListSubheader>
+    <div className="flex flex-col justify-center items-center gap-6">
+      <h3 className="text-2xl text-white">Orgs</h3>
+      <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {orgs.map((org) => (
-          <ListItem
-            button
-            sx={{ marginBottom: "12px" }}
-            key={org.name}
-            onClick={() => onSelect(org.name)}
-          >
-            {/* <ListItemText primary={org.name} />
-            {org.is_admin && (
-              <ListItemIcon>
-                <GroupsIcon
-                  onClick={(event) => handleCollaborateClick(event, org.name)}
-                />
-              </ListItemIcon>
-            )}
-            <ListItemIcon>
-              <InfoOutlinedIcon
-                onClick={(event) => handleInfoClick(event, org)}
-              />
-            </ListItemIcon> */}
-
-            {/* <Card sx={{ minWidth: 200 }}>
-              <CardContent>
-                <h3 className="text-2xl font-medium font-[Roboto]">
-                  {org.name}
-                </h3>
-              </CardContent>
-              <CardActions className="justify-between">
-                {org.is_admin && (
-                  <IconButton
-                    onClick={(event) => handleCollaborateClick(event, org.name)}
-                  >
-                    <GroupsIcon fontSize="medium" />
-                  </IconButton>
-                )}
-                <IconButton onClick={(event) => handleInfoClick(event, org)}>
-                  <InfoOutlinedIcon fontSize="medium" />
-                </IconButton>
-              </CardActions>
-            </Card> */}
-
+          <ListItem key={org.name} onClick={() => onSelect(org.name)}>
             <CustomCard
               name={org.name}
               dataItem={org}
@@ -226,7 +177,7 @@ function OrgsList({ onSelect }) {
           </ListItem>
         ))}
       </List>
-      {loading && <LoadingOverlay message="Loading..." />}
+      {/* {loading && <LoadingOverlay message="Loading..." />} */}
       <IconButton onClick={() => setOpen(true)}>
         <Fab
           sx={{
@@ -234,7 +185,7 @@ function OrgsList({ onSelect }) {
             "&:hover": { backgroundColor: "#fff" },
           }}
         >
-          <AddIcon sx={{ color: "#4764FC" }} />
+          <AddIcon color="primary" />
         </Fab>
       </IconButton>
       {!collaboratorOrg ? (

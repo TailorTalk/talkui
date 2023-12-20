@@ -7,7 +7,6 @@ import AssetsDisplay from "../components/Assets/AssetDisplay";
 import OrgsList from "../components/Assets/OrgsList";
 import Chat from "./Chat";
 import { useQueryString } from "../contexts/QueryStringContext";
-import { Height } from "@mui/icons-material";
 
 function AssetsPage() {
   const [selectedOrgId, setSelectedOrgId] = useState(null);
@@ -47,42 +46,45 @@ function AssetsPage() {
   // console.log("Default asset in Assets page: ", botDefaultAsset)
 
   return (
-    <section >
-      <div className="flex relative">
-        <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-md rounded-br-md h-[90vh] ">
-          <div className="h-full overflow-y-scroll scrollbar-hidden">
-            <Collapse in={!isCollapsed} orientation="horizontal">
-              <OrgsList onSelect={onOrgSelect} />
-            </Collapse>
-          </div>
-          <div className="h-full overflow-y-scroll scrollbar-hidden">
-            <Collapse in={!isCollapsed} orientation="horizontal">
-              {selectedOrgId && (
-                <BotsList orgId={selectedOrgId} onSelect={onBotSelect} />
-              )}
-            </Collapse>
-          </div>
-          <div className="bg-tailor-500 flex items-center">
-            <IconButton
-              onClick={toggleCollapse}
-              size="small"
-              sx={{
-                backgroundColor: "#fff",
-                marginRight:'-20px',
-                "&:hover": {
-                  backgroundColor: "#fff",
-                },
-              }}
-            >
-              {isCollapsed ? (
-                <ChevronRightIcon sx={{ color: "#4764FC" }} fontSize="large" />
-              ) : (
-                <ChevronLeftIcon sx={{ color: "#4764FC" }} fontSize="large" />
-              )}
-            </IconButton>
-          </div>
+    <section className="flex-1 relative flex">
+      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full py-6 px-4 ">
+        <div className="h-full overflow-y-scroll scrollbar-hidden">
+          <Collapse in={!isCollapsed} orientation="horizontal">
+            <OrgsList onSelect={onOrgSelect} />
+          </Collapse>
         </div>
-        <div className="flex-1 pl-16">
+        <div className="h-full overflow-y-scroll scrollbar-hidden">
+          <Collapse in={!isCollapsed} orientation="horizontal">
+            {selectedOrgId && (
+              <BotsList orgId={selectedOrgId} onSelect={onBotSelect} />
+            )}
+          </Collapse>
+        </div>
+
+        <IconButton
+          onClick={toggleCollapse}
+          size="small"
+          sx={{
+            backgroundColor: "#FBFBFB",
+            position: "absolute",
+            right: "0",
+            top: "50%",
+            translate: "50% -50%",
+            "&:hover": {
+              backgroundColor: "#FBFBFB",
+            },
+          }}
+        >
+          {isCollapsed ? (
+            <ChevronRightIcon color="primary" fontSize="large" />
+          ) : (
+            <ChevronLeftIcon color="primary" fontSize="large" />
+          )}
+        </IconButton>
+      </div>
+
+  
+        <div className="pl-16 py-6 px-4 h-[90vh] w-1/2 overflow-auto   ">
           {selectedBot && (
             <AssetsDisplay
               orgId={selectedOrgId}
@@ -91,7 +93,8 @@ function AssetsPage() {
             />
           )}
         </div>
-        <div className="flex-1">
+
+        <div className="py-6 px-4 w-1/2 h-[90vh]">
           {queryDict.orgId &&
             queryDict.botId &&
             isCollapsed &&
@@ -102,7 +105,7 @@ function AssetsPage() {
               />
             )}
         </div>
-      </div>
+  
     </section>
   );
 }

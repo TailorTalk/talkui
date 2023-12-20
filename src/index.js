@@ -6,6 +6,8 @@ import { NotifyProvider } from "./contexts/NotifyContext";
 import "./index.css";
 import { Provider } from "react-redux";
 import store from "./store/store";
+import { ThemeProvider } from "@mui/material";
+import {theme} from "./utils/theme";
 
 // Render the App component into the 'root' div in index.html
 ReactDOM.render(
@@ -13,7 +15,9 @@ ReactDOM.render(
     <NotifyProvider>
       <AuthProvider>
         <Provider store={store}>
+          <ThemeProvider theme={theme}>
           <App />
+          </ThemeProvider>
         </Provider>
       </AuthProvider>
     </NotifyProvider>
