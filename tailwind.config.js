@@ -16,15 +16,12 @@ module.exports = {
           900: "#24314e",
         },
 
+        tailorLightGrey: "#F4F4F4",
         tailorFont: "#717171",
-      },
-      backgroundImage: {
-        "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
-        "gradient-conic":
-          "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
+        tailorFontDark: "#464646",
       },
       fontFamily: {
-        comfortaa: ["Comfortaa", "sans-serif"],
+        tailorTalkFont: ["Roboto", "sans-serif"],
       },
     },
   },

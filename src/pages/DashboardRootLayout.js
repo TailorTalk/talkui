@@ -7,109 +7,92 @@ import { IconButton } from "@mui/material";
 import { HomeRounded, SpaceDashboardRounded } from "@mui/icons-material";
 import AppBarComponent from "../components/AppBar/AppBarComponent";
 import Logo from "../assets/logo.svg";
+import { SidePanel } from "../components/Sidepanel/SidePanel";
 
 const DashboardRootLayout = () => {
   const { isLoggedIn } = useAuth();
-  const [sidePanelWidth, setSidePanelWidth] = useState("80px");
+  // const [sidePanelWidth, setSidePanelWidth] = useState("240px");
+  const [openSidePanel, setOpenSidePanel] = useState(false);
   return (
     <section
-      className=" relative grid grid-cols-2 overflow-x-hidden transition-all duration-[0.3s]"
+      className=" relative grid grid-cols-2 overflow-x-hidden transition-all duration-[0.3s] h-screen"
       style={{
         display: "grid",
-        gridTemplateColumns: `${sidePanelWidth} 1fr`,
+        gridTemplateColumns: `auto 1fr`,
       }}
     >
+      {/* <SidePanel /> */}
       <div
-        className=" py-2 max-sm:py-12 z-10 bg-[#e5e5e5] px-2 border-r-[1px] top-0 overflow-y-scroll scrollbar-hidden sticky h-screen "
-        onMouseEnter={() => {
-          setSidePanelWidth("240px");
+        className={`p-4 bg-tailorLigthGrey border-r-[1px] overflow-y-scroll scrollbar-hidden h-full transition-all duration-500 ${
+          openSidePanel ? "w-[240px]" : "w-[102px]"
+        }`}
+        onClick={(event) => {
+          setOpenSidePanel((prev) => !prev);
         }}
-        onMouseLeave={() => {
-          setSidePanelWidth("80px");
-        }}
+
       >
-        <div className="flex items-center text-gray-800 px-2 overflow-x-hidden ">
+        <div
+          className={` flex gap-2 items-center w-full overflow-x-hidden   `}
+        >
+         <img
+            src={Logo}
+            alt=""
+            className="relative mt-1 mr-1 max-sm:h-10 flex-shrink-0 max-w-none ml-4"
+            style={{ width: "50px" }}
+          />
+          
+            <span className={`text-xl font-semibold text-black font-[Comfortaa] mr-4 transition-all duration-[0.5s] whitespace-nowrap ${openSidePanel?'opacity-1':"opacity-0"} `}>Tailor Talk</span>
+        
+        </div>
+        {/* <div className="flex items-center text-gray-800 px-2 overflow-x-hidden ">
           <img
             src={Logo}
             alt=""
             className="relative mt-1 mr-1 max-sm:h-10 flex-shrink-0 max-w-none"
             style={{ width: "56px" }}
           />
-          <span
-            class={`text-xl font-semibold font-comfortaa max-sm:text-lg w-[140px] whitespace-nowrap ${
-              sidePanelWidth === "80px" ? "hidden" : ""
-            }`}
-          >
-            Tailor Talk
-          </span>
-        </div>
+        </div> */}
         <ul className="flex flex-col gap-6 justify-center items-center max-sm:gap-4 py-16  ">
-          <li className="w-full">
+          <li className="w-full" onClick={(e)=>{e.stopPropagation()}}>
             <NavLink
               to="/assets"
-              className={({ isActive }) => (isActive ? "active" : undefined)}
+              className={({ isActive }) => (isActive ? "active" : 'text-[#717171]')}
               end
             >
               <div
-                className={`py-2 px-4 flex items-center gap-4 w-full overflow-x-hidden hover:bg-[#fff] rounded-xl `}
+                className={`py-2 px-4 flex gap-2 items-center w-full overflow-x-hidden  `}
               >
-                <HomeRounded
-                  fontSize="large"
-                  sx={{
-                    color: "inherit",
-
-                    fontSize: "32px",
-
-                    "@media (max-width: 640px)": {
-                      fontSize: "24px",
-                    },
-                  }}
-                />
-                <span
-                  className={`text-xl font-semibold text-black ${
-                    sidePanelWidth === "80px" ? "hidden" : ""
-                  }`}
-                >
-                  Home
-                </span>
+                <HomeRounded fontSize="large" />
+              
+                  <span className={`text-xl font-semibold  transition-all duration-[0.5s]  ${openSidePanel?'opacity-1':"opacity-0"}  `}>
+                    Home
+                  </span>
+                
               </div>
             </NavLink>
           </li>
-          <li className="w-full">
+          <li className="w-full" onClick={(e)=>{e.stopPropagation()}}>
             <NavLink
               to="/dashboard"
-              className={({ isActive }) => (isActive ? "active" : undefined)}
+              className={({ isActive }) => (isActive ? "active" : 'text-[#717171]')}
               end
             >
               <div
-                className={`py-2 px-4 flex items-center gap-4 w-full overflow-x-hidden hover:bg-[#fff] rounded-xl `}
+                className={`py-2 px-4 flex gap-2 items-center w-full overflow-x-hidden `}
               >
-                <SpaceDashboardRounded
-                  fontSize="large"
-                  sx={{
-                    color: "inherit",
+                <SpaceDashboardRounded fontSize="large" />
+                
+                  <span className={`text-xl font-semibold  transition-all duration-[0.5s]  ${openSidePanel?'opacity-1':"opacity-0"} `}>
+                    Dashboard
+                  </span>
 
-                    fontSize: "32px",
-
-                    "@media (max-width: 640px)": {
-                      fontSize: "24px",
-                    },
-                  }}
-                />
-                <span
-                  className={`text-xl font-semibold text-black ${
-                    sidePanelWidth === "80px" ? "hidden" : ""
-                  }`}
-                >
-                  Dashboard
-                </span>
               </div>
             </NavLink>
           </li>
         </ul>
       </div>
 
-      <div className="overflow-y-scroll">
+      <div className="flex flex-col h-screen">
         <AppBarComponent />
         {isLoggedIn ? <Outlet /> : <Navigate to="/login" />}
       </div>

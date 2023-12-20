@@ -1,8 +1,8 @@
-import { Groups, InfoOutlined, MoreVert } from '@mui/icons-material'
+import { MoreVert } from '@mui/icons-material'
 import { Card, CardActions, CardContent, IconButton, Menu, MenuItem } from '@mui/material'
 import React from 'react'
 
-const CustomCard = ({ name,dataItem, cardBody, date, cardActions }) => {
+const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -13,10 +13,16 @@ const CustomCard = ({ name,dataItem, cardBody, date, cardActions }) => {
     setAnchorEl(null);
   };
   return (
-    <Card sx={{ minWidth: 200,borderRadius:'10px', border:'2px solid #000' }} >
-
-      <CardActions className="justify-center flex relative border-b-2 border-black ">
-        <h3 className="text-2xl font-medium font-[Roboto] text-center">
+    <Card sx={{
+      minWidth: '170px', borderRadius: '10px', boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",cursor:"pointer",
+      fontFamily:'Roboto',
+      "&:hover":{
+       boxShadow: "0px 5px 4px 0px rgba(0, 0, 0, 0.4 )",
+       backgroundColor:'#FBFBFB'
+      }
+    }} >
+      <CardActions className="justify-center flex relative border-b-[1px] border-black ">
+        <h3 className="text-xl font-medium font-[Roboto] text-center">
           {name}
         </h3>
 
@@ -26,10 +32,10 @@ const CustomCard = ({ name,dataItem, cardBody, date, cardActions }) => {
           aria-controls={open ? 'long-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
           aria-haspopup="true"
-          onClick={(event)=>{
-           if(event){
-            event.stopPropagation();
-           }
+          onClick={(event) => {
+            if (event) {
+              event.stopPropagation();
+            }
             handleClick(event);
           }}
           sx={{
@@ -48,39 +54,23 @@ const CustomCard = ({ name,dataItem, cardBody, date, cardActions }) => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          PaperProps={{
-            // style: {
-            //   maxHeight: ITEM_HEIGHT * 4.5,
-            //   width: '20ch',
-            // },
-          }}
         >
           {cardActions.map((action) => (
-          <MenuItem onClick={action.action}>
-            {action.name}
-          </MenuItem>
-         ))}
+            <MenuItem onClick={action.action}>
+              {action.name}
+            </MenuItem>
+          ))}
         </Menu>
-        {/* {dataItem.is_admin && (
-          <IconButton
-            onClick={(event) => cardActions.handleCollaborateClick(event, dataItem.name)}
-          >
-            <Groups fontSize="medium" />
-          </IconButton>
-        )}
-        <IconButton onClick={(event) => cardActions.handleInfoClick(event, dataItem)}>
-          <InfoOutlined fontSize="medium" />
-        </IconButton> */}
       </CardActions>
       <CardContent className='flex justify-between !p-2 flex-col items-center min-h-[120px]'>
         <div className='flex-1 flex items-center justify-center'>
-        <h3 className="text-lg text-black font-medium font-[Roboto]">
-          {cardBody}
-        </h3>
+          <h3 className="text-lg text-black font-medium font-[Roboto]">
+            {cardBody}
+          </h3>
         </div>
-        <p>Created on 26 Jul, 23</p>
+        <p className='text-sm text-tailorFont'>Created on 26 Jul, 23</p>
       </CardContent>
-    </Card>
+    </Card >
   )
 }
 
