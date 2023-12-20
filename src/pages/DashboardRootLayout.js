@@ -4,7 +4,7 @@ import {  Navigate, Outlet, NavLink } from "react-router-dom";
 import { HomeRounded, SpaceDashboardRounded } from "@mui/icons-material";
 import AppBarComponent from "../components/AppBar/AppBarComponent";
 import Logo from "../assets/logo.svg";
-import { SidePanel } from "../components/Sidepanel/SidePanel";
+// import { SidePanel } from "../components/Sidepanel/SidePanel";
 
 
 const DashboardRootLayout = () => {
