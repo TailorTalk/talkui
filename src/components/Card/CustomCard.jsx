@@ -2,7 +2,8 @@ import { MoreVert } from '@mui/icons-material'
 import { Card, CardActions, CardContent, IconButton, Menu, MenuItem } from '@mui/material'
 import React from 'react'
 
-const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
+
+const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id }) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -12,17 +13,40 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  return (
-    <Card sx={{
-      minWidth: '170px', borderRadius: '10px', boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",cursor:"pointer",
-      fontFamily:'Roboto',
-      "&:hover":{
-       boxShadow: "0px 5px 4px 0px rgba(0, 0, 0, 0.4 )",
-       backgroundColor:'#FBFBFB'
+
+  const onCardSelect = () => {
+    if (id.startsWith('org')) {
+      const selectedElement = document.querySelector('.selectedOrg');
+      if (selectedElement) {
+        selectedElement.classList.remove('selectedOrg');
       }
+
+      document.getElementById(id).classList.add("selectedOrg");
+    }
+
+    if (id.startsWith('bot')) {
+      const selectedElement = document.querySelector('.selectedBot');
+      if (selectedElement) {
+        selectedElement.classList.remove('selectedBot');
+      }
+
+      document.getElementById(id).classList.add("selectedBot");
+    }
+
+    onSelect();
+  }
+
+
+  return (
+    <div onClick={onCardSelect} id={id} className='bg-gray-50 hover:text-tailorBlue-500 hover:scale(1.05) hover:bg-white unselected ' style={{
+      minWidth: '170px', borderRadius: '10px', cursor: "pointer",
+      fontFamily: 'Roboto',
+      border: '1px solid #fff',
+      margin: '2px',
+
     }} >
-      <CardActions className="justify-center flex relative border-b-[1px] border-black ">
-        <h3 className="text-xl font-medium font-[Roboto] text-center">
+      <div className="justify-center flex relative border-b-[1px] py-2 items-center ">
+        <h3 className="text-xl font-medium font-[Roboto] text-center text-camelCase">
           {name}
         </h3>
 
@@ -61,16 +85,16 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
             </MenuItem>
           ))}
         </Menu>
-      </CardActions>
+      </div>
       <CardContent className='flex justify-between !p-2 flex-col items-center min-h-[120px]'>
         <div className='flex-1 flex items-center justify-center'>
           <h3 className="text-lg text-black font-medium font-[Roboto]">
             {cardBody}
           </h3>
         </div>
-        <p className='text-sm text-tailorFont'>Created on 26 Jul, 23</p>
+        <p className='text-sm text-tailorFont'>{`Created on ${date}`}</p>
       </CardContent>
-    </Card >
+    </div >
   )
 }
 

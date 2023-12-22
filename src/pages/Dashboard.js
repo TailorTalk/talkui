@@ -20,8 +20,8 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="px-4 py-4 max-sm:py-8  flex justify-center overflow-hidden">
-      <div className="relative overflow-hidden w-full py-2">
+    <div className="px-4 pt-4 max-sm:py-8  flex justify-center overflow-hidden flex-1 font-[Roboto]">
+      <div className="relative overflow-hidden w-full h-full pt-2 flex flex-col">
         <TextField
           id="outlined-basic"
           label="Search leads"
@@ -29,6 +29,7 @@ const Dashboard = () => {
           variant="outlined"
           size="medium"
           sx={{
+            maxWidth:"240px",
             marginBottom:'8px',
             '& .MuiOutlinedInput-root':{
               borderRadius:'50px'

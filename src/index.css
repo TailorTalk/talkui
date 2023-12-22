@@ -7,7 +7,7 @@
 @tailwind components;
 @tailwind utilities;
 
-html{
+html {
   overflow-x: hidden;
 }
 
@@ -17,11 +17,11 @@ html{
 
 }
 
-@media(max-width:640px){
+@media(max-width:640px) {
   .dashboard-layout {
     display: grid;
     grid-template-columns: 50px 1fr;
-  
+
   }
 }
 
@@ -36,15 +36,56 @@ html{
 
 
 
-.active div{
-  border:1px solid #A7A7A7;
+.active div {
+  border: 1px solid #A7A7A7;
   border-radius: 10px;
   background: #fff;
   color: #4764FC;
 }
 
-.active div span{
+.active div span {
   color: #000;
+}
+
+.text-camelCase {
+  /* Convert text to camel case */
+  white-space: nowrap;
+}
+
+.text-camelCase::first-letter {
+  /* Capitalize the first letter */
+  text-transform: uppercase;
+}
+
+/* CSS for selecting and unselecting the org and bot cards */
+
+.unselected {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+
+
+}
+
+.unselected div {
+  border-color: #000;
+}
+
+.unselected:hover {
+  box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.5);
+  transform: scale(1.03);
+}
+
+.unselected:hover div {
+  border-color: #4764FC;
+}
+
+.selectedOrg, .selectedBot {
+  color: #4764FC;
+
+}
+
+.selectedOrg div, .selectedBot div {
+  border-color: #4764FC;
 }
 
 
@@ -74,15 +115,11 @@ th:last-child {
 
 
 
-[class$="MuiFormControl-root"]{
+[class$="MuiFormControl-root"] {
   margin: 0px !important;
 }
 
-[class$="MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"]{
+[class$="MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"] {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 }
-
-
-
-

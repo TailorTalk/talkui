@@ -20,6 +20,7 @@ import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useNotify } from "../../contexts/NotifyContext";
 
 function AssetsDisplay({ orgId, bot, onAssetFetch }) {
+
   const [assets, setAssets] = useState([
     { id: 1, name: "Asset 1" },
     { id: 2, name: "Asset 2" },
@@ -153,13 +154,13 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     <div className=" font-tailorTalkFont flex flex-col gap-2  ">
       {failed && <TextOverlay message={failMessage} />}
       {/* {loading && <LoadingOverlay message="Loading..." />} */}
-      <h2 className="relative  text-5xl">{bot.bot_name}</h2>
-      <p className="relative   text-lg  text-tailorFont">
-        {bot.bot_description}
-      </p>
+      <h2 className="relative  text-4xl text-camelCase">{bot.bot_name} <span className="relative   text-2xl  text-tailorFont">
+        By <p className="text-camelCase inline-block">{orgId}</p>
+      </span> </h2>
+      
       {/* grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); */}
       <div
-        className="mt-4"
+        className="mt-8"
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
@@ -183,11 +184,11 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
         >
           <Fab
             sx={{
-              backgroundColor: "#4764FC",
-              "&:hover": { backgroundColor: "#4764FC" },
+              backgroundColor: "rgb(249 250 251)",
+              "&:hover": { backgroundColor: "rgb(249 250 251)" },
             }}
           >
-            <AddIcon sx={{color:"#fff"}} />
+            <AddIcon sx={{color:"#4764FC"}} />
           </Fab>
         </IconButton>
       </div>

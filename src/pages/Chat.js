@@ -13,7 +13,7 @@ import ChatComponent from "../components/Chat";
 import { useQueryString } from "../contexts/QueryStringContext";
 import LoadingOverlay from "../components/Overlay/LoadingOverlay";
 import { useNotify } from "../contexts/NotifyContext";
-import { Refresh } from "@mui/icons-material";
+import { ArrowForwardIos, Refresh } from "@mui/icons-material";
 
 const Chat = ({ hideSessions, isAnAgent }) => {
   const [sessionList, setSessionList] = useState([]);
@@ -22,6 +22,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
   const [onGoingAPI, setOnGoingAPI] = useState(false);
   const [loading, setLoading] = useState(true);
   const [streamMode, setStreamMode] = useState(!isAnAgent);
+  
 
   let { userInfo } = useAuth();
   const { addMessage, addErrorMessage } = useNotify();
@@ -167,7 +168,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
   };
 
   return (
-    <div className="h-full">
+    <div className={`h-full `}>
       {/* {loading && <LoadingOverlay message="Loading..." />} */}
       {!hideSessions && (
         <div >
@@ -201,13 +202,13 @@ const Chat = ({ hideSessions, isAnAgent }) => {
           </>
         </div>
       )}
-      <div className="flex flex-col h-full"
+      <div className={`flex flex-col h-full `}
    
       >
         {/* Right column content goes here */}
         {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
         {hideSessions && (
-          <div className="flex items-center justify-between p-2  border-2  rounded-t-md">
+          <div className="flex items-center justify-between p-2  border-2  rounded-t-md relative">
              <FormGroup style={{ marginLeft: "20px", marginTop: "10px" }}>
               <FormControlLabel
                 control={
@@ -220,9 +221,13 @@ const Chat = ({ hideSessions, isAnAgent }) => {
                 label="Streaming"
               />
             </FormGroup>
+            
             <IconButton variant="outlined" onClick={onNewSession}>
-             <Refresh />
+             <Refresh color="primary" />
             </IconButton>
+
+            
+           
            
           </div>
         )}

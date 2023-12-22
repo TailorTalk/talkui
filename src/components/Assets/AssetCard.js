@@ -4,18 +4,7 @@ import { Card, CardContent, Typography, ButtonBase, Chip } from '@mui/material';
 function AssetCard({ asset, assetClick }) {
   const disabled = asset.disabled || false;
   return (    
-      <Card
-      sx={{
-         borderRadius: '10px', boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",cursor:"pointer",
-        height:"100%",
-        width:"100%",
-        border:"1px solid #A7A7A7",
-        fontFamily:'Roboto',
-        "&:hover":{
-         boxShadow: "0px 5px 4px 0px rgba(0, 0, 0, 0.4 )",
-         backgroundColor:'#FBFBFB'
-        }
-      }}
+      <div className='h-full w-full border-[1px] border-gray-300 font-[Roboto] rounded-xl shadow-lg hover:shadow-xl hover:border-tailorBlue-500 bg-gray-50  '
         onClick={() => assetClick(asset)}
       >
         <CardContent style={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between',alignItems:'start',gap:'12px',height:"100%" }}>
@@ -30,7 +19,7 @@ function AssetCard({ asset, assetClick }) {
           
         <Chip label={`Asset Type: ${asset.asset_class}`} variant="outlined" sx={{ fontSize:'14px',color:"#717171"}} />
         </CardContent>
-      </Card>
+      </div>
   );
 }
 

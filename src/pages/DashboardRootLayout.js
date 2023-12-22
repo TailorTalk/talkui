@@ -9,7 +9,7 @@ import Logo from "../assets/logo.svg";
 
 const DashboardRootLayout = () => {
   const { isLoggedIn } = useAuth();
-  const [openSidePanel, setOpenSidePanel] = useState(false);
+  const [openSidePanel, setOpenSidePanel] = useState(true);
   return (
     <section
       className=" relative grid grid-cols-2 overflow-x-hidden transition-all duration-[0.3s] h-screen"
@@ -41,14 +41,7 @@ const DashboardRootLayout = () => {
             <span className={`text-xl font-semibold text-black font-[Comfortaa] mr-4 transition-all duration-[0.5s] whitespace-nowrap ${openSidePanel?'opacity-1':"opacity-0"} `}>Tailor Talk</span>
         
         </div>
-        {/* <div className="flex items-center text-gray-800 px-2 overflow-x-hidden ">
-          <img
-            src={Logo}
-            alt=""
-            className="relative mt-1 mr-1 max-sm:h-10 flex-shrink-0 max-w-none"
-            style={{ width: "56px" }}
-          />
-        </div> */}
+
         <ul className="flex flex-col gap-6 justify-center items-center max-sm:gap-4 py-16  ">
           <li className="w-full" onClick={(e)=>{e.stopPropagation()}}>
             <NavLink
@@ -71,7 +64,7 @@ const DashboardRootLayout = () => {
           <li className="w-full" onClick={(e)=>{e.stopPropagation()}}>
             <NavLink
               to="/dashboard"
-              className={({ isActive }) => (isActive ? "active" : 'text-[#717171]')}
+              className={({ isActive }) => (isActive ? "active" : 'text-tailorFont')}
               end
             >
               <div

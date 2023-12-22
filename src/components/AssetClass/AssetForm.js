@@ -59,7 +59,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
       ,
     }));
   }
-
+ 
   const handleInputChange = (value, key) => {
     // console.log("Input changed: ", value, key)
     setAssetDetails(prevDetails => ({

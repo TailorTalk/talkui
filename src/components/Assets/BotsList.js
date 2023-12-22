@@ -144,11 +144,13 @@ function BotsList({ orgId, onSelect }) {
        <h3 className="text-2xl text-white">Bots</h3>
       <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {bots.map((bot) => (
-          <ListItem  key={bot.id} onClick={() => onSelect(bot)}>
+          <ListItem  key={bot.id}>
             <CustomCard
               name={bot.bot_name}
+              id={`bot-${bot.bot_name}`}
+              onSelect={()=>{onSelect(bot)}}
               dataItem={bot}
-              cardBody="4 Assets"
+              cardBody={`${bot.assets.length} Assets`}
               date={unixToFormattedDate(bot.created_at)}
               cardActions={[
                 {

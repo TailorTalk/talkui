@@ -2,32 +2,18 @@ import React, { useState, useEffect } from "react";
 import {
   List,
   ListItem,
-  ListItemText,
-  Modal,
   IconButton,
-  TextField,
-  Button,
-  ListSubheader,
-  ListItemIcon,
   Fab,
-  Chip,
-  Card,
-  CardContent,
-  Typography,
-  CardActions,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import { useAuth } from "../../contexts/AuthContext";
 import orgsService from "../../services/orgs.service";
-import TextOverlay from "../Overlay/TextOverlay";
-import LoadingOverlay from "../Overlay/LoadingOverlay";
-import GroupsIcon from "@mui/icons-material/Groups";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import CreateOrgModal from "./OrgModals/CreateOrg";
 import CreateCollaboratorModal from "./OrgModals/Collaborate";
 import OrgInfoModal from "./OrgModals/Info";
 import { useNotify } from "../../contexts/NotifyContext";
 import CustomCard from "../Card/CustomCard";
+import { unixToFormattedDate } from "../../utils/utils";
 
 function OrgsList({ onSelect }) {
   const [orgs, setOrgs] = useState([]);
@@ -148,17 +134,21 @@ function OrgsList({ onSelect }) {
       });
   }, [userInfo]);
 
+  console.log(orgs);
+
   return (
     <div className="flex flex-col justify-center items-center gap-6">
       <h3 className="text-2xl text-white">Orgs</h3>
       <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
         {orgs.map((org) => (
-          <ListItem key={org.name} onClick={() => onSelect(org.name)}>
+          <ListItem key={org.name} >
             <CustomCard
               name={org.name}
               dataItem={org}
+              id={`org-${org.name}`}
+              onSelect={()=>{onSelect(org.name)}}
               cardBody="2 Bots"
-              date="26 Jul, 23"
+              date={unixToFormattedDate(org.created_on)}
               cardActions={[
                 {
                   name: "Collaborate",

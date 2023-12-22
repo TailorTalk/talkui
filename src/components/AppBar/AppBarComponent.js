@@ -65,7 +65,7 @@ function AppBarComponent() {
 
   return (
     <header className="w-full  bg-white ">
-      <nav className="flex justify-between py-4 px-4 max-sm:px-4 border-b-[1px] items-center">
+      <nav className="flex justify-between py-4 px-4 max-sm:px-4  items-center">
         <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
           {(isLoggedIn && isDashboard) ? (
             <div className="flex gap-0 items-center">
@@ -87,8 +87,6 @@ function AppBarComponent() {
                   onChange={handleOrgChange}
                   sx={{
                     fontSize:'20px',
-                    fontFamily:'Comfortaa, sans-serif',
-                    fontWeight:'600',
                     '@media (max-width: 640px)': {
                       fontSize: '16px',
                     }
@@ -96,7 +94,7 @@ function AppBarComponent() {
                 >
                   {organisations.map((org, index) => (
                     <MenuItem key={index} value={org}>
-                      {org}
+                      <span>{org}</span>
                     </MenuItem>
                   ))}
                 </Select>
@@ -121,8 +119,6 @@ function AppBarComponent() {
                   onChange={handleBotChange}
                   sx={{
                     fontSize:'20px',
-                    fontFamily:'Comfortaa, sans-serif',
-                    fontWeight:'600',
                     '@media (max-width: 640px)': {
                       fontSize: '16px',
                     }

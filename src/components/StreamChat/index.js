@@ -15,18 +15,20 @@ import Avatar from "@mui/material/Avatar";
 import StreamMessageItem from "./StreamedMessage";
 import ChatSuggestions from "../ChatSuggestions";
 import { Send } from "@mui/icons-material";
+import { useAuth } from "../../contexts/AuthContext";
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
+
+  const {userInfo} = useAuth();
+  
   return (
     <ListItem>
       <div className={`w-full flex items-center   ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
         <ListItemAvatar>
-          <Avatar>
-            {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
-          </Avatar>
+            {msg.role === "user" ?  <Avatar alt="User" src={userInfo.picture} /> : <Avatar><MemoryIcon /></Avatar>}        
         </ListItemAvatar>
-        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
+        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
       </div>
     </ListItem>
   );
@@ -163,7 +165,7 @@ function StreamChatComponent({
           placeholder="Type your message..."
           fullWidth
           sx={{
-            padding: "10px",
+            padding:"0px 20px"
           }}
           InputProps={{
             endAdornment: (
@@ -175,6 +177,7 @@ function StreamChatComponent({
             ),
             sx: {
               color: "#717171",
+              backgroundColor:"#fff",
             },
           }}
         />

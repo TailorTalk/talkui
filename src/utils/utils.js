@@ -2,15 +2,15 @@ function ordinalSuffix(i) {
     const j = i % 10,
           k = i % 100;
     if (j === 1 && k !== 11) {
-        return i + "st";
+        return i;
     }
     if (j === 2 && k !== 12) {
-        return i + "nd";
+        return i;
     }
     if (j === 3 && k !== 13) {
-        return i + "rd";
+        return i ;
     }
-    return i + "th";
+    return i;
 }
 
 function unixToFormattedDate(unixTimestamp) {
@@ -26,8 +26,8 @@ function unixToFormattedDate(unixTimestamp) {
     const ampm = hours >= 12 ? 'pm' : 'am';
     hours = hours % 12;
     hours = hours ? hours : 12; // If hour is 0, it should be 12
-
-    return `${day} ${month}, ${year} ${hours}:${minutes}${ampm}`;
+    // ${hours}:${minutes}${ampm}
+    return `${day} ${month}, ${year % 100}`;
 }
 
 export { ordinalSuffix, unixToFormattedDate };
