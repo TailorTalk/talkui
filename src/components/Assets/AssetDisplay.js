@@ -150,25 +150,25 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
   // console.log("Selected asset: ", selectedAsset)
 
   return (
-    <div className=" font-tailorTalkFont flex flex-col gap-2  ">
+    <div className="flex flex-col gap-9 max-2xl:gap-8">
       {failed && <TextOverlay message={failMessage} />}
-      {/* {loading && <LoadingOverlay message="Loading..." />} */}
-      <h2 className="relative  text-5xl">{bot.bot_name}</h2>
-      <p className="relative   text-lg  text-tailorFont">
-        {bot.bot_description}
-      </p>
-      {/* grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); */}
+
+      <h2 className="relative text-3xl  text-camelCase">
+        {bot.bot_name}{" "}
+        <span className="relative text-2xl max-2xl:text-xl text-tailorGrey-500">
+          by <p className="text-camelCase inline-block">{orgId}</p>
+        </span>{" "}
+      </h2>
+
       <div
-        className="mt-4"
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: "20px",
           justifyItems: "center",
           alignItems: "center",
-          gridAutoRows: "minmax(300px, 300px)",
-          flexBasis:0,
-         
+          gridAutoRows: "minmax(280px, 300px)",
+          flexBasis: 0,
         }}
       >
         {assets.map((asset, index) => (
@@ -183,14 +183,16 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
         >
           <Fab
             sx={{
-              backgroundColor: "#4764FC",
-              "&:hover": { backgroundColor: "#4764FC" },
+              backgroundColor: "rgb(249 250 251)",
+              "&:hover": { backgroundColor: "rgb(249 250 251)" },
             }}
           >
-            <AddIcon sx={{color:"#fff"}} />
+            <AddIcon sx={{ color: "#4764FC" }} />
           </Fab>
         </IconButton>
       </div>
+
+      {loading && <LoadingOverlay />}
 
       <SideDrawer
         open={open}
@@ -200,14 +202,15 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
             setOpen(false);
           }
         }}
-        heading={
-          selectedAsset
-            ? `Asset: ${selectedAsset.asset_name}`
-            : `New Asset for bot: ${bot.bot_name}`
-        }
+        // heading={
+        //   selectedAsset
+        //     ? `Asset: `
+        //     : `New Asset for bot: ${bot.bot_name}`
+        // }
       >
         {selectedAsset ? (
           <AssetForm
+            heading={selectedAsset.asset_name ? selectedAsset.asset_name:selectedAsset.asset_tool_name}
             inputAsset={selectedAsset}
             onAssetUpdate={onAssetUpdate}
             orgId={orgId}
@@ -216,6 +219,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
           />
         ) : (
           <AssetForm
+            heading={bot.bot_name}
             inputAsset={{ asset_id: "" }}
             onAssetUpdate={onAssetUpdate}
             orgId={orgId}

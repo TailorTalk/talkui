@@ -21,8 +21,8 @@ function TextAsset({ asset, handleInputChange, isEditing, isCreating, orgId, bot
             <Tabs
                 value={value}
                 onChange={handleChange}
-                textColor="secondary"
-                indicatorColor="secondary"
+                textColor="primary"
+                indicatorColor="primary"
                 aria-label="secondary tabs example"
                 style={{ marginBottom: "20px" }}
             >

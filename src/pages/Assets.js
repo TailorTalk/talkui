@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Container, Grid, Collapse, Divider, IconButton } from "@mui/material";
+import React, { useState } from "react";
+import {  Collapse,  IconButton } from "@mui/material";
 import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import BotsList from "../components/Assets/BotsList";
@@ -13,6 +13,7 @@ function AssetsPage() {
   const [selectedBot, setSelectedBot] = useState(null);
   const [isCollapsed, setIsCollapsed] = useState(false);
   const [botDefaultAsset, setBotDefaultAsset] = useState(null);
+ 
   const { queryDict, updateQueryKeys, deleteQueryKeys } = useQueryString();
   // console.log("akash", "bot default asset", botDefaultAsset, selectedBot)
 
@@ -30,7 +31,7 @@ function AssetsPage() {
   };
 
   const toggleCollapse = () => {
-    setIsCollapsed(!isCollapsed);
+    setIsCollapsed((prev)=>!prev);
   };
 
   const onAssetFetch = (assets) => {
@@ -42,12 +43,9 @@ function AssetsPage() {
     }
   };
 
-  // console.log("Selected bot in assets page: ", selectedBot)
-  // console.log("Default asset in Assets page: ", botDefaultAsset)
-
   return (
-    <section className="flex-1 relative flex">
-      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full py-6 px-4 ">
+    <section className="flex-1 relative flex gap-2">
+      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full   py-6 px-[10px] ">
         <div className="h-full overflow-y-scroll scrollbar-hidden">
           <Collapse in={!isCollapsed} orientation="horizontal">
             <OrgsList onSelect={onOrgSelect} />
@@ -66,6 +64,7 @@ function AssetsPage() {
           size="small"
           sx={{
             backgroundColor: "#FBFBFB",
+            boxShadow: "0px 5px 4px 0px rgba(0, 0, 0, 0.2 )",
             position: "absolute",
             right: "0",
             top: "50%",
@@ -76,36 +75,36 @@ function AssetsPage() {
           }}
         >
           {isCollapsed ? (
-            <ChevronRightIcon color="primary" fontSize="large" />
+            <ChevronRightIcon color="primary" fontSize="medium" />
           ) : (
-            <ChevronLeftIcon color="primary" fontSize="large" />
+            <ChevronLeftIcon color="primary" fontSize="medium" />
           )}
         </IconButton>
       </div>
 
-  
-        <div className="pl-16 py-6 px-4 h-[90vh] w-1/2 overflow-auto   ">
-          {selectedBot && (
-            <AssetsDisplay
-              orgId={selectedOrgId}
-              bot={selectedBot}
-              onAssetFetch={onAssetFetch}
+      <div className=" max-2xl:pl-12   pl-12 pb-4 h-[93vh] flex-1 overflow-y-scroll scrollbar-hidden">
+        { isCollapsed &&selectedBot && (
+          <AssetsDisplay
+            orgId={selectedOrgId}
+            bot={selectedBot}
+            onAssetFetch={onAssetFetch}
+          />
+        )}
+      </div>
+
+      <div
+        className={` px-4  h-[93vh] flex-1`}
+      >
+        {queryDict.orgId &&
+          queryDict.botId &&
+          isCollapsed &&
+          botDefaultAsset && (
+            <Chat
+              hideSessions={true}
+              isAnAgent={!!botDefaultAsset.is_an_agent}
             />
           )}
-        </div>
-
-        <div className="py-6 px-4 w-1/2 h-[90vh]">
-          {queryDict.orgId &&
-            queryDict.botId &&
-            isCollapsed &&
-            botDefaultAsset && (
-              <Chat
-                hideSessions={true}
-                isAnAgent={!!botDefaultAsset.is_an_agent}
-              />
-            )}
-        </div>
-  
+      </div>
     </section>
   );
 }

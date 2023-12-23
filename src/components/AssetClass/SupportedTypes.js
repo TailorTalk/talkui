@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
-import { Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import React, { useEffect } from "react";
 
-
-function SupportedTypeSelector({ items, currentItem, onItemSelected, label = "What kind of asset are you adding", editable = true }) {
-  const [selectedItem, setSelectedItem] = React.useState('');
+function SupportedTypeSelector({
+  items,
+  currentItem,
+  onItemSelected,
+  label = "Asset Type",
+  editable = true,
+}) {
+  const [selectedItem, setSelectedItem] = React.useState("");
 
   useEffect(() => {
-    if (currentItem && (items.some((item) => item === currentItem))) {
+    if (currentItem && items.some((item) => item === currentItem)) {
       setSelectedItem(currentItem);
     }
   }, [items, currentItem]);
@@ -20,16 +25,20 @@ function SupportedTypeSelector({ items, currentItem, onItemSelected, label = "Wh
   };
 
   return (
-    <FormControl fullWidth>
-      <InputLabel>{label}</InputLabel>
+    <FormControl>
+      <InputLabel id={`${selectedItem}-label`}>{label}</InputLabel>
       <Select
+        labelId={`${selectedItem}-label`}
+        id={`${selectedItem}-id`}
         value={selectedItem}
         onChange={handleChange}
         label={label}
-        {...(editable ? {} : { disabled: true })}
+        disabled={editable ? false : true}
+        variant="outlined"
+        sx={{background:'#fff'}}
       >
         {items.map((item, index) => (
-          <MenuItem key={index} value={item} style={{display: 'block'}}>
+          <MenuItem key={index} value={item}>
             {item}
           </MenuItem>
         ))}
