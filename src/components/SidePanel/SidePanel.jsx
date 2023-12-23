@@ -42,7 +42,7 @@ const SidePanel = () => {
 
       </div>
 
-      <ul className="flex flex-col gap-6 justify-center items-center max-sm:gap-4 py-8  ">
+      <ul className="flex flex-col gap-4 justify-center items-center max-sm:gap-4 py-8  ">
         {navLinks.map((navObject, index) => {
           return <li key={index} className="w-full" onClick={(e) => { e.stopPropagation() }}>
             <NavLink

@@ -59,8 +59,8 @@ body {
   }
 
   .active div span {
-    color: #000;
-    font-weight: 500;
+    color: #4764FC;
+    font-weight: 400;
   }
 
   .text-camelCase {
@@ -95,12 +95,14 @@ body {
 .unselected {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
+  color: #4764FC;
 
 
 }
 
 .unselected div {
-  border-color: #000;
+  border-color: #4764FC;
+
 }
 
 .unselected:hover {
@@ -108,19 +110,19 @@ body {
   transform: scale(1.03);
 }
 
-.unselected:hover div {
+/* .unselected:hover div {
   border-color: #4764FC;
-}
+} */
 
 .selectedOrg,
 .selectedBot {
-  color: #4764FC;
+  color: #000;
 
 }
 
 .selectedOrg div,
 .selectedBot div {
-  border-color: #4764FC;
+  border-color: #000;
 }
 
 
@@ -158,6 +160,8 @@ th:last-child {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
 } */
+
+
 
 /* .MuiFilledInput-root{
   background-color: "#fff";

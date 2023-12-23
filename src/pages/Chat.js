@@ -222,9 +222,9 @@ const Chat = ({ hideSessions, isAnAgent }) => {
               />
             </FormGroup>
             
-            <IconButton variant="outlined" onClick={onNewSession}>
-             <Refresh color="primary" sx={{fontSize:"28px"}} />
-            </IconButton>         
+          
+             <Refresh color="primary" sx={{fontSize:"28px"}} onClick={onNewSession} />
+                  
           </div>
         )}
         {streamMode ? (

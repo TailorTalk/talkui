@@ -5,7 +5,7 @@ function SupportedTypeSelector({
   items,
   currentItem,
   onItemSelected,
-  label = "What kind of asset are you adding",
+  label = "Asset Type",
   editable = true,
 }) {
   const [selectedItem, setSelectedItem] = React.useState("");
@@ -25,15 +25,17 @@ function SupportedTypeSelector({
   };
 
   return (
-    <FormControl >
+    <FormControl>
       <InputLabel id={`${selectedItem}-label`}>{label}</InputLabel>
       <Select
         labelId={`${selectedItem}-label`}
         id={`${selectedItem}-id`}
         value={selectedItem}
         onChange={handleChange}
-        disabled={editable?false:true}
-        variant="outlined" 
+        label={label}
+        disabled={editable ? false : true}
+        variant="outlined"
+        sx={{background:'#fff'}}
       >
         {items.map((item, index) => (
           <MenuItem key={index} value={item}>
@@ -46,4 +48,3 @@ function SupportedTypeSelector({
 }
 
 export default SupportedTypeSelector;
-

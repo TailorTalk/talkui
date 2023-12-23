@@ -132,7 +132,7 @@ function OrgsList({ onSelect }) {
   console.log(orgs);
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6 max-2xl:gap-5">
+    <div className="flex flex-col justify-center items-center gap-4 max-2xl:gap-5">
       <h3 className="text-2xl max-2xl:text-[22px] text-white ">Orgs</h3>
 
       {loading ? (
@@ -190,14 +190,14 @@ function OrgsList({ onSelect }) {
       )}
       <IconButton onClick={() => setOpen(true)}>
         <Fab
-          variant="extended"
+          variant="rounded"
           sx={{
             backgroundColor: "#F4F4F4",
             "&:hover": { backgroundColor: "#fff" },
           }}
         >
-          <AddIcon color="primary" sx={{ mr: 1 }} />
-          Add org
+          <AddIcon color="primary"  />
+          
         </Fab>
       </IconButton>
       {!collaboratorOrg ? (

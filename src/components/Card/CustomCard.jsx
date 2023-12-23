@@ -58,7 +58,8 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
           }}
           sx={{
             position: 'absolute',
-            right: '0'
+            right: '0',
+            color:"#4764FC",
           }}
 
         >
@@ -82,11 +83,11 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
       </div>
       <div className='flex justify-between flex-col items-center min-h-[120px] max-2xl:min-h-[110px] '>
         <div className='flex-1 flex items-center justify-center'>
-          <h3 className="text-lg max-2xl:text-base text-black  ">
+          <h3 className="text-lg max-2xl:text-base ">
             {cardBody}
           </h3>
         </div>
-        <p className='text-sm max-lg:text-xs text-tailorGrey-500 pb-2'>{`Created on ${date}`}</p>
+        <p className='text-xs   pb-2'>{`Created on ${date}`}</p>
       </div>
     </div >
   )
