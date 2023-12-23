@@ -95,13 +95,13 @@ body {
 .unselected {
   box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   transition: all 0.3s;
-  color: #4764FC;
+  color: #717171;
 
 
 }
 
 .unselected div {
-  border-color: #4764FC;
+  border-color: #717171;
 
 }
 
