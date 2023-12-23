@@ -2,7 +2,8 @@ import { MoreVert } from '@mui/icons-material'
 import { Card, CardActions, CardContent, IconButton, Menu, MenuItem } from '@mui/material'
 import React from 'react'
 
-const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
+
+const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id }) => {
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -12,22 +13,39 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
   const handleClose = () => {
     setAnchorEl(null);
   };
-  return (
-    <Card sx={{
-      minWidth: '170px', borderRadius: '10px', boxShadow: "0px 4px 4px 0px rgba(0, 0, 0, 0.25)",cursor:"pointer",
-      fontFamily:'Roboto',
-      "&:hover":{
-       boxShadow: "0px 5px 4px 0px rgba(0, 0, 0, 0.4 )",
-       backgroundColor:'#FBFBFB'
+
+  const onCardSelect = () => {
+    if (id.startsWith('org')) {
+      const selectedElement = document.querySelector('.selectedOrg');
+      if (selectedElement) {
+        selectedElement.classList.remove('selectedOrg');
       }
-    }} >
-      <CardActions className="justify-center flex relative border-b-[1px] border-black ">
-        <h3 className="text-xl font-medium font-[Roboto] text-center">
+
+      document.getElementById(id).classList.add("selectedOrg");
+    }
+
+    if (id.startsWith('bot')) {
+      const selectedElement = document.querySelector('.selectedBot');
+      if (selectedElement) {
+        selectedElement.classList.remove('selectedBot');
+      }
+
+      document.getElementById(id).classList.add("selectedBot");
+    }
+
+    onSelect();
+  }
+
+
+  return (
+    <div onClick={onCardSelect} id={id} className='bg-gray-50 hover:bg-white unselected min-w-[170px] max-2xl:min-w-[150px] max-w-[200px] max-2xl:max-w-[180px] rounded-xl cursor-pointer'  >
+      <div className="justify-center flex relative border-b-[1px] py-2 items-center">
+        <h3 className="text-xl max-2xl:text-lg text-center text-camelCase">
           {name}
         </h3>
 
         <IconButton
-          aria-label="more"
+          aria-label="Add"
           id="long-button"
           aria-controls={open ? 'long-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
@@ -40,11 +58,12 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
           }}
           sx={{
             position: 'absolute',
-            right: '0'
+            right: '0',
+            color:"#000",
           }}
 
         >
-          <MoreVert />
+          <MoreVert fontSize='small' />
         </IconButton >
         <Menu
           id="long-menu"
@@ -61,16 +80,16 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions }) => {
             </MenuItem>
           ))}
         </Menu>
-      </CardActions>
-      <CardContent className='flex justify-between !p-2 flex-col items-center min-h-[120px]'>
+      </div>
+      <div className='flex justify-between flex-col items-center min-h-[120px] max-2xl:min-h-[110px] '>
         <div className='flex-1 flex items-center justify-center'>
-          <h3 className="text-lg text-black font-medium font-[Roboto]">
+          <h3 className="text-lg max-2xl:text-base ">
             {cardBody}
           </h3>
         </div>
-        <p className='text-sm text-tailorFont'>Created on 26 Jul, 23</p>
-      </CardContent>
-    </Card >
+        <p className='text-xs   pb-2'>{`Created on ${date}`}</p>
+      </div>
+    </div >
   )
 }
 

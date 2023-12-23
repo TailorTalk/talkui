@@ -22,6 +22,7 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
                 />
                 <span>Exclude from history</span>
             </Box>
+            <div className='flex flex-col gap-8'>
             <TextField
                 label="Asset Tool Name"
                 value={asset.asset_tool_name || ''}
@@ -44,6 +45,7 @@ function AssetDefaults({ asset, handleInputChange, isEditing }) {
                 onChange={e => handleInputChange(e.target.value, 'asset_tool_description')}
                 disabled={!isEditing}
             />
+            </div>
         </Box>
     );
 }

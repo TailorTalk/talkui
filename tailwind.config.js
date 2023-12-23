@@ -15,6 +15,17 @@ module.exports = {
           800: "#2a3b9b",
           900: "#24314e",
         },
+        tailorGrey: {
+          100: "#F4F4F4",
+          200: "#e3e3e3",
+          300: "#c6c6c6",
+          400: "#aaaaaa",
+          500: "#717171", // Original color for subtext
+          600: "#666666",
+          700: "#5a5a5a",
+          800: "#464646",
+          900: "#444444",
+        },
 
         tailorLightGrey: "#F4F4F4",
         tailorFont: "#717171",
@@ -22,6 +33,13 @@ module.exports = {
       },
       fontFamily: {
         tailorTalkFont: ["Roboto", "sans-serif"],
+      },
+
+      fontWeight: {
+        normal: 400,
+        medium: 400,
+        semibold: 500,
+        bold: 600,
       },
     },
   },

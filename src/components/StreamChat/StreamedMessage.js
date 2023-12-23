@@ -71,13 +71,13 @@ const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
 
     return (
         <ListItem>
-        <div className={`w-full flex items-center   ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
+        <div className={`w-full flex items-center ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
           <ListItemAvatar>
             <Avatar>
               {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={msg.content?msg.content:'Loading'} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
+          <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
         </div>
       </ListItem>
     );

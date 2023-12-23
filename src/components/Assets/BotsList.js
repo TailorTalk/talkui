@@ -13,6 +13,7 @@ import {
   Card,
   CardContent,
   CardActions,
+  Skeleton,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -140,37 +141,65 @@ function BotsList({ orgId, onSelect }) {
   };
 
   return (
-    <div className="flex flex-col justify-center items-center gap-6">
-       <h3 className="text-2xl text-white">Bots</h3>
-      <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-        {bots.map((bot) => (
-          <ListItem  key={bot.id} onClick={() => onSelect(bot)}>
-            <CustomCard
-              name={bot.bot_name}
-              dataItem={bot}
-              cardBody="4 Assets"
-              date={unixToFormattedDate(bot.created_at)}
-              cardActions={[
-                {
-                  name: "Delete",
-                  action: () => {
-                    onDelete(bot.org_chat_bot_id);
-                  },
-                },
-              ]}
+    <div className="flex flex-col justify-center items-center gap-4 max-2xl:gap-5">
+      <h3 className="text-2xl max-2xl:text-[22px] text-white">Bots</h3>
+
+      {loading ? (
+        <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          <ListItem>
+            <Skeleton
+              animation="pulse"
+              variant="rounded"
+              width={170}
+              height={160}
+              sx={{ borderRadius: "12px", opacity: 0.5 }}
             />
           </ListItem>
-        ))}
-      </List>
-      {/* {loading && <LoadingOverlay message="Loading..." />} */}
+          <ListItem>
+            <Skeleton
+              animation="pulse"
+              variant="rounded"
+              width={170}
+              height={170}
+              sx={{ borderRadius: "12px", opacity: 0.5 }}
+            />
+          </ListItem>
+        </List>
+      ) : (
+        <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
+          {bots.map((bot) => (
+            <ListItem key={bot.id}>
+              <CustomCard
+                name={bot.bot_name}
+                id={`bot-${bot.bot_name}`}
+                onSelect={() => {
+                  onSelect(bot);
+                }}
+                dataItem={bot}
+                cardBody={`${bot.assets.length} Assets`}
+                date={unixToFormattedDate(bot.created_at)}
+                cardActions={[
+                  {
+                    name: "Delete",
+                    action: () => {
+                      onDelete(bot.org_chat_bot_id);
+                    },
+                  },
+                ]}
+              />
+            </ListItem>
+          ))}
+        </List>
+      )}
       <IconButton onClick={() => setOpen(true)}>
         <Fab
-          sx={{
-            backgroundColor: "#fff",
-            "&:hover": { backgroundColor: "#fff" },
-          }}
-        >
-          <AddIcon color="primary"/>
+         variant="rounded"
+         sx={{
+           backgroundColor: "#F4F4F4",
+           "&:hover": { backgroundColor: "#fff" },
+         }}
+       >
+         <AddIcon color="primary"  />
         </Fab>
       </IconButton>
       <Modal open={open} onClose={() => setOpen(false)}>

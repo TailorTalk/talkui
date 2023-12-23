@@ -5,6 +5,8 @@ import {
   ListItem,
   Paper,
   LinearProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import MemoryIcon from "@mui/icons-material/Memory";
@@ -12,11 +14,14 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import ReactMarkdown from "react-markdown";
+import { useAuth } from "../../contexts/AuthContext";
+import { Send } from "@mui/icons-material";
 
 function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
   const [inputMessage, setInputMessage] = useState("");
   const [chatHistory, setChatHistory] = useState(pastChatHistory);
   const chatEndRef = useRef(null);
+  const { userInfo } = useAuth();
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -54,7 +59,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
   };
 
   return (
-    <div className=" flex-1 flex flex-col bg-[#f9f9fa] overflow-y-scroll ">
+    <div className="flex flex-col bg-[#f9f9fa]  justify-between h-full">
       {chatHistory && chatHistory.success ? (
         <List
           style={{
@@ -64,35 +69,36 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
             display: "flex",
             flexDirection: "column",
             gap: "20px",
+            flexBasis: 0,
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
-            <ListItem
-              className={`${
-                msg.role !== "user"
-                  ? " rounded-md  flex !justify-end "
-                  : " text-white rounded-md  flex justify-end"
-              }`}
-            >
-              <p
-                className={`w-full ${
-                  msg.role !== "user"
-                    ? "flex items-center  flex-row-reverse gap-2 !justify-start "
-                    : "flex items-center  "
+            <ListItem>
+              <div
+                className={`w-full flex items-center   ${
+                  msg.role === "user"
+                    ? "flex  flex-row-reverse gap-2 !justify-start "
+                    : ""
                 }`}
               >
                 <ListItemAvatar>
-                  <Avatar>
-                    {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
-                  </Avatar>
+                  {msg.role === "user" ? (
+                    <Avatar alt="User" src={userInfo.picture} />
+                  ) : (
+                    <Avatar>
+                      <MemoryIcon />
+                    </Avatar>
+                  )}
                 </ListItemAvatar>
                 <ListItemText
-                  primary={msg.content}
-                  className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${
-                    msg.role !== "user" ? "bg-white" : "bg-[#4764fc]"
-                  } `}
-                />
-              </p>
+          primary={msg.content}
+          className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
+            msg.role === "user"
+              ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
+              : "bg-white border-[#cfcfcf9d]"
+          } `}
+        />
+              </div>
             </ListItem>
           ))}
           <div ref={chatEndRef}></div>
@@ -111,8 +117,18 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
         onKeyPress={handleKeyPress}
         placeholder="Type your message..."
         fullWidth
-        sx={{
-          padding: "10px",
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton aria-label="send" onClick={handleKeyPress}>
+                <Send />
+              </IconButton>
+            </InputAdornment>
+          ),
+          sx: {
+            color: "#717171",
+            backgroundColor: "#fff",
+          },
         }}
       />
     </div>

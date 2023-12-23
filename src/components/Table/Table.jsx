@@ -6,18 +6,20 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
-import { Box, TableFooter, TablePagination, TableSortLabel } from '@mui/material';
+import { Box, TablePagination, TableSortLabel } from '@mui/material';
 import TablePaginationActionsComponent from './TablePaginationActionsComponent';
 import { visuallyHidden } from '@mui/utils';
+import { UnfoldMore } from '@mui/icons-material';
 
 
 
 export default function BasicTable({ data }) {
 
+  const defaultState = data;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
-  const [order, setOrder] = React.useState('asc');
-  const [orderBy, setOrderBy] = React.useState('name');
+  const [order, setOrder] = React.useState('');
+  const [orderBy, setOrderBy] = React.useState('');
 
 
   function descendingComparator(a, b, orderBy) {
@@ -27,6 +29,10 @@ export default function BasicTable({ data }) {
     if (b[orderBy] > a[orderBy]) {
       return 1;
     }
+    return 0;
+  }
+
+  function defaultComparator(a, b, orderBy) {
     return 0;
   }
 
@@ -49,6 +55,10 @@ export default function BasicTable({ data }) {
   }
 
   function getComparator(order, orderBy) {
+
+    if (order === "") {
+      return (a, b) => defaultComparator(a, b, orderBy)
+    }
 
     if (orderBy === "leadCreated" || orderBy === "lastActive") {
       return order === 'desc'
@@ -89,9 +99,30 @@ export default function BasicTable({ data }) {
   };
 
   const handleRequestSort = (event, property) => {
+
     const isAsc = orderBy === property && order === 'asc';
-    setOrder(isAsc ? 'desc' : 'asc');
-    setOrderBy(property);
+    if (!isAsc) {
+      if (property !== orderBy) {
+        setOrder('asc');
+        setOrderBy(property);
+      }
+      else {
+
+
+        if (order === "desc") {
+          setOrder("");
+          setOrderBy("");
+        }
+        if (order === "") {
+          setOrder("asc");
+          setOrderBy(property);
+        }
+      }
+    } else {
+      setOrder('desc');
+      setOrderBy(property);
+    }
+
   };
 
   const createSortHandler = (property) => (event) => {
@@ -100,24 +131,85 @@ export default function BasicTable({ data }) {
 
 
   const visibleRows = React.useMemo(
-    () =>
-      stableSort(data, getComparator(order, orderBy)).slice(
+    () => {
+      console.log(orderBy);
+      if (order === "") {
+        return stableSort(defaultState, getComparator(order, orderBy)).slice(
+          page * rowsPerPage,
+          page * rowsPerPage + rowsPerPage,
+        )
+      }
+      return stableSort(data, getComparator(order, orderBy)).slice(
         page * rowsPerPage,
         page * rowsPerPage + rowsPerPage,
-      ),
+      )
+    },
     [order, orderBy, page, rowsPerPage],
   );
 
 
   return (
-    <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none' }}>
+    <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', flex: 1, display: 'flex', flexDirection: "column", justifyContent: "space-between", alignContent: "space-between" }}>
       <TableContainer component={Paper} sx={{
-        maxHeight: '80vh', maxWidth: '100%', boxShadow: 'none'
+        maxWidth: '100%', boxShadow: 'none', maxHeight: "100%"
       }}>
         <Table aria-label="table" stickyHeader>
           <TableHead>
             <TableRow  >
-              <TableCell align="center" sx={{
+
+              {["name", "contact", "leadCreated", "status", "msgExchanged", "lastActive"].map((field) => {
+                return (
+                  <TableCell align="center" sx={{
+                    fontSize: '18px',
+                    padding: "20px 0px",
+                    color: '#717171',
+                    '@media (max-width: 640px)': {
+                      fontSize: '16px',
+                    }
+                  }}>
+
+
+                    {(["name", "leadCreated", "msgExchanged", "lastActive"].includes(field)) ? <TableSortLabel
+                      active={orderBy === field}
+                      direction={orderBy === field ? order : 'asc'}
+                      onClick={createSortHandler(field)}
+                      sx={{
+                        '& .MuiTableSortLabel-icon': {
+                          display: 'none'
+                        }
+                      }}
+                    >
+                      <span>{field} <UnfoldMore fontSize='small' /></span>
+                      
+                      {orderBy === field ? (
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        </Box>
+                      ) : ''}
+                    </TableSortLabel> : field }
+                    {/*     }
+                    <TableSortLabel
+                      active={orderBy === "name"}
+                      direction={orderBy === "name" ? order : 'asc'}
+                      onClick={createSortHandler("name")}
+                      sx={{
+                        '& .MuiTableSortLabel-icon':{
+                          display:'none'
+                        }
+                      }}
+                    >
+                      Name
+                      {orderBy === "name" ? (
+                        <Box component="span" sx={visuallyHidden}>
+                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                        </Box>
+                      ) : <UnfoldMore fontSize='small' />}
+                    </TableSortLabel> */}
+
+                  </TableCell>
+                )
+              })}
+              {/* <TableCell align="center" sx={{
                 fontSize: '18px',
                 padding: "20px",
                 color: '#717171',
@@ -130,16 +222,23 @@ export default function BasicTable({ data }) {
                   active={orderBy === "name"}
                   direction={orderBy === "name" ? order : 'asc'}
                   onClick={createSortHandler("name")}
+                  sx={{
+                    '& .MuiTableSortLabel-icon':{
+                      display:'none'
+                    }
+                  }}
                 >
                   Name
                   {orderBy === "name" ? (
                     <Box component="span" sx={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </Box>
-                  ) : null}
+                  ) : <UnfoldMore fontSize='small' />}
                 </TableSortLabel>
 
               </TableCell>
+
+
               <TableCell align="center" sx={{
                 fontSize: '18px',
                 color: '#717171',
@@ -158,13 +257,18 @@ export default function BasicTable({ data }) {
                   active={orderBy === "leadCreated"}
                   direction={orderBy === "leadCreated" ? order : 'asc'}
                   onClick={createSortHandler("leadCreated")}
+                  sx={{
+                    '& .MuiTableSortLabel-icon':{
+                      display:'none'
+                    }
+                  }}
                 >
                   Lead Created
                   {orderBy === "leadCreated" ? (
                     <Box component="span" sx={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </Box>
-                  ) : null}
+                  ) : <UnfoldMore fontSize='small' />}
                 </TableSortLabel>
               </TableCell>
               <TableCell align="center" sx={{
@@ -186,13 +290,18 @@ export default function BasicTable({ data }) {
                   active={orderBy === "msgExchanged"}
                   direction={orderBy === "msgExchanged" ? order : 'asc'}
                   onClick={createSortHandler("msgExchanged")}
+                  sx={{
+                    '& .MuiTableSortLabel-icon':{
+                      display:'none'
+                    }
+                  }}
                 >
                   Msg Exchanged
                   {orderBy === "msgExchanged" ? (
                     <Box component="span" sx={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </Box>
-                  ) : null}
+                  ) : <UnfoldMore fontSize='small' />}
                 </TableSortLabel>
 
 
@@ -209,15 +318,20 @@ export default function BasicTable({ data }) {
                   active={orderBy === "lastActive"}
                   direction={orderBy === "lastActive" ? order : 'asc'}
                   onClick={createSortHandler("lastActive")}
+                  sx={{
+                    '& .MuiTableSortLabel-icon':{
+                      display:'none'
+                    }
+                  }}
                 >
                   Last Active
                   {orderBy === "lastActive" ? (
                     <Box component="span" sx={visuallyHidden}>
                       {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
                     </Box>
-                  ) : null}
+                  ) : <UnfoldMore fontSize='small' />}
                 </TableSortLabel>
-              </TableCell>
+              </TableCell> */}
             </TableRow>
           </TableHead>
 
@@ -227,51 +341,32 @@ export default function BasicTable({ data }) {
             ).map((row, index) => (
               <TableRow
                 key={index}
-                sx={{'td':{
-                  border:0
-                }}}
+                sx={{
+                  'td': {
+                    border: 0
+                  }
+                }}
               >
-                <TableCell align="center" sx={{
-                  color: '#717171',
-                  maxWidth: '400px',
-                  whiteSpace: "normal",
-                  wordWrap: "break-word",
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}>
-                  {row.name}
-                </TableCell>
-                <TableCell align="center" sx={{
-                  color: '#717171',
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}  >{row.contact}</TableCell>
-                <TableCell align="center" sx={{
-                  color: '#717171',
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}>{row.leadCreated}</TableCell>
-                <TableCell align="center" sx={{
-                  color: (row.status === "Hot") ? 'green' : (row.status === "Dead") ? 'red' : '#717171',
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}>{row.status}</TableCell>
-                <TableCell align="center" sx={{
-                  color: '#717171',
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}>{row.msgExchanged}</TableCell>
-                <TableCell align="center" sx={{
-                  color: '#717171',
-                  '@media (max-width: 640px)': {
-                    fontSize: '12px',
-                  }
-                }}>{row.lastActive}</TableCell>
+
+                {Object.keys(row).map((data) => (
+                  <TableCell
+                    key={index}
+                    align="center"
+                    sx={{
+                      color: '#717171',
+                      maxWidth: '100px',
+                      whiteSpace: 'nowrap', // Prevents text from wrapping to the next line
+                      overflow: 'hidden',   // Hides the content that exceeds the width
+                      textOverflow: 'ellipsis',  // Displays an ellipsis (...) when content is truncated
+                      fontSize: '14px',  // Adjust font size as needed
+                      '@media (max-width: 640px)': {
+                        fontSize: '12px',
+                      },
+                    }}
+                  >
+                    {row[data]}
+                  </TableCell>
+                ))}
               </TableRow>
             ))}
             {emptyRows > 0 && (
@@ -281,10 +376,10 @@ export default function BasicTable({ data }) {
             )}
           </TableBody>
         </Table>
-        
+
       </TableContainer>
-      <div className='flex items-center relative max-sm:flex-col-reverse bg-[#FBFBFB] '>
-        <div className='absolute text-xl max-md:text-lg font-["Roboto"] left-2 text-[#717171] max-sm:relative'>
+      <div className='flex items-center relative max-sm:flex-col-reverse  py-4  '>
+        <div className='absolute text-xl max-md:text-lg  text-tailorFont max-sm:relative right-4'>
           Total: <span className='font-semibold'>{data.length}</span>
         </div>
         <TablePagination
@@ -299,14 +394,14 @@ export default function BasicTable({ data }) {
           ActionsComponent={TablePaginationActionsComponent}
           sx={{
             display: 'flex',
-            borderTop:'1px solid #D3D3D3',
+            borderTop: '1px solid #D3D3D3',
             width: '100%',
             justifyContent: 'center',
             fontSize: '18px',
             color: '#717171',
             '@media (max-width: 800px)': {
-              justifyContent:'center',
-              
+              justifyContent: 'center',
+
             },
             '& .MuiToolbar-root': {
               '& .MuiTablePagination-selectLabel': {
@@ -314,7 +409,7 @@ export default function BasicTable({ data }) {
                 color: '#717171',
                 '@media (max-width: 800px)': {
                   fontSize: '14px',
-                  
+
                 }
               },
               '& .MuiTablePagination-displayedRows': {

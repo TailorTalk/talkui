@@ -1,50 +1,128 @@
-/* Importing the google fonts used in the website - Comfortaa & Ubuntu */
-@import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque&family=Roboto+Mono:wght@300;400;500;600;700&family=Signika+Negative&family=Source+Sans+3:wght@200;300;400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
-
+/* Importing the google fonts used in the website - Comfortaa & Roboto */
 @import url("https://fonts.googleapis.com/css2?family=Bricolage+Grotesque&family=Comfortaa:wght@300;400;500;600;700&family=Roboto+Mono:wght@300;400;500;600;700&family=Signika+Negative&family=Source+Sans+3:wght@200;300;400&family=Ubuntu:ital,wght@0,300;0,400;0,500;0,700;1,300;1,400;1,500;1,700&display=swap");
+
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-html{
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  scroll-behavior: smooth;
+}
+
+html {
   overflow-x: hidden;
 }
 
-.dashboard-layout {
-  display: grid;
-  grid-template-columns: 80px 1fr;
-
+body {
+  font-family: 'Roboto', sans-serif;
 }
 
-@media(max-width:640px){
+
+
+
+@layer components {
   .dashboard-layout {
     display: grid;
-    grid-template-columns: 50px 1fr;
-  
+    grid-template-columns: 80px 1fr;
+
   }
+
+  @media(max-width:640px) {
+    .dashboard-layout {
+      display: grid;
+      grid-template-columns: 50px 1fr;
+
+    }
+  }
+
+  .scrollbar-hidden {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .scrollbar-hidden::-webkit-scrollbar {
+    display: none;
+  }
+
+
+
+  .active div {
+    border: 1px solid #A7A7A7;
+    border-radius: 10px;
+    background: #fff;
+    color: #4764FC;
+  }
+
+  .active div span {
+    color: #4764FC;
+    font-weight: 400;
+  }
+
+  .text-camelCase {
+    /* Convert text to camel case */
+    white-space: nowrap;
+  }
+
+  .text-camelCase::first-letter {
+    /* Capitalize the first letter */
+    text-transform: uppercase;
+  }
+
+
+  
+
 }
 
-.scrollbar-hidden {
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+
+
+
+
+
+
+
+
+
+
+
+
+/* CSS for selecting and unselecting the org and bot cards */
+
+.unselected {
+  box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  transition: all 0.3s;
+  color: #717171;
+
+
 }
 
-.scrollbar-hidden::-webkit-scrollbar {
-  display: none;
+.unselected div {
+  border-color: #717171;
+
 }
 
-
-
-.active div{
-  border:1px solid #A7A7A7;
-  border-radius: 10px;
-  background: #fff;
-  color: #4764FC;
+.unselected:hover {
+  box-shadow: 0px 5px 4px 0px rgba(0, 0, 0, 0.5);
+  transform: scale(1.03);
 }
 
-.active div span{
+/* .unselected:hover div {
+  border-color: #4764FC;
+} */
+
+.selectedOrg,
+.selectedBot {
   color: #000;
+
+}
+
+.selectedOrg div,
+.selectedBot div {
+  border-color: #000;
 }
 
 
@@ -74,15 +152,17 @@ th:last-child {
 
 
 
-[class$="MuiFormControl-root"]{
+/* [class$="MuiFormControl-root"] {
   margin: 0px !important;
 }
 
-[class$="MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"]{
+[class$="MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"] {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
-}
+} */
 
 
 
-
+/* .MuiFilledInput-root{
+  background-color: "#fff";
+} */

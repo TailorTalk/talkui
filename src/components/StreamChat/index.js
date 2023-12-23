@@ -15,18 +15,39 @@ import Avatar from "@mui/material/Avatar";
 import StreamMessageItem from "./StreamedMessage";
 import ChatSuggestions from "../ChatSuggestions";
 import { Send } from "@mui/icons-material";
+import { useAuth } from "../../contexts/AuthContext";
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
+
+  const { userInfo } = useAuth();
+
   return (
     <ListItem>
-      <div className={`w-full flex items-center   ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
+      <div
+        className={`w-full flex items-center   ${
+          msg.role === "user"
+            ? "flex  flex-row-reverse gap-2 !justify-start "
+            : ""
+        }`}
+      >
         <ListItemAvatar>
-          <Avatar>
-            {msg.role === "user" ? <PersonIcon /> : <MemoryIcon />}
-          </Avatar>
+          {msg.role === "user" ? (
+            <Avatar alt="User" src={userInfo.picture} />
+          ) : (
+            <Avatar>
+              <MemoryIcon />
+            </Avatar>
+          )}
         </ListItemAvatar>
-        <ListItemText primary={msg.content} className={`max-w-[80%] border-2 p-4 rounded-lg relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
+        <ListItemText
+          primary={msg.content}
+          className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
+            msg.role === "user"
+              ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
+              : "bg-white border-[#cfcfcf9d]"
+          } `}
+        />
       </div>
     </ListItem>
   );
@@ -57,9 +78,9 @@ function StreamChatComponent({
     scrollToBottom();
   }, [pastChatHistory]);
 
-  useEffect(()=>{
+  useEffect(() => {
     scrollToBottom();
-  },[chatHistory]);
+  }, [chatHistory]);
 
   const handleInputChange = (event) => {
     setInputMessage(event.target.value);
@@ -69,12 +90,17 @@ function StreamChatComponent({
   const onStreamDone = (streamedMessage, sessionId) => {
     // console.log("akash", "onStreamDone", streamedMessage, sessionId);
     setStartStream(false);
+ 
     onDone(sessionId);
   };
 
   const handleKeyPress = (event) => {
-    console.log(event);
-    if ((event.key === "Enter" && inputMessage.trim()) || (event.type === "click"  && inputMessage.trim())) {
+    // console.log(event);
+    if (
+      (event.key === "Enter" && inputMessage.trim()) ||
+      (event.type === "click" && inputMessage.trim())
+    ) {
+      
       onStart();
       if (chatHistory) {
         const chatHistoryCopy = { ...chatHistory };
@@ -90,6 +116,7 @@ function StreamChatComponent({
         });
       }
       setInputMessage("");
+      
       setStartStream(true);
       //onMessageSend(inputMessage, sessionId);// Clear the input box
     }
@@ -97,6 +124,7 @@ function StreamChatComponent({
 
   const onSuggestionClick = (suggestion) => {
     // console.log("akash", "onSuggestionClick", suggestion);
+    
     setFinalInputMessage(suggestion);
     onStart();
     if (chatHistory) {
@@ -113,25 +141,28 @@ function StreamChatComponent({
       });
     }
     setInputMessage("");
+    
     setStartStream(true);
   };
   return (
-    <div className="flex flex-col bg-[#f9f9fa]  justify-between h-full">
+    <div className="flex flex-col bg-gray-50   justify-between h-full">
       {chatHistory && chatHistory.success ? (
         <List
           style={{
-            overflowY:'scroll',
+            overflowY: "scroll",
             flexGrow: 1,
             padding: "1rem",
             display: "flex",
             flexDirection: "column",
             gap: "20px",
-           flexBasis:0,
+            flexBasis: 0,
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
             <MessageItem msg={msg} key={index} />
           ))}
+
+          
           {startStream && (
             <StreamMessageItem
               message={finalInputMessage}
@@ -144,7 +175,12 @@ function StreamChatComponent({
       ) : (
         <div
           ref={chatEndRef}
-          style={{ overflowY: "scroll", flexGrow: 1, padding: "1rem",height:"100%" }}
+          style={{
+            overflowY: "scroll",
+            flexGrow: 1,
+            padding: "1rem",
+            height: "100%",
+          }}
         ></div>
       )}
       <div>
@@ -162,19 +198,17 @@ function StreamChatComponent({
           onKeyPress={handleKeyPress}
           placeholder="Type your message..."
           fullWidth
-          sx={{
-            padding: "10px",
-          }}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
                 <IconButton aria-label="send" onClick={handleKeyPress}>
-                <Send />
+                  <Send />
                 </IconButton>
               </InputAdornment>
             ),
             sx: {
               color: "#717171",
+              backgroundColor: "#fff",
             },
           }}
         />
