@@ -168,7 +168,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
   };
 
   return (
-    <div className={`h-full `}>
+    <div className={`h-full`}>
       {/* {loading && <LoadingOverlay message="Loading..." />} */}
       {!hideSessions && (
         <div >
@@ -208,8 +208,8 @@ const Chat = ({ hideSessions, isAnAgent }) => {
         {/* Right column content goes here */}
         {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
         {hideSessions && (
-          <div className="flex items-center justify-between p-2  border-2  rounded-t-md relative">
-             <FormGroup style={{ marginLeft: "20px", marginTop: "10px" }}>
+          <div className="flex items-center justify-between py-2 px-4  border-[1px] border-gray-300  rounded-t-md relative">
+             <FormGroup >
               <FormControlLabel
                 control={
                     <Switch checked={streamMode} onChange={onStreamModeChange} sx={{color:'red'}} />
@@ -223,12 +223,8 @@ const Chat = ({ hideSessions, isAnAgent }) => {
             </FormGroup>
             
             <IconButton variant="outlined" onClick={onNewSession}>
-             <Refresh color="primary" />
-            </IconButton>
-
-            
-           
-           
+             <Refresh color="primary" sx={{fontSize:"28px"}} />
+            </IconButton>         
           </div>
         )}
         {streamMode ? (

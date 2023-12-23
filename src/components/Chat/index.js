@@ -5,6 +5,8 @@ import {
   ListItem,
   Paper,
   LinearProgress,
+  InputAdornment,
+  IconButton,
 } from "@mui/material";
 import PersonIcon from "@mui/icons-material/Person";
 import MemoryIcon from "@mui/icons-material/Memory";
@@ -13,12 +15,13 @@ import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import ReactMarkdown from "react-markdown";
 import { useAuth } from "../../contexts/AuthContext";
+import { Send } from "@mui/icons-material";
 
 function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
   const [inputMessage, setInputMessage] = useState("");
   const [chatHistory, setChatHistory] = useState(pastChatHistory);
   const chatEndRef = useRef(null);
-  const {userInfo} = useAuth();
+  const { userInfo } = useAuth();
 
   const scrollToBottom = () => {
     chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
@@ -66,18 +69,37 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
             display: "flex",
             flexDirection: "column",
             gap: "20px",
-            flexBasis:0,
+            flexBasis: 0,
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
-    <ListItem>
-    <div className={`w-full flex items-center   ${msg.role === "user"?'flex  flex-row-reverse gap-2 !justify-start ':''}`}>
-      <ListItemAvatar>
-          {msg.role === "user" ?  <Avatar alt="User" src={userInfo.picture} /> : <Avatar><MemoryIcon /></Avatar>}        
-      </ListItemAvatar>
-      <ListItemText primary={msg.content} className={`max-w-[80%] border-2 rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${msg.role === "user"?'bg-tailorBlue-500 text-white':'bg-white'} `} />
-    </div>
-  </ListItem>
+            <ListItem>
+              <div
+                className={`w-full flex items-center   ${
+                  msg.role === "user"
+                    ? "flex  flex-row-reverse gap-2 !justify-start "
+                    : ""
+                }`}
+              >
+                <ListItemAvatar>
+                  {msg.role === "user" ? (
+                    <Avatar alt="User" src={userInfo.picture} />
+                  ) : (
+                    <Avatar>
+                      <MemoryIcon />
+                    </Avatar>
+                  )}
+                </ListItemAvatar>
+                <ListItemText
+          primary={msg.content}
+          className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
+            msg.role === "user"
+              ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
+              : "bg-white border-[#cfcfcf9d]"
+          } `}
+        />
+              </div>
+            </ListItem>
           ))}
           <div ref={chatEndRef}></div>
         </List>
@@ -95,8 +117,18 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
         onKeyPress={handleKeyPress}
         placeholder="Type your message..."
         fullWidth
-        sx={{
-          padding: "10px",
+        InputProps={{
+          endAdornment: (
+            <InputAdornment position="end">
+              <IconButton aria-label="send" onClick={handleKeyPress}>
+                <Send />
+              </IconButton>
+            </InputAdornment>
+          ),
+          sx: {
+            color: "#717171",
+            backgroundColor: "#fff",
+          },
         }}
       />
     </div>

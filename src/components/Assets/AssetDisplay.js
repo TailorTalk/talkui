@@ -20,7 +20,6 @@ import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useNotify } from "../../contexts/NotifyContext";
 
 function AssetsDisplay({ orgId, bot, onAssetFetch }) {
-
   const [assets, setAssets] = useState([
     { id: 1, name: "Asset 1" },
     { id: 2, name: "Asset 2" },
@@ -151,25 +150,26 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
   // console.log("Selected asset: ", selectedAsset)
 
   return (
-    <div className=" font-tailorTalkFont flex flex-col gap-2  ">
+    <div className="flex flex-col gap-9 max-2xl:gap-8">
       {failed && <TextOverlay message={failMessage} />}
-      {/* {loading && <LoadingOverlay message="Loading..." />} */}
-      <h2 className="relative  text-4xl text-camelCase">{bot.bot_name} <span className="relative   text-2xl  text-tailorFont">
-        By <p className="text-camelCase inline-block">{orgId}</p>
-      </span> </h2>
+
       
-      {/* grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); */}
-      <div
-        className="mt-8"
+      <h2 className="relative text-4xl  text-camelCase">
+        {bot.bot_name}{" "}
+        <span className="relative text-2xl max-2xl:text-xl text-tailorGrey-500">
+          By <p className="text-camelCase inline-block">{orgId}</p>
+        </span>{" "}
+      </h2>
+
+      <div       
         style={{
           display: "grid",
-          gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))",
+          gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
           gap: "20px",
           justifyItems: "center",
           alignItems: "center",
-          gridAutoRows: "minmax(300px, 300px)",
-          flexBasis:0,
-         
+          gridAutoRows: "minmax(280px, 300px)",
+          flexBasis: 0,
         }}
       >
         {assets.map((asset, index) => (
@@ -188,10 +188,12 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
               "&:hover": { backgroundColor: "rgb(249 250 251)" },
             }}
           >
-            <AddIcon sx={{color:"#4764FC"}} />
+            <AddIcon sx={{ color: "#4764FC" }} />
           </Fab>
         </IconButton>
       </div>
+
+      {loading &&  <LoadingOverlay />   }
 
       <SideDrawer
         open={open}

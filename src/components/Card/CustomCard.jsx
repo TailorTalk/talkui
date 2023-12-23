@@ -38,20 +38,14 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
 
 
   return (
-    <div onClick={onCardSelect} id={id} className='bg-gray-50 hover:text-tailorBlue-500 hover:scale(1.05) hover:bg-white unselected ' style={{
-      minWidth: '170px', borderRadius: '10px', cursor: "pointer",
-      fontFamily: 'Roboto',
-      border: '1px solid #fff',
-      margin: '2px',
-
-    }} >
-      <div className="justify-center flex relative border-b-[1px] py-2 items-center ">
-        <h3 className="text-xl font-medium font-[Roboto] text-center text-camelCase">
+    <div onClick={onCardSelect} id={id} className='bg-gray-50 hover:bg-white unselected min-w-[170px] max-2xl:min-w-[150px] max-w-[200px] max-2xl:max-w-[180px] rounded-xl cursor-pointer'  >
+      <div className="justify-center flex relative border-b-[1px] py-2 items-center">
+        <h3 className="text-xl max-2xl:text-lg text-center text-camelCase">
           {name}
         </h3>
 
         <IconButton
-          aria-label="more"
+          aria-label="Add"
           id="long-button"
           aria-controls={open ? 'long-menu' : undefined}
           aria-expanded={open ? 'true' : undefined}
@@ -68,7 +62,7 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
           }}
 
         >
-          <MoreVert />
+          <MoreVert fontSize='small' />
         </IconButton >
         <Menu
           id="long-menu"
@@ -86,14 +80,14 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
           ))}
         </Menu>
       </div>
-      <CardContent className='flex justify-between !p-2 flex-col items-center min-h-[120px]'>
+      <div className='flex justify-between flex-col items-center min-h-[120px] max-2xl:min-h-[110px] '>
         <div className='flex-1 flex items-center justify-center'>
-          <h3 className="text-lg text-black font-medium font-[Roboto]">
+          <h3 className="text-lg max-2xl:text-base text-black  ">
             {cardBody}
           </h3>
         </div>
-        <p className='text-sm text-tailorFont'>{`Created on ${date}`}</p>
-      </CardContent>
+        <p className='text-sm max-lg:text-xs text-tailorGrey-500 pb-2'>{`Created on ${date}`}</p>
+      </div>
     </div >
   )
 }

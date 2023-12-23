@@ -47,7 +47,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
   const { assetClasses } = useGlobals();
   const assetTypes = assetClasses ? assetClasses.asset_class_list: []
   const assetClassToType = assetClasses ? assetClasses.asset_class_dict: {}
-  console.log("Asset in asset form: ", assetDetails)
+  // console.log("Asset in asset form: ", assetDetails)
   // console.log("Is editing in asset form: ", isEditing)
 
   const onAssetTypeSelected = (assetType) => {
@@ -247,21 +247,21 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
 
         <Box display="flex" flexDirection="column" gap={2}>
           {/* Your buttons for the bottom 20% go here */}
-          {editMode ? <><Button onClick={() => {
+          {editMode ? <><Button variant='outlined' onClick={() => {
             setIsEditing(!isEditing);
           }}>
             {isEditing ? "Exit Edit Mode" : "Edit"}
           </Button>
-            {isEditing && <Button onClick={() => {
+            {isEditing && <Button variant='outlined' onClick={() => {
               // Logic to create a new org
               onAssetUpdate(assetDetails)
             }}>
               Update
             </Button>}
-            {assetDetails.asset_class !== "default" && <Button 
+            {assetDetails.asset_class !== "default" && <Button  variant='outlined'
               onClick={()=>onAssetDelete(assetDetails)}>
                 Delete Asset
-              </Button>}</> : assetType && <Button 
+              </Button>}</> : assetType && <Button variant='outlined'
               disabled={!isAssetValid}
               onClick={() => {
                 // Logic to add new asset

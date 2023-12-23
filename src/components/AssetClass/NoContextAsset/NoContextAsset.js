@@ -5,7 +5,7 @@ function NoContextAsset({ asset, handleInputChange, isEditing }) {
     // console.log("Asset in default asset: ", asset)
     // console.log("Is editing in default asset: ", isEditing)
     return (
-        <Box display="flex" flexDirection="column" gap={2} position="relative">
+        <Box display="flex" flexDirection="column" gap={4} position="relative" mt={2}>
             <TextField
                 label="Asset Name"
                 value={asset.asset_name}

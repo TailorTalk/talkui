@@ -20,7 +20,7 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="px-4 pt-4 max-sm:py-8  flex justify-center overflow-hidden flex-1 font-[Roboto]">
+    <div className="px-4 pt-4 max-sm:py-8  flex justify-center overflow-hidden flex-1 ">
       <div className="relative overflow-hidden w-full h-full pt-2 flex flex-col">
         <TextField
           id="outlined-basic"

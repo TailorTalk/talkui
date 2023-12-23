@@ -27,7 +27,7 @@ function unixToFormattedDate(unixTimestamp) {
     hours = hours % 12;
     hours = hours ? hours : 12; // If hour is 0, it should be 12
     // ${hours}:${minutes}${ampm}
-    return `${day} ${month}, ${year % 100}`;
+    return `${day} ${month}, ${year % 1000}`;
 }
 
 export { ordinalSuffix, unixToFormattedDate };

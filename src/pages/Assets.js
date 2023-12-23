@@ -43,12 +43,9 @@ function AssetsPage() {
     }
   };
 
-  // console.log("Selected bot in assets page: ", selectedBot)
-  // console.log("Default asset in Assets page: ", botDefaultAsset)
-
   return (
     <section className="flex-1 relative flex gap-2">
-      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full py-6 px-4 ">
+      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full   py-6 px-4 max-2xl:px-3 ">
         <div className="h-full overflow-y-scroll scrollbar-hidden">
           <Collapse in={!isCollapsed} orientation="horizontal">
             <OrgsList onSelect={onOrgSelect} />
@@ -85,7 +82,7 @@ function AssetsPage() {
         </IconButton>
       </div>
 
-      <div className="pl-16  px-4 h-[90vh] flex-1 overflow-auto   ">
+      <div className="pl-16 max-2xl:pl-12  px-4 pb-4 h-[90vh] flex-1 overflow-y-scroll">
         { isCollapsed &&selectedBot && (
           <AssetsDisplay
             orgId={selectedOrgId}
