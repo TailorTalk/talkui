@@ -150,11 +150,15 @@ th:last-child {
 
 
 
-[class$="MuiFormControl-root"] {
+/* [class$="MuiFormControl-root"] {
   margin: 0px !important;
 }
 
 [class$="MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"] {
   padding-top: 0px !important;
   padding-bottom: 0px !important;
-}
+} */
+
+/* .MuiFilledInput-root{
+  background-color: "#fff";
+} */

@@ -64,8 +64,8 @@ function AppBarComponent() {
   };
 
   return (
-    <header className="w-full  bg-white h-[10vh] ">
-      <nav className="flex justify-between py-4 px-4 max-sm:px-4  items-center">
+    <header className="w-full  bg-white h-[8vh] ">
+      <nav className="flex justify-between py-2 px-4 max-sm:px-4  items-center">
         <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
           {(isLoggedIn && isDashboard) ? (
             <div className="flex gap-0 items-center">
@@ -140,7 +140,7 @@ function AppBarComponent() {
         {isLoggedIn ? (
           <div className="flex gap-6">
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt="User" src={userInfo.picture} />
+              <Avatar alt="User" src={userInfo.picture} sx={{width:'36px',height:'36px'}} />
             </IconButton>
             <Menu
               sx={{ mt: "45px" }}

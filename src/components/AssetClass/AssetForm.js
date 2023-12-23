@@ -27,6 +27,7 @@ import { useGlobals } from '../../contexts/GlobalsContext';
 import ToolChainTool from './ToolChain/ToolChainTool';
 import ReasoningAsset from './ReasoningAsset/ReasoningAsset';
 import SaveFieldsAsset from './SaveFieldsAsset/SaveFields';
+import { formatString } from '../../utils/utils';
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
 // const assetClassToType = {
@@ -38,7 +39,7 @@ import SaveFieldsAsset from './SaveFieldsAsset/SaveFields';
 //   "generic": "GENERIC ASSET"
 // }
 
-function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
+function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot ,heading}) {
   const [editMode, setEditMode] = useState(false); // This is used if the component was rendered using an existing asset
   const [isEditing, setIsEditing] = useState(false); // This is used to enable/disable the input fields
   const [assetType, setAssetType] = useState(null);
@@ -123,11 +124,17 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
     validate()
   }, [inputAsset, editMode, assetDetails, assetType]);
 
+  const formTitle = heading?formatString(heading):""
+
   return (
-    <Grid container direction="column" style={{ height: '100vh' }}>
-      <Grid item xs={8} style={{overflowY: 'auto'}}>
+    <div >
+      <div className='py-2 pb-[16px]'>
+      <h2 className='text-2xl'>{formTitle}</h2>
+      </div>
+    <Grid container direction="column" >
+      <Grid item xs={8} style={{overflowY: 'auto',backgroundColor:"rgb(249 250 251)" ,padding:'20px',borderRadius:'10px', border:'1px solid rgb(209 213 219)'}}>
         {/* Your content for the top 80% goes here */}
-        <Box display="flex" flexDirection="column" gap={2} style={{paddingTop: '20px'}}>
+        <Box display="flex" flexDirection="column" gap={2}>
           <SupportedTypeSelector
             items={editMode ? assetTypes : assetTypes.filter((item) => (item !== "DEFAULT" && item !== "NO_CONTEXT"))}
             currentItem={assetType}
@@ -273,6 +280,7 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot }) {
         </Box>
       </Grid>
     </Grid>
+    </div>
   );
 }
 

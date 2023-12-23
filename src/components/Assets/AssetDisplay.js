@@ -153,15 +153,14 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
     <div className="flex flex-col gap-9 max-2xl:gap-8">
       {failed && <TextOverlay message={failMessage} />}
 
-      
-      <h2 className="relative text-4xl  text-camelCase">
+      <h2 className="relative text-3xl  text-camelCase">
         {bot.bot_name}{" "}
         <span className="relative text-2xl max-2xl:text-xl text-tailorGrey-500">
-          By <p className="text-camelCase inline-block">{orgId}</p>
+          by <p className="text-camelCase inline-block">{orgId}</p>
         </span>{" "}
       </h2>
 
-      <div       
+      <div
         style={{
           display: "grid",
           gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
@@ -193,7 +192,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
         </IconButton>
       </div>
 
-      {loading &&  <LoadingOverlay />   }
+      {loading && <LoadingOverlay />}
 
       <SideDrawer
         open={open}
@@ -203,14 +202,15 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
             setOpen(false);
           }
         }}
-        heading={
-          selectedAsset
-            ? `Asset: ${selectedAsset.asset_name}`
-            : `New Asset for bot: ${bot.bot_name}`
-        }
+        // heading={
+        //   selectedAsset
+        //     ? `Asset: `
+        //     : `New Asset for bot: ${bot.bot_name}`
+        // }
       >
         {selectedAsset ? (
           <AssetForm
+            heading={selectedAsset.asset_name ? selectedAsset.asset_name:selectedAsset.asset_tool_name}
             inputAsset={selectedAsset}
             onAssetUpdate={onAssetUpdate}
             orgId={orgId}
@@ -219,6 +219,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
           />
         ) : (
           <AssetForm
+            heading={bot.bot_name}
             inputAsset={{ asset_id: "" }}
             onAssetUpdate={onAssetUpdate}
             orgId={orgId}

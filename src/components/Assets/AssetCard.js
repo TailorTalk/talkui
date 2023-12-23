@@ -1,8 +1,14 @@
 import React from "react";
 import { CardContent, Chip } from "@mui/material";
+import { formatString } from "../../utils/utils";
+
+
+
 
 function AssetCard({ asset, assetClick }) {
   const disabled = asset.disabled || false;
+
+  const  cardTitle = asset.asset_name ? formatString(asset?.asset_name?asset?.asset_name:''):formatString(asset?.asset_tool_name?asset?.asset_tool_name:'');
   return (
     <div
       className="h-full w-full border-[1px] border-gray-300  rounded-xl shadow-lg hover:shadow-xl hover:border-tailorBlue-500 bg-gray-50  "
@@ -19,7 +25,7 @@ function AssetCard({ asset, assetClick }) {
         }}
       >
         <h3 className="text-xl">
-          {asset.asset_name ? asset.asset_name : asset.asset_tool_name}
+          {cardTitle}
         </h3>
         <div className="overflow-y-scroll break-words whitespace-normal w-full  scrollbar-hidden ">
           <p className="relative text-base text-left ">

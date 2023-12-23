@@ -45,7 +45,7 @@ function AssetsPage() {
 
   return (
     <section className="flex-1 relative flex gap-2">
-      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full   py-6 px-4 max-2xl:px-3 ">
+      <div className="flex absolute z-10 bg-tailorBlue-500 rounded-tr-xl rounded-br-xl h-full   py-6 px-[10px] ">
         <div className="h-full overflow-y-scroll scrollbar-hidden">
           <Collapse in={!isCollapsed} orientation="horizontal">
             <OrgsList onSelect={onOrgSelect} />
@@ -82,7 +82,7 @@ function AssetsPage() {
         </IconButton>
       </div>
 
-      <div className="pl-16 max-2xl:pl-12  px-4 pb-4 h-[90vh] flex-1 overflow-y-scroll">
+      <div className=" max-2xl:pl-12   pl-12 pb-4 h-[92vh] flex-1 overflow-y-scroll scrollbar-hidden">
         { isCollapsed &&selectedBot && (
           <AssetsDisplay
             orgId={selectedOrgId}
@@ -93,7 +93,7 @@ function AssetsPage() {
       </div>
 
       <div
-        className={` px-4  h-[90vh] flex-1`}
+        className={` px-4  h-[92vh] flex-1`}
       >
         {queryDict.orgId &&
           queryDict.botId &&

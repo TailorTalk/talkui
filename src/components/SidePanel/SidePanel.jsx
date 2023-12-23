@@ -21,7 +21,7 @@ const SidePanel = () => {
   const [openSidePanel, setOpenSidePanel] = useState(true);
   return (
     <div
-      className={`py-4 bg-tailorGrey-100 border-r-[1px] overflow-y-scroll scrollbar-hidden h-screen transition-all duration-500 ${openSidePanel ? "w-[250px] px-6 max-xl:w-[230px] max-xl:px-4" : "w-[80px] px-2 max-xl:w-[70px]"
+      className={`py-4 bg-gray-50 border-r-[1px] overflow-y-scroll scrollbar-hidden h-screen transition-all duration-500 ${openSidePanel ? "w-[250px] px-8 max-xl:w-[230px] max-xl:px-4" : "w-[80px] px-2 max-xl:w-[70px]"
         }`}
       onClick={(event) => {
         setOpenSidePanel((prev) => !prev);
@@ -29,12 +29,12 @@ const SidePanel = () => {
 
     >
       <div
-        className={`flex gap-2 items-center w-full  ${openSidePanel ? 'px-4' : 'justify-center '} `}
+        className={`flex gap-2 items-center w-full justify-center  ${openSidePanel ? 'px-4' : 'justify-center '} `}
       >
         <img
           src={Logo}
           alt=""
-          className="relative flex-shrink-0 w-[50px] max-2xl:w-[46px] max-w-none "
+          className="relative flex-shrink-0 w-[46px] max-2xl:w-[46px] max-w-none mt-1 "
           
         />
 

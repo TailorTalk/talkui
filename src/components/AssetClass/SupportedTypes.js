@@ -25,7 +25,7 @@ function SupportedTypeSelector({
   };
 
   return (
-    <FormControl variant="filled" >
+    <FormControl variant="outlined" >
       <InputLabel id={`${selectedItem}-label`}>{label}</InputLabel>
       <Select
         labelId={`${selectedItem}-label`}
