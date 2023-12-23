@@ -25,7 +25,7 @@ function SupportedTypeSelector({
   };
 
   return (
-    <FormControl variant="outlined" >
+    <FormControl >
       <InputLabel id={`${selectedItem}-label`}>{label}</InputLabel>
       <Select
         labelId={`${selectedItem}-label`}
@@ -33,6 +33,7 @@ function SupportedTypeSelector({
         value={selectedItem}
         onChange={handleChange}
         disabled={editable?false:true}
+        variant="outlined" 
       >
         {items.map((item, index) => (
           <MenuItem key={index} value={item}>

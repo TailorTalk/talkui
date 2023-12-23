@@ -82,7 +82,7 @@ function AssetsPage() {
         </IconButton>
       </div>
 
-      <div className=" max-2xl:pl-12   pl-12 pb-4 h-[92vh] flex-1 overflow-y-scroll scrollbar-hidden">
+      <div className=" max-2xl:pl-12   pl-12 pb-4 h-[93vh] flex-1 overflow-y-scroll scrollbar-hidden">
         { isCollapsed &&selectedBot && (
           <AssetsDisplay
             orgId={selectedOrgId}
@@ -93,7 +93,7 @@ function AssetsPage() {
       </div>
 
       <div
-        className={` px-4  h-[92vh] flex-1`}
+        className={` px-4  h-[93vh] flex-1`}
       >
         {queryDict.orgId &&
           queryDict.botId &&

@@ -64,8 +64,8 @@ function AppBarComponent() {
   };
 
   return (
-    <header className="w-full  bg-white h-[8vh] ">
-      <nav className="flex justify-between py-2 px-4 max-sm:px-4  items-center">
+    <header className="w-full  bg-white ">
+      <nav className="flex justify-between py-2 px-4 items-center h-[7vh] ">
         <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
           {(isLoggedIn && isDashboard) ? (
             <div className="flex gap-0 items-center">

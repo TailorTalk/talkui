@@ -250,25 +250,25 @@ function AssetForm({ inputAsset, onAssetUpdate, onAssetDelete, orgId, bot ,headi
           }
         </Box>
       </Grid>
-      <Grid item xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+      <Grid item xs={2} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center',marginTop:"30px" }}>
 
-        <Box display="flex" flexDirection="column" gap={2}>
+        <Box display="flex" flexDirection="row" gap={2}>
           {/* Your buttons for the bottom 20% go here */}
-          {editMode ? <><Button variant='outlined' onClick={() => {
+          {editMode ? <><Button sx={{fontWeight:400}} variant='outlined' onClick={() => {
             setIsEditing(!isEditing);
           }}>
             {isEditing ? "Exit Edit Mode" : "Edit"}
           </Button>
-            {isEditing && <Button variant='outlined' onClick={() => {
+            {isEditing && <Button variant='outlined' color='success' onClick={() => {
               // Logic to create a new org
               onAssetUpdate(assetDetails)
             }}>
               Update
             </Button>}
-            {assetDetails.asset_class !== "default" && <Button  variant='outlined'
+            {assetDetails.asset_class !== "default" && <Button sx={{fontWeight:400}} color='error'  variant='outlined'
               onClick={()=>onAssetDelete(assetDetails)}>
-                Delete Asset
-              </Button>}</> : assetType && <Button variant='outlined'
+                Delete
+              </Button>}</> : assetType && <Button color='success' variant='outlined'
               disabled={!isAssetValid}
               onClick={() => {
                 // Logic to add new asset
