@@ -59,7 +59,7 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
           sx={{
             position: 'absolute',
             right: '0',
-            color:"#4764FC",
+            color:"#000",
           }}
 
         >
