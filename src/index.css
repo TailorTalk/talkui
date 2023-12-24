@@ -56,11 +56,13 @@ body {
     border-radius: 10px;
     background: #fff;
     color: #4764FC;
+    font-size: 18px;
   }
 
   .active div span {
     color: #4764FC;
     font-weight: 400;
+    font-size: 18px;
   }
 
   .text-camelCase {
