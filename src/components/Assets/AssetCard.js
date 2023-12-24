@@ -28,7 +28,7 @@ function AssetCard({ asset, assetClick }) {
           {cardTitle}
         </h3>
         <div className="overflow-y-scroll break-words whitespace-normal w-full  scrollbar-hidden ">
-          <p className="relative text-base text-left ">
+          <p className="relative text-base text-left" style={{ color: '#717171' }}>
             {asset.asset_description
               ? asset.asset_description
               : asset.asset_tool_short_description}
@@ -38,7 +38,7 @@ function AssetCard({ asset, assetClick }) {
         <Chip
           label={`Asset Type: ${asset.asset_class}`}
           variant="outlined"
-          sx={{ fontSize: "14px", color: "#717171" }}
+          sx={{ fontSize: "14px", color: "#717171" , borderColor: "gray"}}
         />
       </CardContent>
     </div>

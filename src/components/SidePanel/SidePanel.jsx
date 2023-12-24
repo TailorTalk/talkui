@@ -54,7 +54,10 @@ const SidePanel = () => {
                 className={`py-2  ${openSidePanel ? 'px-4' : 'justify-center '} flex gap-2 items-center w-full `}
               >
                 {navObject.icon}
-                <span className={`text-xl  ${openSidePanel ? 'block' : "hidden"}  `}>
+                <span 
+                // add font size
+                style={{ fontSize: 18 }}
+                className={`text-xl  ${openSidePanel ? 'block' : "hidden"}  `}>
                   {navObject.name}
                 </span>
 

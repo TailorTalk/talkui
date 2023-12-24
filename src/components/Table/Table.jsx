@@ -15,15 +15,11 @@ import { unixToFormattedDate } from '../../utils/utils';
 
 
 export default function BasicTable({ data }) {
-  // console.log(data);
   const defaultState = data;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [order, setOrder] = React.useState('');
   const [orderBy, setOrderBy] = React.useState('');
-
-
-
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
