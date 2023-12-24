@@ -22,7 +22,7 @@ function FirebaseLogin() {
 
 
   useEffect(() => {
-    console.log(isLoggedIn);
+
     if (isLoggedIn) {
       navigate("/assets");
     }

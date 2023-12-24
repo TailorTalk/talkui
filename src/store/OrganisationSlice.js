@@ -16,16 +16,17 @@ const initialState = {
   bots: {
     bots: [],
     botId: "",
+    botChatId:"",
     status: "idle",
   },
 };
 
-export const fetchOrgs = createAsyncThunk("fetchOrgs", async () => {
+export const fetchOrgs = createAsyncThunk("fetchOrgs", async (email,name) => {
   try {
     const response = await axios.get(ORGS_URL, {
       headers: {
-        "X-User-Email": "lokesh1129ece@gmail.com",
-        "X-User-Name": "Lokesh Singh",
+        "X-User-Email": email,
+        "X-User-Name": name,
       },
     });
 
@@ -37,16 +38,21 @@ export const fetchOrgs = createAsyncThunk("fetchOrgs", async () => {
   }
 });
 
-export const fetchBots = createAsyncThunk("fetchBots", async (orgId) => {
+export const fetchBots = createAsyncThunk("fetchBots", async (orgId,email,name) => {
   try {
     const response = await axios.get(BOTS_URL, {
       headers: {
-        "X-User-Email": "lokesh1129ece@gmail.com",
-        "X-User-Name": "Lokesh Singh",
+        "X-User-Email": email,
+        "X-User-Name": name,
         "X-Org-Id": `${orgId}`,
       },
     });
-    const botsArray = response.data.result.bots.map((bot) => bot?.bot_name);
+
+    const botsArray = response.data.result.bots.map((bot) => ({
+      botName: bot?.bot_name,
+      botChatId: bot?.org_chat_bot_id,
+    }));
+    // console.log(botsArray);
 
     return botsArray;
   } catch (err) {
@@ -59,22 +65,10 @@ const organisationSlice = createSlice({
   initialState,
 
   reducers: {
-    // setOrganisationsDetails: function (state, action) {
-    //   // state.organisationDetails = action.payload;
-    //   // const orgs = action.payload.map((org) => org.organisationId);
-    //   // state.organisations = orgs;
-    //   // state.organisationId = orgs[0];
-    //   // state.bots = action.payload[0].bots;
-    //   // state.botId = action.payload[0].bots[0];
-    //   state.organisations = action.payload;
-    //   state.organisationId = action.payload[0];
-    // },
-    // setBots: function (state, action) {
-    //   state.bots = action.payload;
-    //   state.botId = action.payload[0];
-    // },
     setBotId: function (state, action) {
       state.bots.botId = action.payload;
+      const botIndex = state.bots.bots.findIndex(bot=>bot.botName === action.payload);
+      state.bots.botChatId = state.bots.bots[botIndex].botChatId;
     },
     setOrgId: function (state, action) {
       state.orgs.organisationId = action.payload;
@@ -98,10 +92,11 @@ const organisationSlice = createSlice({
       .addCase(fetchBots.fulfilled, (state, action) => {
         state.bots.status = "succeeded";
         state.bots.bots = action.payload;
-        state.bots.botId = action.payload[0];
+        state.bots.botId = action.payload[0]?.botName;
+        state.bots.botChatId = action.payload[0]?.botChatId;
       });
   },
 });
 
-export const { setBotId,setOrgId } = organisationSlice.actions;
+export const { setBotId, setOrgId } = organisationSlice.actions;
 export default organisationSlice.reducer;

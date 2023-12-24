@@ -1,20 +1,30 @@
-import { Button, InputAdornment, TextField } from "@mui/material";
-import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  CircularProgress,
+  InputAdornment,
+  TextField,
+} from "@mui/material";
+import React, { useEffect, useState } from "react";
 import { FilterAlt, Search } from "@mui/icons-material";
 
 import BasicTable from "../components/Table/Table";
 
-import useData from "../hooks/useData";
+import useData from "../hooks/useDashboardata";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import useDashboardData from "../hooks/useDashboardata";
 
 const Dashboard = () => {
-  const { data } = useData();
+  // const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-
+  const [loading, setloading] = useState(false);
+  const selectedBot = useSelector((state) => state.organisation.bots.botChatId);
+  const {data} = useDashboardData();
   const FilteredDataTable = () => {
     let filteredData = data;
-
     filteredData = filteredData.filter((dataObj) => {
-      return dataObj.name.toLowerCase().includes(search.toLowerCase());
+      return dataObj.User.toLowerCase().includes(search.toLowerCase());
     });
     return <BasicTable data={filteredData} />;
   };
@@ -27,13 +37,13 @@ const Dashboard = () => {
           label="Search leads"
           className="mb-4"
           variant="outlined"
-          size="medium"
+          size="small"
           sx={{
-            maxWidth:"240px",
-            marginBottom:'8px',
-            '& .MuiOutlinedInput-root':{
-              borderRadius:'50px'
-            }
+            maxWidth: "240px",
+            marginBottom: "8px",
+            "& .MuiOutlinedInput-root": {
+              borderRadius: "50px",
+            },
           }}
           onChange={(e) => {
             setSearch(e.target.value);
@@ -49,7 +59,9 @@ const Dashboard = () => {
             },
           }}
         />
-        <FilteredDataTable />
+
+          <FilteredDataTable />
+   
       </div>
     </div>
   );
