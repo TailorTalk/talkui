@@ -175,9 +175,10 @@ export default function BasicTable({ data }) {
               {["User", "Chat", "Total Messages", "Time Created", "Time Updated"].map((field) => {
                 return (
                   <TableCell align="center" sx={{
-                    fontSize: '18px',
-                    padding: "20px 0px",
-                    color: '#717171',
+                    fontSize: '17px',
+                    fontWeight: 'normal',
+                    padding: "14px 0px",
+                    color: '#616161',
                     '@media (max-width: 640px)': {
                       fontSize: '16px',
                     }
@@ -401,7 +402,7 @@ export default function BasicTable({ data }) {
 
       </TableContainer>
       <div className='flex items-center relative max-sm:flex-col-reverse  py-4  '>
-        <div className='absolute text-xl max-md:text-lg  text-tailorFont max-sm:relative right-4'>
+        <div className='absolute text-l max-md:text-lg  text-tailorFont max-sm:relative right-4'>
           Total: <span className='font-semibold'>{data.length}</span>
         </div>
         <TablePagination
@@ -419,7 +420,7 @@ export default function BasicTable({ data }) {
             borderTop: '1px solid #D3D3D3',
             width: '100%',
             justifyContent: 'center',
-            fontSize: '18px',
+            fontSize: '16px',
             color: '#717171',
             '@media (max-width: 800px)': {
               justifyContent: 'center',
@@ -427,7 +428,7 @@ export default function BasicTable({ data }) {
             },
             '& .MuiToolbar-root': {
               '& .MuiTablePagination-selectLabel': {
-                fontSize: '18px',
+                fontSize: '16px',
                 color: '#717171',
                 '@media (max-width: 800px)': {
                   fontSize: '14px',
@@ -435,7 +436,7 @@ export default function BasicTable({ data }) {
                 }
               },
               '& .MuiTablePagination-displayedRows': {
-                fontSize: '18px',
+                fontSize: '16px',
                 color: '#717171',
                 '@media (max-width: 800px)': {
                   fontSize: '14px',
