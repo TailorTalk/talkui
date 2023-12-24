@@ -28,7 +28,7 @@ function AppBarComponent() {
   const dispatch = useDispatch();
   const location = useLocation();
 
-
+  
   const isDashboard = location.pathname === "/dashboard";
 
   const handleOpenUserMenu = (event) => {
@@ -45,12 +45,10 @@ function AppBarComponent() {
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(fetchOrgs())
+      dispatch(fetchOrgs(userInfo.email,userInfo.name))
         .unwrap()
         .then((result) => {
-          console.log("Yo");
-          console.log(result);
-          dispatch(fetchBots(result[0]));
+          dispatch(fetchBots(result[0],userInfo.email,userInfo.name));
         });
     }
   }, [dispatch, isLoggedIn]);
@@ -125,8 +123,8 @@ function AppBarComponent() {
                   }}
                 >
                   {bots.map((bot, index) => (
-                    <MenuItem key={index} value={bot}>
-                      {bot}
+                    <MenuItem key={index} value={bot.botName}>
+                      {bot.botName}
                     </MenuItem>
                   ))}
                 </Select>

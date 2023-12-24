@@ -9,18 +9,17 @@ import Paper from '@mui/material/Paper';
 import { Box, TablePagination, TableSortLabel } from '@mui/material';
 import TablePaginationActionsComponent from './TablePaginationActionsComponent';
 import { visuallyHidden } from '@mui/utils';
-import { UnfoldMore } from '@mui/icons-material';
+import { KeyboardArrowDown, KeyboardArrowUp, UnfoldMore } from '@mui/icons-material';
+import { unixToFormattedDate } from '../../utils/utils';
 
 
 
 export default function BasicTable({ data }) {
-
   const defaultState = data;
   const [page, setPage] = React.useState(0);
   const [rowsPerPage, setRowsPerPage] = React.useState(10);
   const [order, setOrder] = React.useState('');
   const [orderBy, setOrderBy] = React.useState('');
-
 
   function descendingComparator(a, b, orderBy) {
     if (b[orderBy] < a[orderBy]) {
@@ -37,8 +36,21 @@ export default function BasicTable({ data }) {
   }
 
   function descendingDateComparator(a, b, orderBy) {
-    const [day1, month1, year1] = a[orderBy].split('/').map(Number);
-    const [day2, month2, year2] = b[orderBy].split('/').map(Number);
+    const months = {
+      Jan: 1, Feb: 2, Mar: 3, Apr: 4, May: 5, Jun: 6,
+      Jul: 7, Aug: 8, Sep: 9, Oct: 10, Nov: 11, Dec: 12
+    };
+
+    // Extract day, month, and year from the date string
+    const [day1, month1, year1] = a[orderBy].split(' ').map((part, index) => {
+      if (index === 1) return months[part]; // Convert month abbreviation to number
+      return parseInt(part);
+    });
+
+    const [day2, month2, year2] = b[orderBy].split(' ').map((part, index) => {
+      if (index === 1) return months[part];
+      return parseInt(part);
+    });
 
     // Compare years first
     if (year1 !== year2) {
@@ -54,13 +66,14 @@ export default function BasicTable({ data }) {
     return day1 - day2;
   }
 
+
   function getComparator(order, orderBy) {
 
     if (order === "") {
       return (a, b) => defaultComparator(a, b, orderBy)
     }
 
-    if (orderBy === "leadCreated" || orderBy === "lastActive") {
+    if (orderBy === "Time Created" || orderBy === "Time Updated") {
       return order === 'desc'
         ? (a, b) => -descendingDateComparator(a, b, orderBy)
         : (a, b) => descendingDateComparator(a, b, orderBy);
@@ -147,6 +160,8 @@ export default function BasicTable({ data }) {
     [order, orderBy, page, rowsPerPage],
   );
 
+  console.log(visibleRows);
+
 
   return (
     <Paper sx={{ width: '100%', overflow: 'hidden', boxShadow: 'none', flex: 1, display: 'flex', flexDirection: "column", justifyContent: "space-between", alignContent: "space-between" }}>
@@ -157,7 +172,7 @@ export default function BasicTable({ data }) {
           <TableHead>
             <TableRow  >
 
-              {["name", "contact", "leadCreated", "status", "msgExchanged", "lastActive"].map((field) => {
+              {["User", "Chat", "Total Messages", "Time Created", "Time Updated"].map((field) => {
                 return (
                   <TableCell align="center" sx={{
                     fontSize: '18px',
@@ -167,9 +182,9 @@ export default function BasicTable({ data }) {
                       fontSize: '16px',
                     }
                   }}>
+                    {/* {field} */}
 
-
-                    {(["name", "leadCreated", "msgExchanged", "lastActive"].includes(field)) ? <TableSortLabel
+                    {(["Total Messages", "Time Created", "Time Updated"].includes(field)) ? <TableSortLabel
                       active={orderBy === field}
                       direction={orderBy === field ? order : 'asc'}
                       onClick={createSortHandler(field)}
@@ -179,14 +194,19 @@ export default function BasicTable({ data }) {
                         }
                       }}
                     >
-                      <span>{field} <UnfoldMore fontSize='small' /></span>
-                      
+                      <span>{field} </span>
+                      {(orderBy === field) ? (order === "asc") ? <KeyboardArrowDown /> : (order === "desc") ? <KeyboardArrowUp /> : <UnfoldMore /> : <UnfoldMore />}
+
                       {orderBy === field ? (
-                        <Box component="span" sx={visuallyHidden}>
-                          {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
-                        </Box>
+                        // {order === "asc" ? <KeyboardArrowUp fontSize='small' /> : order === "desc" ? <KeyboardArrowDown fontSize='small' /> : <UnfoldMore fontSize='small' />}
+                        <>
+                          <Box component="span" sx={visuallyHidden}>
+                            {order === 'desc' ? 'sorted descending' : 'sorted ascending'}
+                          </Box>
+
+                        </>
                       ) : ''}
-                    </TableSortLabel> : field }
+                    </TableSortLabel> : field}
                     {/*     }
                     <TableSortLabel
                       active={orderBy === "name"}
@@ -337,9 +357,8 @@ export default function BasicTable({ data }) {
 
 
           <TableBody>
-            {(visibleRows
-            ).map((row, index) => (
-              <TableRow
+            {visibleRows.map((row, index) => {
+              return (<TableRow
                 key={index}
                 sx={{
                   'td': {
@@ -349,8 +368,9 @@ export default function BasicTable({ data }) {
               >
 
                 {Object.keys(row).map((data) => (
+                  (data !== 'id' && data !== 'user') &&
                   <TableCell
-                    key={index}
+                    key={row.id}
                     align="center"
                     sx={{
                       color: '#717171',
@@ -365,15 +385,17 @@ export default function BasicTable({ data }) {
                     }}
                   >
                     {row[data]}
+
                   </TableCell>
                 ))}
-              </TableRow>
-            ))}
-            {emptyRows > 0 && (
+              </TableRow>)
+            })}
+
+            {/* {emptyRows > 0 && (
               <TableRow style={{ height: 53 * emptyRows }}>
                 <TableCell colSpan={6} />
               </TableRow>
-            )}
+            )} */}
           </TableBody>
         </Table>
 

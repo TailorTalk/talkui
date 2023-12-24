@@ -18,6 +18,8 @@ import DashboardRootLayout from "./pages/DashboardRootLayout";
 import Dashboard from "./pages/Dashboard";
 import { createBrowserRouter } from "react-router-dom";
 import DashboardRoot from "./pages/DashboardRoot";
+import { loader as dashboardLoader } from "./pages/DashboardRoot";
+import Error from "./pages/Error";
 
 function App() {
   const { isLoggedIn } = useAuth();
@@ -33,6 +35,7 @@ function App() {
           </QueryStringProvider>
         </GlobalsProvider>
       ),
+     
       children: [
         {
           path: "/",
@@ -45,6 +48,7 @@ function App() {
             {
               path: "dashboard",
               element: <DashboardRoot />,
+              
             },
           ],
         },

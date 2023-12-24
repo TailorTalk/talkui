@@ -1,8 +1,8 @@
 import { useContext } from "react";
 import { DashboardTableContext } from "../contexts/DashboardTableContext";
 
-const useData = () => {
+const useDashboardData = () => {
   return useContext(DashboardTableContext);
 };
 
-export default useData;
+export default useDashboardData;

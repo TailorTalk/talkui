@@ -45,7 +45,7 @@ const MessageItem = React.memo(({ msg }) => {
           className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
             msg.role === "user"
               ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
-              : "bg-white border-[#cfcfcf9d]"
+              : "bg-white border-[#cfcfcf9d] text-[#323131] "
           } `}
         />
       </div>

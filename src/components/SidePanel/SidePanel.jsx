@@ -11,7 +11,6 @@ const navLinks = [
   },
   {
     name: 'Dashboard',
-    // add font size
     route: 'dashboard',
     icon: <SpaceDashboardRounded sx={{ fontSize: '28px' }} />
   }
