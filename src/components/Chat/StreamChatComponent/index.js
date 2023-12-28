@@ -13,9 +13,9 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import StreamMessageItem from "./StreamedMessage";
-import ChatSuggestions from "../ChatSuggestions";
+import ChatSuggestions from "../../ChatSuggestions";
 import { Send } from "@mui/icons-material";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
@@ -23,7 +23,7 @@ const MessageItem = React.memo(({ msg }) => {
   const { userInfo } = useAuth();
 
   return (
-    <ListItem>
+    <ListItem sx={{padding:"4px 0px"}}>
       <div
         className={`w-full flex items-center   ${
           msg.role === "user"
@@ -42,7 +42,7 @@ const MessageItem = React.memo(({ msg }) => {
         </ListItemAvatar>
         <ListItemText
           primary={msg.content}
-          className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
+          className={`max-w-[65%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 text-sm ${
             msg.role === "user"
               ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
               : "bg-white border-[#cfcfcf9d] text-[#323131] "
@@ -190,7 +190,7 @@ function StreamChatComponent({
           botId={botId}
           onSuggestionClick={onSuggestionClick}
         />
-        {startStream && <LinearProgress sx={{ height: "4px" }} />}
+        {startStream && <LinearProgress sx={{ height: "1px" }} />}
         <TextField
           variant="outlined"
           value={inputMessage}

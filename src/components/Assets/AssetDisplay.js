@@ -18,6 +18,7 @@ import { useNavigate } from "react-router-dom";
 import TextOverlay from "../Overlay/TextOverlay";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useNotify } from "../../contexts/NotifyContext";
+import { useSnackbar } from "notistack";
 
 function AssetsDisplay({ orgId, bot, onAssetFetch }) {
   const [assets, setAssets] = useState([
@@ -33,6 +34,7 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
   const { userInfo } = useAuth();
   const { addMessage, addErrorMessage } = useNotify();
   const navigate = useNavigate();
+  const {enqueueSnackbar,closeSnackbar} = useSnackbar();
   // console.log("Selected bot: ", orgId, bot)
   // console.log("akash", "Assets: ", assets)
   useEffect(() => {
@@ -93,13 +95,19 @@ function AssetsDisplay({ orgId, bot, onAssetFetch }) {
         }
       })
       .then(() => {
-        addMessage("Asset updated successfully");
+        // addMessage("Asset updated successfully");
+        enqueueSnackbar("Asset updated successfully", {
+          variant: "success",
+        });
         setAssetUpdating(false);
         setOpen(false);
         setSelectedAsset(null);
       })
       .catch(() => {
-        addErrorMessage("Could not update asset. Some error occurred.");
+        // addErrorMessage("Could not update asset. Some error occurred.");
+        enqueueSnackbar("Could not update asset. Some error occurred.", {
+          variant: "error",
+        });
         // console.log("Could not update asset");
         setAssetUpdating(false);
       });

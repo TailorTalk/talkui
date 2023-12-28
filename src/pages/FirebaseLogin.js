@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-import { Box} from "@mui/material";
+import { Box, Button, CircularProgress } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Illustration from "../assets/illustration.svg";
 import Illustration2 from "../assets/illustration2.svg";
@@ -19,20 +19,22 @@ import googleIcon from "../assets/google.png";
 function FirebaseLogin() {
   const { isLoggedIn, googleSignIn } = useAuth();
   const navigate = useNavigate();
-
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
-
     if (isLoggedIn) {
+      setLoading(false);
       navigate("/assets");
     }
   }, [isLoggedIn]);
 
   const handleGoogleSignIn = async () => {
     try {
+      setLoading(true);
       await googleSignIn();
     } catch (err) {
       console.log(err);
+      setLoading(false);
     }
   };
 
@@ -47,10 +49,10 @@ function FirebaseLogin() {
           />
         </div>
 
-        <div className=" bg-tailorBlue-500 w-96 rounded-lg py-24 px-4 flex flex-col justify-between items-center gap-8 max-xl:w-80 max-sm:w-72  ">
-          <h2 className="text-5xl font-comfortaa font-bold text-white max-sm:text-4xl">
+        <div className=" bg-tailorBlue-500 w-auto rounded-lg py-24 px-14 flex flex-col justify-between items-center gap-8  ">
+          <h2 className="text-6xl font-comfortaa font-bold text-white max-sm:text-4xl">
             {" "}
-            Sign In
+            Tailor Talk
           </h2>
           {/* <StyledFirebaseAuth
             uiConfig={uiConfig}
@@ -58,7 +60,9 @@ function FirebaseLogin() {
             className=" w-full py-4  rounded-lg "
           /> */}
 
-        
+          {loading ? (
+            <p className="text-white text-lg font-roboto font-medium">Signing in ...</p>
+          ) : (
             <button
               className="flex gap-4 items-center bg-white border border-gray-300 rounded-lg shadow-md px-6 py-2 text-sm font-medium text-gray-800 hover:bg-gray-200 focus:outline-none"
               onClick={handleGoogleSignIn}
@@ -68,7 +72,7 @@ function FirebaseLogin() {
                 Continue with Google
               </span>
             </button>
-        
+          )}
         </div>
       </Box>
     </div>

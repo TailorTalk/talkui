@@ -6,7 +6,6 @@ import {
   Navigate,
   RouterProvider,
 } from "react-router-dom";
-import Chat from "./pages/Chat";
 import Assets from "./pages/Assets";
 import FirebaseLogin from "./pages/FirebaseLogin";
 import { GlobalsProvider } from "./contexts/GlobalsContext";

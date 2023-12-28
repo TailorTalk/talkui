@@ -1,12 +1,11 @@
-import React, { useState } from "react";
+import React from "react";
 import { useAuth } from "../contexts/AuthContext";
-import {  Navigate, Outlet, NavLink } from "react-router-dom";
-import { HomeRounded, SpaceDashboardRounded } from "@mui/icons-material";
+import { Navigate, Outlet } from "react-router-dom";
 import AppBarComponent from "../components/AppBar/AppBarComponent";
 import SidePanel from "../components/SidePanel/SidePanel";
+import ErrorBoundary from "../utils/ErrorBoundary";
 
 // import { SidePanel } from "../components/Sidepanel/SidePanel";
-
 
 const DashboardRootLayout = () => {
   const { isLoggedIn } = useAuth();
@@ -21,9 +20,9 @@ const DashboardRootLayout = () => {
     >
       <SidePanel />
 
-
       <div className="flex flex-col h-screen">
         <AppBarComponent />
+
         {isLoggedIn ? <Outlet /> : <Navigate to="/login" />}
       </div>
     </section>

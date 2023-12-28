@@ -1,26 +1,17 @@
-import {
-  Box,
-  Button,
-  CircularProgress,
-  InputAdornment,
-  TextField,
-} from "@mui/material";
-import React, { useEffect, useState } from "react";
-import { FilterAlt, Search } from "@mui/icons-material";
+import { Drawer, InputAdornment, TextField } from "@mui/material";
+import React, { useState } from "react";
+import { Search } from "@mui/icons-material";
 
 import BasicTable from "../components/Table/Table";
 
-import useData from "../hooks/useDashboardata";
-import axios from "axios";
-import { useSelector } from "react-redux";
 import useDashboardData from "../hooks/useDashboardata";
+
 
 const Dashboard = () => {
   // const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-  const [loading, setloading] = useState(false);
-  const selectedBot = useSelector((state) => state.organisation.bots.botChatId);
-  const {data} = useDashboardData();
+  const { data } = useDashboardData();
+
   const FilteredDataTable = () => {
     let filteredData = data;
     filteredData = filteredData.filter((dataObj) => {
@@ -28,6 +19,8 @@ const Dashboard = () => {
     });
     return <BasicTable data={filteredData} />;
   };
+
+
 
   return (
     <div className="px-4 pt-4 max-sm:py-8  flex justify-center overflow-hidden flex-1 ">
@@ -60,8 +53,7 @@ const Dashboard = () => {
           }}
         />
 
-          <FilteredDataTable />
-   
+        <FilteredDataTable />
       </div>
     </div>
   );

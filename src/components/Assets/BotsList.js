@@ -26,6 +26,7 @@ import TextOverlay from "../Overlay/TextOverlay";
 import LoadingOverlay from "../Overlay/LoadingOverlay";
 import { useNotify } from "../../contexts/NotifyContext";
 import CustomCard from "../Card/CustomCard";
+import { useSnackbar } from "notistack";
 
 const ModalContent = styled(Box)({
   position: "absolute",
@@ -47,13 +48,17 @@ function BotsList({ orgId, onSelect }) {
   const [loading, setLoading] = useState(true);
   const { userInfo } = useAuth();
   const { addMessage, addErrorMessage } = useNotify();
+  const {enqueueSnackbar} = useSnackbar();
   // console.log("Selected org: ", orgId)
 
   useEffect(() => {
     // console.log("Org id in bots list: ", orgId)
     // fetch bots for the given org using /list_bots
     if (orgId) {
-      addMessage("Fetching bots...");
+      // addMessage("Fetching bots...");
+      enqueueSnackbar("Fetching bots...", {
+        variant: "info",
+      });
       // console.log("Fetching bots for org: ", orgId)
       setLoading(true);
       assetsService
@@ -65,25 +70,38 @@ function BotsList({ orgId, onSelect }) {
         .then((data) => {
           if (data.success) {
             setBots(data.result.bots);
-            addMessage("Fetched bots successfully");
+            // addMessage("Fetched bots successfully");
+            enqueueSnackbar("Fetched bots successfully", {
+              variant: "success",
+            });
           } else {
-            addErrorMessage(
-              "Could not fetch bots. Backend returned success false"
-            );
+            // addErrorMessage(
+            //   "Could not fetch bots. Backend returned success false"
+            // );
+
+            enqueueSnackbar("Could not fetch bots. Backend returned success false", {
+              variant: "error",
+            });
           }
           setLoading(false);
         })
         .catch(() => {
           // console.log("Could not fetch bots");
           setLoading(false);
-          addErrorMessage("Could not fetch bots");
+          // addErrorMessage("Could not fetch bots");
+          enqueueSnackbar("Could not fetch bots", {
+            variant: "error",
+          });
         });
     }
   }, [orgId, userInfo]);
 
   const createBot = (botName, botDescription) => {
     // console.log("Creating bot for org: ", orgId, botName, botDescription)
-    addMessage("Creating bot...");
+    // addMessage("Creating bot...");
+    enqueueSnackbar("Creating bot...", {
+      variant: "info",
+    });
     setLoading(true);
     assetsService
       .createBot(userInfo, orgId, botName, botDescription)
@@ -98,35 +116,54 @@ function BotsList({ orgId, onSelect }) {
       .then((data) => {
         if (data.success) {
           setBots(data.result.bots);
-          addMessage("Created bot successfully");
+          // addMessage("Created bot successfully");
+          enqueueSnackbar("Created bot successfully", {
+            variant: "success",
+          });
         } else {
-          addErrorMessage(
-            "Could not create bot. Backend returned success false"
-          );
+          // addErrorMessage(
+          //   "Could not create bot. Backend returned success false"
+          // );
+          enqueueSnackbar("Could not create bot. Backend returned success false", {
+            variant: "error",
+          });
         }
         setLoading(false);
       })
       .catch(() => {
         // console.log("Could not create bot");
         setLoading(false);
-        addErrorMessage("Could not create bot");
+        // addErrorMessage("Could not create bot");
+        enqueueSnackbar("Could not create bot", {
+          variant: "error",
+        });
       });
   };
 
   const onDelete = (botId) => {
     // console.log("Deleting bot: ", botId)
-    addMessage("Deleting bot...");
+    // addMessage("Deleting bot...");
+    enqueueSnackbar("Deleting bot...", {
+      variant: "info",
+    });
     assetsService
       .deleteBot(userInfo, orgId, botId)
       .then((response) => {
         // console.log("Response of delete bot: ", response.data);
         if (response.data.success) {
-          addMessage("Deleted bot successfully. Fetching updated bots list...");
+          // addMessage("Deleted bot successfully. Fetching updated bots list...");
+          enqueueSnackbar("Deleted bot successfully. Fetching updated bots list...", {
+            variant: "success",
+          });
           return assetsService.listBots(userInfo, orgId);
         } else {
-          addErrorMessage(
-            "Could not delete bot. Backend returned success false"
-          );
+          // addErrorMessage(
+          //   "Could not delete bot. Backend returned success false"
+          // );
+          enqueueSnackbar("Could not delete bot. Backend returned success false", {
+            variant: "error",
+          });
+
           throw new Error("Could not delete bot");
         }
       })
@@ -136,7 +173,10 @@ function BotsList({ orgId, onSelect }) {
       })
       .catch(() => {
         // console.log("Could not delete bot");
-        addErrorMessage("Could not delete bot");
+        // addErrorMessage("Could not delete bot");
+        enqueueSnackbar("Could not delete bot", {
+          variant: "error",
+        });
       });
   };
 
@@ -167,8 +207,8 @@ function BotsList({ orgId, onSelect }) {
         </List>
       ) : (
         <List sx={{ display: "flex", flexDirection: "column", gap: "16px" }}>
-          {bots.map((bot) => (
-            <ListItem key={bot.id}>
+          {bots.map((bot,index) => (
+            <ListItem key={index}>
               <CustomCard
                 name={bot.bot_name}
                 id={`bot-${bot.bot_name}`}
@@ -191,9 +231,10 @@ function BotsList({ orgId, onSelect }) {
           ))}
         </List>
       )}
-      <IconButton onClick={() => setOpen(true)}>
+  
         <Fab
          variant="rounded"
+         onClick={() => setOpen(true)}
          sx={{
            backgroundColor: "#F4F4F4",
            "&:hover": { backgroundColor: "#fff" },
@@ -201,7 +242,7 @@ function BotsList({ orgId, onSelect }) {
        >
          <AddIcon color="primary"  />
         </Fab>
-      </IconButton>
+ 
       <Modal open={open} onClose={() => setOpen(false)}>
         <ModalContent style={{ padding: "10px" }}>
           <Typography

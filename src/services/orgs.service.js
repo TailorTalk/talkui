@@ -11,9 +11,19 @@ class OrgsService {
         });
     }
 
-    listOrgs() {
+    // listOrgs() {
+    //     return http.get("/maestro_chat/org/v1/list_orgs", {
+    //         headers: {
+    //         }
+    //     });
+    // }
+
+    listOrgs(userInfo) {
+        console.log(userInfo);
         return http.get("/maestro_chat/org/v1/list_orgs", {
             headers: {
+                "X-USER-EMAIL": userInfo.email,
+                "X-USER-NAME": userInfo.userName
             }
         });
     }

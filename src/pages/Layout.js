@@ -1,24 +1,16 @@
 import React, { useEffect } from "react";
 import { useAuth } from "../contexts/AuthContext";
-
-import {  Outlet, useNavigate } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 
 const Layout = () => {
-  const { auth, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const navigate = useNavigate();
   useEffect(() => {
-
     if (isLoggedIn) {
       navigate("/assets");
     }
   }, [isLoggedIn]);
-  return (
-    <main>
-      <section>
-        {<Outlet />}
-      </section>
-    </main>
-  );
+  return <main>{<Outlet />}</main>;
 };
 
 export default Layout;

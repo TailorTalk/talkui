@@ -20,10 +20,11 @@ class AssetsService {
     }
 
     listOrgs(userInfo) {
+        console.log(userInfo);
         return http.get("/maestro_chat/asset/v1/list_org", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,
-                "X-USER-NAME": userInfo.name
+                "X-USER-NAME": userInfo.userName
             }
         });
     }

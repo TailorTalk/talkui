@@ -3,9 +3,9 @@ import { ListItem, ListItemAvatar, Avatar, ListItemText } from '@mui/material';
 import PersonIcon from '@mui/icons-material/Person';
 import MemoryIcon from '@mui/icons-material/Memory';
 
-import { createChatConnection } from "../../services/streamChat.service";
-import { useAuth } from "../../contexts/AuthContext";
-import { useQueryString } from '../../contexts/QueryStringContext';
+import { createChatConnection } from "../../../services/streamChat.service";
+import { useAuth } from "../../../contexts/AuthContext";
+import { useQueryString } from '../../../contexts/QueryStringContext';
 import resolveStreamMessages from "./resolveStreamMessages";
 
 const StreamMessageItem = React.memo(({ sessionId, message, onDone }) => {
