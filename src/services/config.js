@@ -8,16 +8,16 @@ let BASE_URL_CONSOLE;
 switch (process.env.REACT_APP_ENV_NAME?process.env.REACT_APP_ENV_NAME.toLowerCase(): "default") {
     case 'production':
         BASE_URL = "https://tailortalk-production.up.railway.app";
-        BASE_URL_CONSOLE = "https://externalchatplugins-production.up.railway.app/";
+        BASE_URL_CONSOLE = "https://externalchatplugins-production.up.railway.app";
         break;
     case 'preview':
         BASE_URL = "https://tailortalk-preview.up.railway.app";
-        BASE_URL_CONSOLE = "https://externalchatplugins-preview.up.railway.app/";
+        BASE_URL_CONSOLE = "https://externalchatplugins-preview.up.railway.app";
         break;
     default:
         BASE_URL = "https://tailortalk-preview.up.railway.app";
-        BASE_URL_CONSOLE = "https://externalchatplugins-preview.up.railway.app/";
+        BASE_URL_CONSOLE = "https://externalchatplugins-preview.up.railway.app";
         break;
 }
 
-export { BASE_URL };
+export { BASE_URL,BASE_URL_CONSOLE };

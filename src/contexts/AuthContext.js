@@ -11,6 +11,7 @@ import {
 import { CircularProgress, Box, Typography } from "@mui/material";
 import loginService from "../services/login.service";
 import { useNotify } from "./NotifyContext";
+import { useSnackbar } from "notistack";
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
@@ -26,8 +27,9 @@ export const useAuth = () => {
 export const AuthProvider = ({ children }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userInfo, setUserInfo] = useState({});
-  const [loading, setLoading] = React.useState(false);
+  const [loading, setLoading] = useState(true);
   const { addMessage, addErrorMessage } = useNotify();
+  const {enqueueSnackbar,closeSnackbar} = useSnackbar();
   // const [isLoggedIn, setIsLoggedIn] = useState(true);
   // const [userInfo, setUserInfo] = useState({
   //     "name": "Akash Anand",
@@ -54,16 +56,25 @@ export const AuthProvider = ({ children }) => {
             email: user_data.email,
             picture: user_data.picture,
           });
-          addMessage("Logged in successfully");
+          // enqueueSnackbar('Successfully logged in!',{
+          //   variant:"success"
+          // });
         } else {
-          addErrorMessage("Could not login. Try again");
+       
+          // enqueueSnackbar('Could not login. Try again',{
+          //   variant:"error"
+          // });
         }
       })
       .then(() => {
         setLoading(false);
       })
       .catch(() => {
-        addErrorMessage("Login resulted in error. Try logging in again");
+        // addErrorMessage("Login resulted in error. Try logging in again");
+        // enqueueSnackbar('Login resulted in error. Try logging in again',{
+        //   variant:"error"
+        // });
+        setLoading(true);
         const unregisterAuthObserver = onAuthStateChanged(auth, (user) => {
           user
             ? user.getIdToken(true).then((idToken) => {
@@ -83,7 +94,10 @@ export const AuthProvider = ({ children }) => {
                         email: user_data.email,
                         picture: user_data.picture,
                       });
-                      addMessage("Logged in successfully");
+                      // addMessage("Logged in successfully");
+                      // enqueueSnackbar('Logged in successfully',{
+                      //   variant:"success"
+                      // });
                     }
                   })
                   .then(() => {

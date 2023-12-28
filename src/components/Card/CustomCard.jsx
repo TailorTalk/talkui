@@ -74,8 +74,8 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
           open={open}
           onClose={handleClose}
         >
-          {cardActions.map((action) => (
-            <MenuItem onClick={action.action}>
+          {cardActions.map((action,index) => (
+            <MenuItem onClick={action.action} key={index}>
               {action.name}
             </MenuItem>
           ))}

@@ -14,8 +14,38 @@ import ListItemAvatar from "@mui/material/ListItemAvatar";
 import ListItemText from "@mui/material/ListItemText";
 import Avatar from "@mui/material/Avatar";
 import ReactMarkdown from "react-markdown";
-import { useAuth } from "../../contexts/AuthContext";
+import { useAuth } from "../../../contexts/AuthContext";
 import { Send } from "@mui/icons-material";
+
+function ChatMessage({ msg, userInfo }) {
+  return (
+    <div
+      className={`w-full flex items-center  ${
+        msg.role === "user"
+          ? "flex  flex-row-reverse gap-2 !justify-start "
+          : ""
+      }`}
+    >
+      <ListItemAvatar>
+        {msg.role === "user" ? (
+          <Avatar alt="User" src={userInfo.picture} />
+        ) : (
+          <Avatar>
+            <MemoryIcon />
+          </Avatar>
+        )}
+      </ListItemAvatar>
+      <ListItemText
+        primary={msg.content}
+        className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
+          msg.role === "user"
+            ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
+            : "bg-white border-[#cfcfcf9d]"
+        } `}
+      />
+    </div>
+  );
+}
 
 function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
   const [inputMessage, setInputMessage] = useState("");
@@ -73,32 +103,8 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
           }}
         >
           {chatHistory.result.history.map((msg, index) => (
-            <ListItem>
-              <div
-                className={`w-full flex items-center   ${
-                  msg.role === "user"
-                    ? "flex  flex-row-reverse gap-2 !justify-start "
-                    : ""
-                }`}
-              >
-                <ListItemAvatar>
-                  {msg.role === "user" ? (
-                    <Avatar alt="User" src={userInfo.picture} />
-                  ) : (
-                    <Avatar>
-                      <MemoryIcon />
-                    </Avatar>
-                  )}
-                </ListItemAvatar>
-                <ListItemText
-          primary={msg.content}
-          className={`max-w-[80%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 ${
-            msg.role === "user"
-              ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
-              : "bg-white border-[#cfcfcf9d]"
-          } `}
-        />
-              </div>
+            <ListItem key={index}>
+              <ChatMessage msg={msg} userInfo={userInfo} />
             </ListItem>
           ))}
           <div ref={chatEndRef}></div>
@@ -109,6 +115,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
           style={{ overflowY: "auto", flexGrow: 1, padding: "1rem" }}
         ></div>
       )}
+
       {ongoing && <LinearProgress sx={{ height: "4px" }} />}
       <TextField
         variant="outlined"

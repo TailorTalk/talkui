@@ -4,25 +4,26 @@ import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 
-import ChatService from "../services/chat.service";
-import { useAuth } from "../contexts/AuthContext";
+import ChatService from "../../services/chat.service";
+import { useAuth } from "../../contexts/AuthContext";
 import "./Files.css";
-import SessionList from "../components/SessionList";
-import StreamChatComponent from "../components/StreamChat";
-import ChatComponent from "../components/Chat";
-import { useQueryString } from "../contexts/QueryStringContext";
-import LoadingOverlay from "../components/Overlay/LoadingOverlay";
-import { useNotify } from "../contexts/NotifyContext";
+import SessionList from "../SessionList";
+import StreamChatComponent from "./StreamChatComponent";
+import ChatComponent from "./ChatComponent";
+import { useQueryString } from "../../contexts/QueryStringContext";
+import LoadingOverlay from "../Overlay/LoadingOverlay";
+import { useNotify } from "../../contexts/NotifyContext";
 import { ArrowForwardIos, Refresh } from "@mui/icons-material";
+import { useSnackbar } from "notistack";
 
-const Chat = ({ hideSessions, isAnAgent }) => {
+const Chat = ({ hideSessions, isAnAgent, hide }) => {
   const [sessionList, setSessionList] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sessionId, setSessionId] = useState("");
   const [onGoingAPI, setOnGoingAPI] = useState(false);
   const [loading, setLoading] = useState(true);
   const [streamMode, setStreamMode] = useState(!isAnAgent);
-  
+  const { enqueueSnackbar, closeSnackbar } = useSnackbar();
 
   let { userInfo } = useAuth();
   const { addMessage, addErrorMessage } = useNotify();
@@ -45,19 +46,28 @@ const Chat = ({ hideSessions, isAnAgent }) => {
           setLoading(false);
         })
         .catch(() => {
-          addErrorMessage("Could not list sessions");
+          // addErrorMessage("Could not list sessions");
+          enqueueSnackbar("Could not list sessions", {
+            variant: "error",
+          });
           setLoading(false);
         });
     }
   }, [userInfo, queryDict, isAnAgent]);
 
   const onStreamModeChange = (event) => {
-    addMessage("Stream mode changed to " + event.target.checked);
+    // addMessage("Stream mode changed to " + event.target.checked);
+    enqueueSnackbar("Stream mode changed to " + event.target.checked, {
+      variant: "info",
+    });
     setStreamMode(event.target.checked);
   };
 
   const deleteSession = (session) => {
-    addMessage("Deleting session...");
+    // addMessage("Deleting session...");
+    enqueueSnackbar("Deleting session...", {
+      variant: "info",
+    });
     ChatService.deleteSession(
       userInfo,
       session.session_id,
@@ -67,7 +77,10 @@ const Chat = ({ hideSessions, isAnAgent }) => {
       .then((response) => {
         // console.log("Response of delete: ", response.data);
         if (response.data.success) {
-          addMessage("Session deleted successfully");
+          // addMessage("Session deleted successfully");
+          enqueueSnackbar("Session deleted successfully", {
+            variant: "success",
+          });
           return ChatService.listSessions(
             userInfo,
             queryDict.orgId,
@@ -81,7 +94,10 @@ const Chat = ({ hideSessions, isAnAgent }) => {
         setSessionList(sessions.data);
       })
       .catch(() => {
-        addErrorMessage("Could not delete the session!");
+        // addErrorMessage("Could not delete the session!");
+        enqueueSnackbar("Could not delete the session!", {
+          variant: "error",
+        });
       });
   };
 
@@ -94,7 +110,10 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     // console.log("akash", "onNewSession");
     setSessionId("");
     setCurrentChat(null);
-    addMessage("New session started");
+    // addMessage("New session started");
+    enqueueSnackbar("New session started", {
+      variant: "info",
+    });
   };
 
   const onStreamDone = (thisSessionid) => {
@@ -106,7 +125,10 @@ const Chat = ({ hideSessions, isAnAgent }) => {
           setSessionList(response.data);
         })
         .catch(() => {
-          addErrorMessage("Could not list sessions");
+          // addErrorMessage("Could not list sessions");
+          enqueueSnackbar("Could not list sessions", {
+            variant: "error",
+          });
         });
     }
     onSessionSelect({ session_id: thisSessionid });
@@ -131,13 +153,19 @@ const Chat = ({ hideSessions, isAnAgent }) => {
               setSessionList(response.data);
             })
             .catch(() => {
-              addErrorMessage("Could not list sessions");
+              // addErrorMessage("Could not list sessions");
+              enqueueSnackbar("Could not list sessions", {
+                variant: "error",
+              });
             });
         }
         setOnGoingAPI(false);
       })
       .catch(() => {
-        addErrorMessage("Could not execute chat!");
+        // addErrorMessage("Could not execute chat!");
+        enqueueSnackbar("Could not execute chat!", {
+          variant: "error",
+        });
         setOnGoingAPI(false);
       });
   };
@@ -154,16 +182,26 @@ const Chat = ({ hideSessions, isAnAgent }) => {
         setCurrentChat(response.data);
         if (response.data.success) {
           setSessionId(response.data.result.session_id);
-          addMessage(
+          // addMessage(
+          //   "Session selected successfully. Session_id: " +
+          //     response.data.result.session_id
+          // );
+          enqueueSnackbar(
             "Session selected successfully. Session_id: " +
-              response.data.result.session_id
+              response.data.result.session_id,
+            {
+              variant: "success",
+            }
           );
         } else {
           throw new Error("Error in selecting session. Backend error!");
         }
       })
       .catch(() => {
-        addErrorMessage("Could not select session!");
+        // addErrorMessage("Could not select session!");
+        enqueueSnackbar("Could not select session!", {
+          variant: "error",
+        });
       });
   };
 
@@ -171,7 +209,7 @@ const Chat = ({ hideSessions, isAnAgent }) => {
     <div className={`h-full`}>
       {/* {loading && <LoadingOverlay message="Loading..." />} */}
       {!hideSessions && (
-        <div >
+        <div>
           {/* Left column content goes here */}
           <>
             <div className="h-full">
@@ -202,29 +240,33 @@ const Chat = ({ hideSessions, isAnAgent }) => {
           </>
         </div>
       )}
-      <div className={`flex flex-col h-full `}
-   
-      >
+      <div className={`flex flex-col h-full ${hide ? "hidden" : "block"} `}>
         {/* Right column content goes here */}
         {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
         {hideSessions && (
           <div className="flex items-center justify-between py-2 px-4  border-[1px] border-gray-300  rounded-t-md relative">
-             <FormGroup >
+            <FormGroup>
               <FormControlLabel
                 control={
-                    <Switch checked={streamMode} onChange={onStreamModeChange} sx={{color:'red'}} />
-                //   <Checkbox
-                //     checked={streamMode}
-                //     onChange={onStreamModeChange}
-                //   />
+                  <Switch
+                    checked={streamMode}
+                    onChange={onStreamModeChange}
+                    sx={{ color: "red" }}
+                  />
+                  //   <Checkbox
+                  //     checked={streamMode}
+                  //     onChange={onStreamModeChange}
+                  //   />
                 }
                 label="Streaming"
               />
             </FormGroup>
-            
-          
-             <Refresh color="primary" sx={{fontSize:"28px"}} onClick={onNewSession} />
-                  
+
+            <Refresh
+              color="primary"
+              sx={{ fontSize: "28px", translate: `${hide ? "0" : "-114px"}`,cursor:"pointer" }}
+              onClick={onNewSession}
+            />
           </div>
         )}
         {streamMode ? (

@@ -3,6 +3,7 @@ import Snackbar from "@mui/material/Snackbar";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import { Alert } from "@mui/material";
+import { SnackbarProvider, useSnackbar } from 'notistack';
 
 // Create a context with a default empty state
 const NotifyContext = createContext({

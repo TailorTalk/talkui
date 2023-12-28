@@ -1,11 +1,6 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import { orgData } from "../utils/data";
-import axios from "axios";
-
-const ORGS_URL =
-  "https://tailortalk-preview.up.railway.app/maestro_chat/org/v1/list_orgs";
-const BOTS_URL =
-  "https://tailortalk-preview.up.railway.app/maestro_chat/asset/v1/list_bots";
+import assetsService from "../services/assets.service";
+import orgsService from "../services/orgs.service";
 
 const initialState = {
   orgs: {
@@ -16,49 +11,54 @@ const initialState = {
   bots: {
     bots: [],
     botId: "",
-    botChatId:"",
+    botChatId: "",
     status: "idle",
+  },
+  error: {
+    hasError: false,
+    error: "",
   },
 };
 
-export const fetchOrgs = createAsyncThunk("fetchOrgs", async (email,name) => {
-  try {
-    const response = await axios.get(ORGS_URL, {
-      headers: {
-        "X-User-Email": email,
-        "X-User-Name": name,
-      },
-    });
+export const fetchOrgs = createAsyncThunk(
+  "orgs/fetchOrgs",
+  async ({ email, userName }) => {
+    try {
 
-    const orgsArray = response.data.result.orgs.map((org) => org.name);
+      console.log(userName, email);
+      const response = await orgsService.listOrgs({
+        email,
+        userName,
+      });
 
-    return orgsArray;
-  } catch (err) {
-    return err.message;
+      const orgsArray = response.data.result.orgs.map((org) => org.name);
+
+      return orgsArray;
+    } catch (err) {
+      console.log(err);
+      return Promise.reject("Not able to fetch");
+    }
   }
-});
+);
 
-export const fetchBots = createAsyncThunk("fetchBots", async (orgId,email,name) => {
-  try {
-    const response = await axios.get(BOTS_URL, {
-      headers: {
-        "X-User-Email": email,
-        "X-User-Name": name,
-        "X-Org-Id": `${orgId}`,
-      },
-    });
+export const fetchBots = createAsyncThunk(
+  "fetchBots",
+  async (orgId, email, name) => {
+    try {
 
-    const botsArray = response.data.result.bots.map((bot) => ({
-      botName: bot?.bot_name,
-      botChatId: bot?.org_chat_bot_id,
-    }));
-    // console.log(botsArray);
+      const response = await assetsService.listBots({ email, name}, orgId);
+      const botsArray = response?.data?.result?.bots?.map((bot) => ({
+        botName: bot?.bot_name,
+        botChatId: bot?.org_chat_bot_id,
+      }));
 
-    return botsArray;
-  } catch (err) {
-    return err.message;
+      return botsArray;
+    } catch (err) {
+      console.log(err);
+      return [];
+    }
   }
-});
+);
 
 const organisationSlice = createSlice({
   name: "organisation",
@@ -67,7 +67,9 @@ const organisationSlice = createSlice({
   reducers: {
     setBotId: function (state, action) {
       state.bots.botId = action.payload;
-      const botIndex = state.bots.bots.findIndex(bot=>bot.botName === action.payload);
+      const botIndex = state.bots.bots.findIndex(
+        (bot) => bot.botName === action.payload
+      );
       state.bots.botChatId = state.bots.bots[botIndex].botChatId;
     },
     setOrgId: function (state, action) {
