@@ -16,6 +16,8 @@ import StreamMessageItem from "./StreamedMessage";
 import ChatSuggestions from "../../ChatSuggestions";
 import { Send } from "@mui/icons-material";
 import { useAuth } from "../../../contexts/AuthContext";
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm'
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
@@ -23,7 +25,7 @@ const MessageItem = React.memo(({ msg }) => {
   const { userInfo } = useAuth();
 
   return (
-    <ListItem sx={{padding:"4px 0px"}}>
+    <ListItem sx={{ padding: "4px 0px" }}>
       <div
         className={`w-full flex items-center   ${
           msg.role === "user"
@@ -40,14 +42,15 @@ const MessageItem = React.memo(({ msg }) => {
             </Avatar>
           )}
         </ListItemAvatar>
-        <ListItemText
-          primary={msg.content}
+        <div
           className={`max-w-[65%] border-[1.4px] rounded-2xl p-4 relative whitespace-normal break-words !flex-grow-0 text-sm ${
             msg.role === "user"
               ? "bg-tailorBlue-500 text-white border-tailorBlue-500"
               : "bg-white border-[#cfcfcf9d] text-[#323131] "
           } `}
-        />
+        >
+         <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
+        </div>
       </div>
     </ListItem>
   );
@@ -61,6 +64,7 @@ function StreamChatComponent({
   userInfo,
   orgId,
   botId,
+  disable,
 }) {
   const [inputMessage, setInputMessage] = useState("");
   const [finalInputMessage, setFinalInputMessage] = useState("");
@@ -90,7 +94,7 @@ function StreamChatComponent({
   const onStreamDone = (streamedMessage, sessionId) => {
     // console.log("akash", "onStreamDone", streamedMessage, sessionId);
     setStartStream(false);
- 
+
     onDone(sessionId);
   };
 
@@ -100,7 +104,6 @@ function StreamChatComponent({
       (event.key === "Enter" && inputMessage.trim()) ||
       (event.type === "click" && inputMessage.trim())
     ) {
-      
       onStart();
       if (chatHistory) {
         const chatHistoryCopy = { ...chatHistory };
@@ -116,7 +119,7 @@ function StreamChatComponent({
         });
       }
       setInputMessage("");
-      
+
       setStartStream(true);
       //onMessageSend(inputMessage, sessionId);// Clear the input box
     }
@@ -124,7 +127,7 @@ function StreamChatComponent({
 
   const onSuggestionClick = (suggestion) => {
     // console.log("akash", "onSuggestionClick", suggestion);
-    
+
     setFinalInputMessage(suggestion);
     onStart();
     if (chatHistory) {
@@ -141,7 +144,7 @@ function StreamChatComponent({
       });
     }
     setInputMessage("");
-    
+
     setStartStream(true);
   };
   return (
@@ -162,7 +165,6 @@ function StreamChatComponent({
             <MessageItem msg={msg} key={index} />
           ))}
 
-          
           {startStream && (
             <StreamMessageItem
               message={finalInputMessage}
@@ -198,6 +200,7 @@ function StreamChatComponent({
           onKeyPress={handleKeyPress}
           placeholder="Type your message..."
           fullWidth
+          disabled={disable}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">

@@ -13,7 +13,7 @@ const LoadingOverlay = () => {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Semi-transparent backdrop
+        backgroundColor: '#fff', // Semi-transparent backdrop
         zIndex: (theme) => theme.zIndex.drawer + 1, // Ensure it's above other content
       }}
     >

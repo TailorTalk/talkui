@@ -127,7 +127,10 @@ body {
   border-color: #000;
 }
 
-
+/* Selected Dashboard Table Row CSS */
+.selectedRow{
+  background-color: #F4F4F4;
+}
 
 /* Overriding styles of MUI */
 
