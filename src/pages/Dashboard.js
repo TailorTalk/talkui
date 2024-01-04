@@ -5,16 +5,13 @@ import BasicTable from "../components/Table/Table";
 import useDashboardData from "../hooks/useDashboardata";
 import Chat from "../components/Chat/Chat";
 import { useSelector } from "react-redux";
-import { useAuth } from "../contexts/AuthContext";
 import chatServiceInstance from "../services/chat.service";
 import { useSnackbar } from "notistack";
-import { botsAndSelectedBot,orgsAndSelectedOrg } from "../store/OrganisationSlice";
+import { botsAndSelectedBot } from "../store/OrganisationSlice";
 
 const Dashboard = () => {
   const [search, setSearch] = useState("");
-  const { userInfo } = useAuth();
   const { selectedBot } = useSelector(botsAndSelectedBot);
-  // const { organisationId } = useSelector((state) => state.organisation.orgs);
   const [chats, setChats] = useState(null);
   const [isSidePanelOpen, setIsSidePanelOpen] = useState(false);
   const { data } = useDashboardData();
@@ -39,8 +36,8 @@ const Dashboard = () => {
       setChats(chatsHistory);
     } catch (err) {
       setChats([]);
-      enqueueSnackbar("Something went wrong!", {
-        variant: "error",
+      enqueueSnackbar("No Chats!", {
+        variant: "info",
       });
     } finally {
       setLoadingChats(false);
