@@ -1,13 +1,15 @@
 import React, { useEffect } from "react";
 import MenuItem from "@mui/material/MenuItem";
 import { useAuth } from "../../contexts/AuthContext";
-import { FormControl, Select } from "@mui/material";
+import { FormControl, Select, Skeleton } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  setBotId,
-  setOrgId,
+  setSelectedBot,
+  setSelectedOrg,
   fetchBots,
   fetchOrgs,
+  botsAndSelectedBot,
+  orgsAndSelectedOrg
 } from "../../store/OrganisationSlice";
 import { useSnackbar } from "notistack";
 
@@ -17,43 +19,42 @@ const OrgAndBotSelect = () => {
   const { enqueueSnackbar } = useSnackbar();
   const dispatch = useDispatch();
   const { userInfo, isLoggedIn } = useAuth();
-  const { bots, botId } = useSelector((state) => state.organisation.bots);
-  const { organisations, organisationId } = useSelector(
-    (state) => state.organisation.orgs
-  );
+  const { bots, selectedBot, botStatus } = useSelector(botsAndSelectedBot);
+  const { orgs, selectedOrg, orgStatus } = useSelector(orgsAndSelectedOrg);
+  console.log(selectedBot);
+  console.log(selectedOrg);
 
 
   useEffect(() => {
-    if (isLoggedIn) {
-      // console.log(userInfo.name);
-      enqueueSnackbar("Logged in successfully", {
-        variant: "success",
-      });
-      dispatch(fetchOrgs({
-        email: userInfo.email, userName: userInfo.name
-      }))
-        .unwrap()
-        .then((result) => {
-          dispatch(fetchBots(result[0], userInfo.email, userInfo.name));
-        })
-        .catch((err) => {
-          enqueueSnackbar(err.message, {
-            variant: "error",
-          });
-        });
-    } else {
-      enqueueSnackbar("Login resulted in error. Try logging in again", {
-        variant: "error",
-      });
-    }
-  }, [dispatch, isLoggedIn]);
+    // if (isLoggedIn) {
+    // // console.log(userInfo.name);
+    // enqueueSnackbar("Logged in successfully", {
+    //   variant: "success",
+    // });
+    dispatch(fetchOrgs(userInfo))
+      .unwrap()
+      .then((result) => {
+        if (result.length !== 0) {
+          dispatch(fetchBots(result[0].name, userInfo));
+        } else {
+          dispatch(setSelectedBot(""))
+        }
+      })
+    // }
+    //  else {
+    //   enqueueSnackbar("Login resulted in error. Try logging in again", {
+    //     variant: "error",
+    //   });
+    // }
+  }, []);
 
   const handleOrgChange = async (event) => {
-    dispatch(fetchBots(event.target.value, userInfo.email, userInfo.name));
-    dispatch(setOrgId(event.target.value));
+    console.log(event.target.value);
+    dispatch(fetchBots(event.target.value, userInfo));
+    dispatch(setSelectedOrg(event.target.value));
   };
   const handleBotChange = (event) => {
-    dispatch(setBotId(event.target.value));
+    dispatch(setSelectedBot(event.target.value));
   };
 
 
@@ -61,9 +62,8 @@ const OrgAndBotSelect = () => {
 
     <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
 
-
       <div className="flex gap-0 items-center">
-        <FormControl
+        {orgStatus === "succeeded" ? <FormControl
           variant="outlined"
           sx={{
             margin: "0px",
@@ -76,7 +76,8 @@ const OrgAndBotSelect = () => {
           <Select
             labelId="organisations-label"
             id="organisations-id"
-            value={organisationId}
+            value={selectedOrg.name}
+
             onChange={handleOrgChange}
             sx={{
               fontSize: "20px",
@@ -85,17 +86,17 @@ const OrgAndBotSelect = () => {
               },
             }}
           >
-            {organisations.map((org, index) => (
-              <MenuItem key={index} value={org}>
-                <span>{org}</span>
+            {orgs.map((org, index) => (
+              <MenuItem key={index} value={org.name}>
+                <span>{org.name}</span>
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> :<Skeleton variant="rounded" width={100} height={24} sx={{borderRadius:"8px",marginRight:"4px"}} />}
 
         <span className="text-2xl text-tailorFont">/</span>
 
-        <FormControl
+        {botStatus === "succeeded" ? <FormControl
           variant="outlined"
           sx={{
             m: 1,
@@ -108,7 +109,8 @@ const OrgAndBotSelect = () => {
           <Select
             labelId="bots-label"
             id="bots-id"
-            value={botId}
+            value={selectedBot.bot_name?selectedBot.bot_name:""}
+
             onChange={handleBotChange}
             sx={{
               fontSize: "20px",
@@ -118,12 +120,12 @@ const OrgAndBotSelect = () => {
             }}
           >
             {bots.map((bot, index) => (
-              <MenuItem key={index} value={bot.botName}>
-                {bot.botName}
+              <MenuItem key={index} value={bot.bot_name}>
+                {bot.bot_name}
               </MenuItem>
             ))}
           </Select>
-        </FormControl>
+        </FormControl> : <Skeleton variant="rounded" width={100} height={24} sx={{borderRadius:"8px",marginLeft:"4px"}} />}
       </div>
     </div>
   )

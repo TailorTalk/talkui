@@ -44,7 +44,8 @@ class AssetsService {
     }
 
     listBots(userInfo, orgId) {
-        // console.log("List bots userInfo: ", userInfo, " orgId: ", orgId)
+        console.log("List bots userInfo: ", userInfo, " orgId: ", orgId)
+        
         return http.get("/maestro_chat/asset/v1/list_bots", {
             headers: {
                 "X-USER-EMAIL": userInfo.email,

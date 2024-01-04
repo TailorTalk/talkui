@@ -16,7 +16,7 @@ import { useNotify } from "../../contexts/NotifyContext";
 import { ArrowForwardIos, Refresh } from "@mui/icons-material";
 import { useSnackbar } from "notistack";
 
-const Chat = ({ hideSessions, isAnAgent, hide }) => {
+const Chat = ({ hideSessions, isAnAgent, hide, disable=false,chats=null }) => {
   const [sessionList, setSessionList] = useState([]);
   const [currentChat, setCurrentChat] = useState(null);
   const [sessionId, setSessionId] = useState("");
@@ -24,7 +24,7 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
   const [loading, setLoading] = useState(true);
   const [streamMode, setStreamMode] = useState(!isAnAgent);
   const { enqueueSnackbar, closeSnackbar } = useSnackbar();
-
+  
   let { userInfo } = useAuth();
   const { addMessage, addErrorMessage } = useNotify();
   const { queryDict } = useQueryString();
@@ -33,6 +33,8 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
       userInfo.email = queryDict.email;
     }
   }
+
+
   // console.log("Query dict values in Chat", queryDict)
 
   useEffect(() => {
@@ -240,11 +242,11 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
           </>
         </div>
       )}
-      <div className={`flex flex-col h-full ${hide ? "hidden" : "block"} `}>
+      <div className={`flex flex-col h-full ${hide ? "hidden" : "block"}`}>
         {/* Right column content goes here */}
         {/* Simple replace the ChatComponent with StreamChatComponent to use Stream Chat API */}
         {hideSessions && (
-          <div className="flex items-center justify-between py-2 px-4  border-[1px] border-gray-300  rounded-t-md relative">
+          <div className="flex items-center justify-between py-2 px-4  border-[1px] border-gray-300  rounded-t-md relative bg-white">
             <FormGroup>
               <FormControlLabel
                 control={
@@ -252,11 +254,8 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
                     checked={streamMode}
                     onChange={onStreamModeChange}
                     sx={{ color: "red" }}
+                    disabled={disable}
                   />
-                  //   <Checkbox
-                  //     checked={streamMode}
-                  //     onChange={onStreamModeChange}
-                  //   />
                 }
                 label="Streaming"
               />
@@ -264,8 +263,13 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
 
             <Refresh
               color="primary"
-              sx={{ fontSize: "28px", translate: `${hide ? "0" : "-114px"}`,cursor:"pointer" }}
-              onClick={onNewSession}
+              sx={{
+                fontSize: "28px",
+                translate: `${hide || disable ? "0" : "-114px"}`,
+                cursor: "pointer",
+                color: `${disable ? "#e0e0e0" : ""}`,
+              }}
+              onClick={disable ? null : onNewSession}
             />
           </div>
         )}
@@ -279,6 +283,7 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
             userInfo={userInfo}
             orgId={queryDict.orgId}
             botId={queryDict.botId}
+            disable={disable}
           />
         ) : (
           <ChatComponent
@@ -286,6 +291,8 @@ const Chat = ({ hideSessions, isAnAgent, hide }) => {
             onMessageSend={onMessageSend}
             sessionId={sessionId}
             ongoing={onGoingAPI}
+            disable={disable}  
+            chats={chats}
           />
         )}
       </div>

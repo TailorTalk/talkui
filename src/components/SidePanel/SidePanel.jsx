@@ -1,4 +1,4 @@
-import { HomeRounded, SpaceDashboardRounded } from '@mui/icons-material';
+import { HomeRounded, PrecisionManufacturingRounded, SpaceDashboardRounded } from '@mui/icons-material';
 import React, { useState } from 'react'
 import { NavLink } from 'react-router-dom';
 import Logo from "../../assets/logo.svg";
@@ -6,8 +6,13 @@ import Logo from "../../assets/logo.svg";
 const navLinks = [
   {
     name: 'Home',
-    route: '/assets',
+    route: '/home',
     icon: <HomeRounded sx={{ fontSize: '28px' }} />
+  },
+  {
+    name: 'Training',
+    route: '/assets',
+    icon: <PrecisionManufacturingRounded sx={{ fontSize: '28px' }} />
   },
   {
     name: 'Dashboard',

@@ -18,6 +18,7 @@ import { useAuth } from "../../../contexts/AuthContext";
 import { Send } from "@mui/icons-material";
 
 function ChatMessage({ msg, userInfo }) {
+
   return (
     <div
       className={`w-full flex items-center  ${
@@ -47,7 +48,15 @@ function ChatMessage({ msg, userInfo }) {
   );
 }
 
-function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
+function ChatComponent({
+  pastChatHistory,
+  onMessageSend,
+  sessionId,
+  ongoing,
+  disable,
+  chats=undefined,
+}) {
+  console.log(pastChatHistory);
   const [inputMessage, setInputMessage] = useState("");
   const [chatHistory, setChatHistory] = useState(pastChatHistory);
   const chatEndRef = useRef(null);
@@ -88,33 +97,79 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
     }
   };
 
+  // const previousChats = (
+  //   <List
+  //     style={{
+  //       overflowY: "scroll",
+  //       flexGrow: 1,
+  //       padding: "1rem",
+  //       display: "flex",
+  //       flexDirection: "column",
+  //       gap: "20px",
+  //       flexBasis: 0,
+  //     }}
+  //   >
+
+  //   </List>
+  // );
+
+  // const onGoingChats = (
+  //   <List
+  //     style={{
+  //       overflowY: "scroll",
+  //       flexGrow: 1,
+  //       padding: "1rem",
+  //       display: "flex",
+  //       flexDirection: "column",
+  //       gap: "20px",
+  //       flexBasis: 0,
+  //     }}
+  //   >
+  //     {chatHistory.result.history.map((msg, index) => (
+  //       <ListItem key={index}>
+  //         <ChatMessage msg={msg} userInfo={userInfo} />
+  //       </ListItem>
+  //     ))}
+  //     <div ref={chatEndRef}></div>
+  //   </List>
+  // );
+
   return (
     <div className="flex flex-col bg-[#f9f9fa]  justify-between h-full">
-      {chatHistory && chatHistory.success ? (
-        <List
-          style={{
-            overflowY: "scroll",
-            flexGrow: 1,
-            padding: "1rem",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            flexBasis: 0,
-          }}
-        >
-          {chatHistory.result.history.map((msg, index) => (
+      <List
+        style={{
+          overflowY: "scroll",
+          flexGrow: 1,
+          padding: "1rem",
+          display: "flex",
+          flexDirection: "column",
+          gap: "20px",
+          flexBasis: 0,
+        }}
+      >
+        {chats ? (
+          chats.map((msg, index) => (
+          
             <ListItem key={index}>
               <ChatMessage msg={msg} userInfo={userInfo} />
             </ListItem>
-          ))}
-          <div ref={chatEndRef}></div>
-        </List>
-      ) : (
-        <div
-          ref={chatEndRef}
-          style={{ overflowY: "auto", flexGrow: 1, padding: "1rem" }}
-        ></div>
-      )}
+          ))
+        ) : chatHistory && chatHistory.success ? (
+          <>
+            {chatHistory.result.history.map((msg, index) => (
+              <ListItem key={index}>
+                <ChatMessage msg={msg} userInfo={userInfo} />
+              </ListItem>
+            ))}
+            <div ref={chatEndRef}></div>
+          </>
+        ) : (
+          <div
+            ref={chatEndRef}
+            style={{ overflowY: "auto", flexGrow: 1, padding: "1rem" }}
+          ></div>
+        )}
+      </List>
 
       {ongoing && <LinearProgress sx={{ height: "4px" }} />}
       <TextField
@@ -124,6 +179,7 @@ function ChatComponent({ pastChatHistory, onMessageSend, sessionId, ongoing }) {
         onKeyPress={handleKeyPress}
         placeholder="Type your message..."
         fullWidth
+        disabled={disable}
         InputProps={{
           endAdornment: (
             <InputAdornment position="end">

@@ -16,6 +16,7 @@ function AppBarComponent() {
   const location = useLocation();
 
   const isDashboard = location.pathname === "/dashboard";
+  const isHome = location.pathname === "/home";
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -33,7 +34,7 @@ function AppBarComponent() {
     <header className="w-full  bg-white ">
       <nav className="flex justify-between py-2 px-4 items-center h-[7vh] ">
         <div className="flex gap-2 items-center justify-center flex-wrap  max-sm:justify-start">
-          {isLoggedIn && isDashboard && <OrgAndBotSelect />}
+          {isLoggedIn && (isDashboard || isHome)  && <OrgAndBotSelect />}
         </div>
 
         {isLoggedIn ? (

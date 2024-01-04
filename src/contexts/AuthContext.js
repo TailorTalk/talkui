@@ -13,6 +13,7 @@ import loginService from "../services/login.service";
 import { useNotify } from "./NotifyContext";
 import { useSnackbar } from "notistack";
 
+
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 

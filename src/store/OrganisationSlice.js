@@ -5,100 +5,98 @@ import orgsService from "../services/orgs.service";
 const initialState = {
   orgs: {
     organisations: [],
-    organisationId: "",
+    selectedOrg: {},
     status: "idle",
   },
   bots: {
     bots: [],
-    botId: "",
-    botChatId: "",
+    selectedBot: {},
     status: "idle",
-  },
-  error: {
-    hasError: false,
-    error: "",
   },
 };
 
 export const fetchOrgs = createAsyncThunk(
-  "orgs/fetchOrgs",
-  async ({ email, userName }) => {
-    try {
-
-      console.log(userName, email);
-      const response = await orgsService.listOrgs({
-        email,
-        userName,
-      });
-
-      const orgsArray = response.data.result.orgs.map((org) => org.name);
-
-      return orgsArray;
-    } catch (err) {
-      console.log(err);
-      return Promise.reject("Not able to fetch");
-    }
+  "orgsAndBots/fetchOrgs",
+  async (userInfo) => {
+    // console.log(userName, email);
+    const response = await orgsService.listOrgs(userInfo);
+    const orgsArray = response.data.result.orgs;
+    return orgsArray;
   }
 );
 
 export const fetchBots = createAsyncThunk(
-  "fetchBots",
-  async (orgId, email, name) => {
-    try {
+  "orgsAndBots/fetchBots",
+  async (orgId, userInfo) => {
+    const response = await assetsService.listBots(userInfo, orgId);
+    const botsArray = response.data.result.bots;
 
-      const response = await assetsService.listBots({ email, name}, orgId);
-      const botsArray = response?.data?.result?.bots?.map((bot) => ({
-        botName: bot?.bot_name,
-        botChatId: bot?.org_chat_bot_id,
-      }));
-
-      return botsArray;
-    } catch (err) {
-      console.log(err);
-      return [];
-    }
+    return botsArray;
   }
 );
 
 const organisationSlice = createSlice({
-  name: "organisation",
+  name: "orgsAndBots",
   initialState,
 
   reducers: {
-    setBotId: function (state, action) {
-      state.bots.botId = action.payload;
-      const botIndex = state.bots.bots.findIndex(
-        (bot) => bot.botName === action.payload
+    setSelectedBot: function (state, action) {
+      const botName = action.payload;
+      const selectedBot = state.bots.bots.filter(
+        (bot) => bot.bot_name === botName
       );
-      state.bots.botChatId = state.bots.bots[botIndex].botChatId;
+      state.bots.status = "succeeded";
+      state.bots.selectedBot =  selectedBot[0] === undefined?{}:selectedBot[0];
     },
-    setOrgId: function (state, action) {
-      state.orgs.organisationId = action.payload;
+    setSelectedOrg: function (state, action) {
+      const orgName = action.payload;
+      
+      const selectedOrg = state.orgs.organisations.filter(
+        (org) => org.name === orgName
+      );
+      console.log(selectedOrg);
+      state.orgs.status = "succeeded";
+      state.orgs.selectedOrg = selectedOrg[0];
     },
   },
 
   extraReducers: function (builder) {
     builder
-      .addCase(fetchOrgs.pending, (state, action) => {
-        state.orgs.status = "loading";
+      .addCase(fetchOrgs.pending, (state) => {
+        state.orgs.status = "pending";
       })
       .addCase(fetchOrgs.fulfilled, (state, action) => {
         state.orgs.status = "succeeded";
         state.orgs.organisations = action.payload;
-        state.orgs.organisationId = action.payload[0];
+        state.orgs.selectedOrg = action.payload[0] ? action.payload[0] : {};
       })
       .addCase(fetchBots.pending, (state, action) => {
-        state.bots.status = "loading";
+        state.bots.status = "pending";
       })
 
       .addCase(fetchBots.fulfilled, (state, action) => {
         state.bots.status = "succeeded";
         state.bots.bots = action.payload;
-        state.bots.botId = action.payload[0]?.botName;
-        state.bots.botChatId = action.payload[0]?.botChatId;
+        state.bots.selectedBot = action.payload[0] ? action.payload[0] : {};
       });
   },
 });
 
-export const { setBotId, setOrgId } = organisationSlice.actions;
+export const botsAndSelectedBot = (state) => {
+  console.log(state.organisation);
+  return {
+    bots: state.organisation.bots.bots,
+    selectedBot: state.organisation.bots.selectedBot,
+    botStatus: state.organisation.bots.status,
+  };
+};
+export const orgsAndSelectedOrg = (state) => {
+  console.log(state.organisation);
+  return {
+    orgs: state.organisation.orgs.organisations,
+    selectedOrg: state.organisation.orgs.selectedOrg,
+    orgStatus: state.organisation.orgs.status,
+  };
+};
+export const { setSelectedBot, setSelectedOrg } = organisationSlice.actions;
 export default organisationSlice.reducer;

@@ -40,7 +40,9 @@ const CustomCard = ({ name, dataItem, cardBody, date, cardActions, onSelect, id 
   return (
     <div onClick={onCardSelect} id={id} className='bg-gray-50 hover:bg-white unselected min-w-[170px] max-2xl:min-w-[150px] max-w-[200px] max-2xl:max-w-[180px] rounded-xl cursor-pointer'  >
       <div className="justify-center flex relative border-b-[1px] py-2 items-center">
-        <h3 className="text-xl max-2xl:text-lg text-center text-camelCase">
+        <h3 className="text-xl max-2xl:text-lg text-center text-camelCase max-w-[90px]" style={{whiteSpace: 'nowrap', 
+                      overflow: 'hidden', 
+                      textOverflow: 'ellipsis',  }}>
           {name}
         </h3>
 

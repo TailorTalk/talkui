@@ -24,7 +24,7 @@ function FirebaseLogin() {
   useEffect(() => {
     if (isLoggedIn) {
       setLoading(false);
-      navigate("/assets");
+      navigate("/home");
     }
   }, [isLoggedIn]);
 
