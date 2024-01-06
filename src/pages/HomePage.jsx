@@ -27,13 +27,16 @@ const HomePage = () => {
           justifyItems: "center",
           alignItems: "center",
           gridAutoRows: "minmax(220px, 240px)",
+          '@media (max-width: 1024px)': {
+            gap: '16px',
+          }
         }}
       >
         {data.map((dataObj) => (
-          <CardType1>
+          <CardType1 className="max-2xl: w-[340px] max-lg:w-[300px] max-lg:h-[220px]">
             <div className='h-full flex flex-col justify-between p-4'>
-              <h2 className='text-2xl text-tailorGrey-800'>{dataObj.title}</h2>
-              <p className='text-6xl'>{dataObj.metadata}</p>
+              <h2 className='text-xl  text-tailorGrey-800 max-sm:text-lg'>{dataObj.title}</h2>
+              <p className='text-5xl  max-md:text-4xl max-sm:text-3xl'>{dataObj.metadata}</p>
             </div>
           </CardType1>
         ))}
