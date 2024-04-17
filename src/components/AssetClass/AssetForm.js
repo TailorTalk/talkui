@@ -27,6 +27,8 @@ import { useGlobals } from "../../contexts/GlobalsContext";
 import ToolChainTool from "./ToolChain/ToolChainTool";
 import ReasoningAsset from "./ReasoningAsset/ReasoningAsset";
 import SaveFieldsAsset from "./SaveFieldsAsset/SaveFields";
+import APIAsset from "./APIAsset/APIAsset";
+import ValidateAPIAsset from "./APIAsset/assetValidator";
 import { formatString } from "../../utils/utils";
 
 // const assetTypes = ["TEXT FILE", "WEBSITE", "COMPLETE FILE", "GENERIC ASSET", "DEFAULT", "NO CONTEXT"]
@@ -126,6 +128,10 @@ function AssetForm({
       }
       if (assetType === "SAVE_FIELDS") {
         const temp = validateSaveFieldsAsset(assetDetails);
+        setIsAssetValid(!temp);
+      }
+      if (assetType === "API") {
+        const temp = ValidateAPIAsset(assetDetails);
         setIsAssetValid(!temp);
       }
     };
@@ -278,6 +284,16 @@ function AssetForm({
                 isEditing={isEditing}
                 isCreating={!editMode}
                 orgId={orgId}
+                bot={bot}
+              />
+            )}
+            {assetType === "API" && (
+              <APIAsset
+                asset={assetDetails}
+                handleInputChange={handleInputChange}
+                isEditing={isEditing}
+                isCreating={!editMode}
+                orgId={orgId} 
                 bot={bot}
               />
             )}

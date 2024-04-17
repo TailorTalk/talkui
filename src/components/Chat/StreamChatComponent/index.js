@@ -17,7 +17,7 @@ import ChatSuggestions from "../../ChatSuggestions";
 import { Send } from "@mui/icons-material";
 import { useAuth } from "../../../contexts/AuthContext";
 import Markdown from 'react-markdown';
-import remarkGfm from 'remark-gfm'
+// import remarkGfm from 'remark-gfm'
 
 const MessageItem = React.memo(({ msg }) => {
   // console.log("akash", "MessageItem", msg);
@@ -49,7 +49,7 @@ const MessageItem = React.memo(({ msg }) => {
               : "bg-white border-[#cfcfcf9d] text-[#323131] "
           } `}
         >
-         <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown>
+         {/* <Markdown remarkPlugins={[remarkGfm]}>{msg.content}</Markdown> */}
         </div>
       </div>
     </ListItem>
