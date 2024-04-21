@@ -27,7 +27,7 @@ class ChatService {
 
   getConversations(bot_id, conversation_id) {
     return axiosConsole.post(
-      "/tt_chat_plugin/console/v1/get_conversation_data",
+      "/maestro_chat/console/v1/get_conversation_data",
       {
         bot_id,
         conversation_id,
